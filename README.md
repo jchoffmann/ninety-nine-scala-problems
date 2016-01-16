@@ -9,7 +9,7 @@ __Instructions__
 
 * Clone it and hack away until all tests pass :-)
 * Master branch is only for test coverage and skeleton code
-* Uses [Scala 2.11](http://www.scala-lang.org/news/2.11.1/), [SBT](http://www.scala-sbt.org/), and [ScalaTest](http://www.scalatest.org/) 
+* Uses [Scala 2.11](http://www.scala-lang.org/news/2.11.7/), [SBT](http://www.scala-sbt.org/), and [ScalaTest](http://www.scalatest.org/) 
 
 Tests are still incomplete and sometimes weak, but overall this should be a good starting point.
 
