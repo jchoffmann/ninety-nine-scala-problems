@@ -9,10 +9,12 @@ class PuzzleSuite extends FunSuite {
   test("90 generate all configurations of the eight queens problem") {
     val result = eightQueens(8)
     assert(result.contains(List(4, 2, 7, 3, 6, 8, 5, 1)))
-    // TODO: Check number of solutions
+    assert(result.size === 92) // 92 distinct solutions, 12 fundamental solutions
   }
 
-  test("91 generate all knight's tours (open and closed)")(pending)
+  test("91 generate all knight's tours")(pending)
+
+  test("91 generate all closed knight's tours")(pending)
 
   test("92 von Koch's conjecture")(pending)
 
@@ -21,7 +23,6 @@ class PuzzleSuite extends FunSuite {
     assert(result.size === 12)
     assert(result.contains("2-3+5+7=11"))
     assert(result.contains("2=(3*5+7)/11"))
-    // TODO: Check 10 other solutions
   }
 
   test("94 generate all K-regular simple graphs with N nodes")(pending)
