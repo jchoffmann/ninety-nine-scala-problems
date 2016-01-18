@@ -2,6 +2,7 @@ import ArithmeticPuzzle._
 import CrosswordPuzzleBoard._
 import EightQueens._
 import EnglishNumberWords._
+import RegularGraphs._
 import SudokuBoard._
 import org.scalatest.FunSuite
 
@@ -25,8 +26,16 @@ class PuzzleSuite extends FunSuite {
     assert(result.contains("2=(3*5+7)/11"))
   }
 
-  test("94 generate all K-regular simple graphs with N nodes")(pending)
-  // TODO: Add all of these as tests: http://aperiodic.net/phil/scala/s-99/p94.txt
+  test("94 generate all K-regular simple graphs with N nodes") {
+    // N = 6  K = 3   2 solutions  (38662 inferences)
+    val result = regularGraphs(6, 3)
+    val g1 = Graph.fromString("[1-2, 1-3, 1-4, 2-3, 2-5, 3-6, 4-5, 4-6, 5-6]")
+    val g2 = Graph.fromString("[1-2, 1-3, 1-4, 2-5, 2-6, 3-5, 3-6, 4-5, 4-6]")
+    assert(result.size === 2)
+    assert((result(0).isIsomophicTo(g1) && result(1).isIsomophicTo(g2)) ||
+      (result(0).isIsomophicTo(g2) && result(1).isIsomophicTo(g1)))
+    // TODO: Add all of these as tests: http://aperiodic.net/phil/scala/s-99/p94.txt
+  }
 
   test("95 convert (non-negative) integer numbers to full english words") {
     assert(fullWords(175) === "one-seven-five")
