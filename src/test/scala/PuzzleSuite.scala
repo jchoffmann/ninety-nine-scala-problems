@@ -4,6 +4,7 @@ import EightQueens._
 import EnglishNumberWords._
 import RegularGraphs._
 import SudokuBoard._
+import VonKochConjecture._
 import org.scalatest.FunSuite
 
 class PuzzleSuite extends FunSuite {
@@ -17,23 +18,27 @@ class PuzzleSuite extends FunSuite {
 
   test("91 generate all closed knight's tours")(pending)
 
-  test("92 von Koch's conjecture")(pending)
+  test("92 von Koch's conjecture") {
+    val g = Graph.fromString("[a-b, a-d, a-g, b-c, b-e, e-f]")
+    assert(labelGraph(g) === Graph.fromStringLabel("[1-7/6, 2-7/5, 3-5/2, 3-6/3, 3-7/4, 4-5/1]"))
+  }
 
   test("93 generate all equations that solve the arithmetic puzzle") {
     val result = arithmeticPuzzle(List(2, 3, 5, 7, 11))
-    assert(result.size === 12)
     assert(result.contains("2-3+5+7=11"))
     assert(result.contains("2=(3*5+7)/11"))
+    assert(result.size === 12)
   }
 
   test("94 generate all K-regular simple graphs with N nodes") {
     // N = 6  K = 3   2 solutions  (38662 inferences)
-    val result = regularGraphs(6, 3)
+    val (rg1, rg2) = regularGraphs(6, 3) match {
+      case List(r1, r2) => (r1, r2)
+    }
     val g1 = Graph.fromString("[1-2, 1-3, 1-4, 2-3, 2-5, 3-6, 4-5, 4-6, 5-6]")
     val g2 = Graph.fromString("[1-2, 1-3, 1-4, 2-5, 2-6, 3-5, 3-6, 4-5, 4-6]")
-    assert(result.size === 2)
-    assert((result(0).isIsomophicTo(g1) && result(1).isIsomophicTo(g2)) ||
-      (result(0).isIsomophicTo(g2) && result(1).isIsomophicTo(g1)))
+    assert((rg1.isIsomophicTo(g1) && rg2.isIsomophicTo(g2)) ||
+      (rg1.isIsomophicTo(g2) && rg2.isIsomophicTo(g1)))
     // TODO: Add all of these as tests: http://aperiodic.net/phil/scala/s-99/p94.txt
   }
 

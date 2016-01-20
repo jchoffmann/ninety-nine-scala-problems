@@ -233,15 +233,15 @@ class ListSuite extends FunSuite {
   test("23 extract a given number of randomly selected elements from a list") {
     val input = List('a, 'b, 'c, 'd, 'f, 'g, 'h)
     val result = randomSelect(3, input)
-    assert(result.size === 3)
     assert(result forall (input contains _))
+    assert(result.size === 3)
   }
 
   test("23 extract a too large number of randomly selected elements from a list") {
     val input = List('a, 'b, 'c, 'd, 'f, 'g, 'h)
     val result = randomSelect(9, input)
-    assert(result.size === 7)
     assert(result forall (input contains _))
+    assert(result.size === 7)
   }
 
   test("24 draw N different random numbers from the set 1..M") {
@@ -252,32 +252,32 @@ class ListSuite extends FunSuite {
   test("25 generate a random permutation of the elements of a list") {
     val input = List('a, 'b, 'c, 'd, 'e, 'f)
     val result = randomPermute(input)
-    assert(result.size === 6)
     assert(result forall (input contains _))
+    assert(result.size === 6)
   }
 
   test("26 generate the combinations of K distinct objects chosen from the N elements of a list") {
     val input = List('a, 'b, 'c, 'd, 'e, 'f)
     val result = combinations(3, input)
-    assert(result.size === 20)
     assert(result forall (_.size == 3))
     assert(result forall (_.toSet subsetOf input.toSet))
+    assert(result.size === 20)
   }
 
   test("27 group the elements of a set into disjoint subsets") {
     val input = List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida")
     val result = group3(input)
-    assert(result.size === 1260)
     assert((result map (_.map(_.size))).forall(_ == List(2, 3, 4)))
     assert((result map (_.flatten.toSet)).forall(_ == input.toSet))
+    assert(result.size === 1260)
   }
 
   test("27 group the elements of a set into disjoint subsets of configurable size") {
     val input = List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida")
     assert(group(List(2, 3, 4), input) === group3(input))
     val result = group(List(2, 2, 5), input)
-    assert(result.size === 756)
     assert(result.map(_.map(_.size)).forall(_ == List(2, 2, 5)))
+    assert(result.size === 756)
   }
 
   test("28 sorting a list of lists according to length of sublists") {
