@@ -16,7 +16,7 @@ class PuzzleSuite extends FunSuite {
     assert(result.size === 92)
   }
 
-  test("91 there are no nxn knight's tours for small n") {
+  test("91 there are no nxn knight's tours for small n (1)") {
     assert(knightsTourComplete(2).isEmpty)
     assert(knightsTourComplete(3).isEmpty)
     assert(knightsTourComplete(4).isEmpty)
@@ -35,10 +35,16 @@ class PuzzleSuite extends FunSuite {
     assert(result.size === 1728)
   }
 
+  test("91 there are no nxn knight's tours for small n (2)") {
+    assert(knightsTour(2).isEmpty)
+    assert(knightsTour(3).isEmpty)
+    assert(knightsTour(4).isEmpty)
+  }
+
   // TODO Check properties of the tour (cover all squares, only knight moves allowed)
   test("91 generate one 5x5 knight's tour")(pending)
 
-  test("91 there are no closed nxn knight's tours for small n") {
+  test("91 there are no closed nxn knight's tours for small n (1)") {
     assert(knightsTourCompleteClosed(2).isEmpty)
     assert(knightsTourCompleteClosed(4).isEmpty)
   }
@@ -49,6 +55,11 @@ class PuzzleSuite extends FunSuite {
     // TODO Pick a closed tour and check that contained in result list
     // Number of solutions: See https://oeis.org/A001230
     assert(result.size === 9862)
+  }
+
+  test("91 there are no closed nxn knight's tours for small n (2)") {
+    assert(knightsTourClosed(2).isEmpty)
+    assert(knightsTourClosed(4).isEmpty)
   }
 
   // TODO Check properties of the tour (cover all squares, only knight moves allowed, start point = end point)
