@@ -26,10 +26,11 @@ class PuzzleSuite extends FunSuite {
     val result = knightsTourComplete(5)
     // An open tour: See http://ibmathsresources.com/2013/11/19/knights-tour/
     val openTour = List(
-      (1, 5), (3, 4), (5, 5), (4, 3), (3, 5), (5, 4),
-      (4, 2), (2, 1), (1, 3), (2, 5), (4, 4), (5, 2),
-      (3, 3), (1, 4), (2, 2), (4, 1), (5, 2), (4, 5),
-      (2, 4), (1, 2), (3, 1), (2, 3), (1, 1), (3, 2), (5, 1))
+      (1, 5), (3, 4), (5, 5), (4, 3), (3, 5),
+      (5, 4), (4, 2), (2, 1), (1, 3), (2, 5),
+      (4, 4), (5, 2), (3, 3), (1, 4), (2, 2),
+      (4, 1), (5, 2), (4, 5), (2, 4), (1, 2),
+      (3, 1), (2, 3), (1, 1), (3, 2), (5, 1))
     assert(result.contains(openTour))
     // Number of solutions: See https://oeis.org/A165134
     assert(result.size === 1728)
@@ -52,7 +53,15 @@ class PuzzleSuite extends FunSuite {
   test("91 generate all closed 6x6 knight's tours") {
     val result = knightsTourCompleteClosed(6)
     // A closed tour: See http://www.mayhematics.com/t/6a.htm
-    // TODO Pick a closed tour and check that contained in result list
+    val closedTour = List(
+      (1, 1), (3, 2), (5, 1), (4, 3), (6, 2), (4, 1),
+      (2, 2), (1, 4), (3, 5), (1, 6), (2, 4), (1, 2),
+      (3, 3), (2, 1), (1, 3), (2, 5), (4, 6), (5, 4),
+      (6, 6), (4, 5), (2, 6), (3, 4), (1, 5), (3, 6),
+      (5, 5), (6, 3), (4, 2), (6, 1), (5, 3), (6, 5),
+      (4, 4), (5, 6), (6, 4), (5, 2), (3, 1), (2, 3)
+    )
+    assert(result.contains(closedTour))
     // Number of solutions: See https://oeis.org/A001230
     assert(result.size === 9862)
   }
