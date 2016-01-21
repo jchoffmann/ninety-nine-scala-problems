@@ -2,6 +2,7 @@ import ArithmeticPuzzle._
 import CrosswordPuzzleBoard._
 import EightQueens._
 import EnglishNumberWords._
+import KnightsTour._
 import RegularGraphs._
 import SudokuBoard._
 import VonKochConjecture._
@@ -11,12 +12,47 @@ class PuzzleSuite extends FunSuite {
   test("90 generate all configurations of the eight queens problem") {
     val result = eightQueens(8)
     assert(result.contains(List(4, 2, 7, 3, 6, 8, 5, 1)))
-    assert(result.size === 92) // 92 distinct solutions, 12 fundamental solutions
+    // Number of solutions: See https://oeis.org/A000170 (92 distinct, 12 fundamental)
+    assert(result.size === 92)
   }
 
-  test("91 generate all knight's tours")(pending)
+  test("91 there are no nxn knight's tours for small n") {
+    assert(knightsTourComplete(2).isEmpty)
+    assert(knightsTourComplete(3).isEmpty)
+    assert(knightsTourComplete(4).isEmpty)
+  }
 
-  test("91 generate all closed knight's tours")(pending)
+  test("91 generate all 5x5 knight's tours") {
+    val result = knightsTourComplete(5)
+    // An open tour: See http://ibmathsresources.com/2013/11/19/knights-tour/
+    val openTour = List(
+      (1, 5), (3, 4), (5, 5), (4, 3), (3, 5), (5, 4),
+      (4, 2), (2, 1), (1, 3), (2, 5), (4, 4), (5, 2),
+      (3, 3), (1, 4), (2, 2), (4, 1), (5, 2), (4, 5),
+      (2, 4), (1, 2), (3, 1), (2, 3), (1, 1), (3, 2), (5, 1))
+    assert(result.contains(openTour))
+    // Number of solutions: See https://oeis.org/A165134
+    assert(result.size === 1728)
+  }
+
+  // TODO Check properties of the tour (cover all squares, only knight moves allowed)
+  test("91 generate one 5x5 knight's tour")(pending)
+
+  test("91 there are no closed nxn knight's tours for small n") {
+    assert(knightsTourCompleteClosed(2).isEmpty)
+    assert(knightsTourCompleteClosed(4).isEmpty)
+  }
+
+  test("91 generate all closed 6x6 knight's tours") {
+    val result = knightsTourCompleteClosed(6)
+    // A closed tour: See http://www.mayhematics.com/t/6a.htm
+    // TODO Pick a closed tour and check that contained in result list
+    // Number of solutions: See https://oeis.org/A001230
+    assert(result.size === 9862)
+  }
+
+  // TODO Check properties of the tour (cover all squares, only knight moves allowed, start point = end point)
+  test("91 generate one closed 6x6 knight's tour")(pending)
 
   test("92 von Koch's conjecture") {
     val g = Graph.fromString("[a-b, a-d, a-g, b-c, b-e, e-f]")
@@ -39,7 +75,7 @@ class PuzzleSuite extends FunSuite {
     val g2 = Graph.fromString("[1-2, 1-3, 1-4, 2-5, 2-6, 3-5, 3-6, 4-5, 4-6]")
     assert((rg1.isIsomophicTo(g1) && rg2.isIsomophicTo(g2)) ||
       (rg1.isIsomophicTo(g2) && rg2.isIsomophicTo(g1)))
-    // TODO: Add all of these as tests: http://aperiodic.net/phil/scala/s-99/p94.txt
+    // TODO Add all of these as tests? http://aperiodic.net/phil/scala/s-99/p94.txt
   }
 
   test("95 convert (non-negative) integer numbers to full english words") {
@@ -221,7 +257,7 @@ class PuzzleSuite extends FunSuite {
         |........   .......  .....""".stripMargin
 
     assert(CrosswordPuzzleBoard.solve(board, words).isDefined)
-    // TODO: Check for correct solution
+    // TODO Check for correct solution
   }
 
   test("99 find the solution for a given crossword puzzle (c)") {
@@ -406,6 +442,6 @@ class PuzzleSuite extends FunSuite {
         |........  ......... .....""".stripMargin
 
     assert(CrosswordPuzzleBoard.solve(board, words).isDefined)
-    // TODO: Check for correct solution
+    // TODO Check for correct solution
   }
 }

@@ -151,7 +151,7 @@ class GraphSuite extends FunSuite {
       List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h),
       List(('a, 'b), ('a, 'd), ('b, 'c), ('b, 'e), ('c, 'e), ('d, 'e), ('d, 'f), ('d, 'g), ('e, 'h), ('f, 'g), ('g, 'h)))
     assert(g1.spanningTrees === List("[a-b, b-c]", "[a-c, b-c]", "[a-b, a-c]").map(Graph.fromString))
-    // TODO Check g2
+    // TODO Check solution for g2
   }
 
   test("83 check if a graph is a tree") {
@@ -170,7 +170,7 @@ class GraphSuite extends FunSuite {
       List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h),
       List(('a, 'b, 5), ('a, 'd, 3), ('b, 'c, 2), ('b, 'e, 4), ('c, 'e, 6), ('d, 'e, 7), ('d, 'f, 4), ('d, 'g, 3), ('e, 'h, 5), ('f, 'g, 4), ('g, 'h, 1)))
     assert(g1.minimalSpanningTree === Graph.fromStringLabel("[a-b/1, b-c/2]"))
-    // TODO check g2
+    // TODO Check solution for g2
   }
 
   test("85 check if two graphs are isomorphic") {
