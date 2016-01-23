@@ -1,7 +1,9 @@
 // P91
 object KnightsTour {
-  type Point = (Int, Int)
-  type Tour = List[Point]
+  type Position = (Int, Int)
+  type Tour = List[Position]
+
+  def jumps(n: Int, p: Position): List[Position] = ???
 
   def knightsTour(n: Int): Option[Tour] = ???
 

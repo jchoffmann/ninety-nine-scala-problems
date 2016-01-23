@@ -6,7 +6,7 @@ class ListSuite extends FunSuite {
     assert(last(List(1, 1, 2, 3, 5, 8)) === 8)
   }
 
-  test("01 find the last element of an empty list") {
+  test("01 find the last element of an empty list should throw an exception") {
     intercept[NoSuchElementException] {
       last(List.empty)
     }
@@ -16,13 +16,13 @@ class ListSuite extends FunSuite {
     assert(penultimate(List(1, 1, 2, 3, 5, 8)) === 5)
   }
 
-  test("02 find the last but one element of an empty list") {
+  test("02 find the last but one element of an empty list should throw an exception") {
     intercept[NoSuchElementException] {
       penultimate(List.empty)
     }
   }
 
-  test("02 find the last but one element of a singleton list") {
+  test("02 find the last but one element of a singleton list should throw an exception") {
     intercept[NoSuchElementException] {
       penultimate(List(1))
     }
@@ -32,13 +32,13 @@ class ListSuite extends FunSuite {
     assert(nth(2, List(1, 1, 2, 3, 5, 8)) === 2)
   }
 
-  test("03 find the Kth element of an empty list") {
+  test("03 find the Kth element of an empty list should throw an exception") {
     intercept[NoSuchElementException] {
       nth(2, List.empty)
     }
   }
 
-  test("03 find the Kth element of a list but K too big") {
+  test("03 find the Kth element of a list but K too big should throw an exception") {
     intercept[NoSuchElementException] {
       nth(2, List(1, 1))
     }

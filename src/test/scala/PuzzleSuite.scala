@@ -16,6 +16,42 @@ class PuzzleSuite extends FunSuite {
     assert(result.size === 92)
   }
 
+  test("91 valid knight jumps from invalid positions should throw an exception") {
+    intercept[IllegalArgumentException] {
+      jumps(4, (0, 1))
+    }
+    intercept[IllegalArgumentException] {
+      jumps(4, (5, 1))
+    }
+    intercept[IllegalArgumentException] {
+      jumps(4, (1, 0))
+    }
+    intercept[IllegalArgumentException] {
+      jumps(4, (1, 5))
+    }
+  }
+
+  test("91 there are no valid knight jumps for small n") {
+    assert(jumps(1, (1, 1)).isEmpty)
+    assert(jumps(2, (1, 1)).isEmpty)
+  }
+
+  test("91 valid knights jumps") {
+    assert(jumps(3, (2, 2)).isEmpty)
+    assert(jumps(3, (1, 1)) === List((3, 2), (2, 3)))
+    assert(jumps(3, (1, 2)) === List((3, 1), (3, 3)))
+    assert(jumps(5, (3, 3)) === List((2, 1), (4, 1), (5, 2), (5, 4), (4, 5), (2, 5), (1, 4), (1, 2)))
+  }
+
+  private def isKnightMove(n: Int, p1: Position, p2: Position) = jumps(n, p1) contains p2
+
+  private def isKnightsTour(n: Int, t: Tour): Boolean =
+    t.size == n * n && // correct length
+      ((for (x <- 1 to n; y <- 1 to n) yield (x, y)) diff t).isEmpty && // cover all squares
+      t.sliding(2).forall { case List(p1, p2) => isKnightMove(n, p1, p2) } // every move is a knight move
+
+  private def isClosedKnightsTour(n: Int, t: Tour) = isKnightsTour(n, t) && isKnightMove(n, t.last, t.head)
+
   test("91 there are no nxn knight's tours for small n (1)") {
     assert(knightsTourComplete(2).isEmpty)
     assert(knightsTourComplete(3).isEmpty)
@@ -32,6 +68,7 @@ class PuzzleSuite extends FunSuite {
       (4, 1), (5, 2), (4, 5), (2, 4), (1, 2),
       (3, 1), (2, 3), (1, 1), (3, 2), (5, 1))
     assert(result.contains(openTour))
+    assert(result.forall(isKnightsTour(5, _)))
     // Number of solutions: See https://oeis.org/A165134
     assert(result.size === 1728)
   }
@@ -42,8 +79,9 @@ class PuzzleSuite extends FunSuite {
     assert(knightsTour(4).isEmpty)
   }
 
-  // TODO Check properties of the tour (cover all squares, only knight moves allowed)
-  test("91 generate one 5x5 knight's tour")(pending)
+  test("91 generate one 5x5 knight's tour") {
+    assert(isKnightsTour(5, knightsTour(5).get))
+  }
 
   test("91 there are no closed nxn knight's tours for small n (1)") {
     assert(knightsTourCompleteClosed(2).isEmpty)
@@ -62,6 +100,7 @@ class PuzzleSuite extends FunSuite {
       (4, 4), (5, 6), (6, 4), (5, 2), (3, 1), (2, 3)
     )
     assert(result.contains(closedTour))
+    assert(result.forall(isClosedKnightsTour(6, _)))
     // Number of solutions: See https://oeis.org/A001230
     assert(result.size === 9862)
   }
@@ -71,8 +110,9 @@ class PuzzleSuite extends FunSuite {
     assert(knightsTourClosed(4).isEmpty)
   }
 
-  // TODO Check properties of the tour (cover all squares, only knight moves allowed, start point = end point)
-  test("91 generate one closed 6x6 knight's tour")(pending)
+  test("91 generate one closed 6x6 knight's tour") {
+    assert(isClosedKnightsTour(6, knightsTourClosed(6).get))
+  }
 
   test("92 von Koch's conjecture") {
     val g = Graph.fromString("[a-b, a-d, a-g, b-c, b-e, e-f]")
