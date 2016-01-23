@@ -48,7 +48,7 @@ class PuzzleSuite extends FunSuite {
   private def isKnightsTour(n: Int, t: Tour): Boolean =
     t.size == n * n && // correct length
       ((for (x <- 1 to n; y <- 1 to n) yield (x, y)) diff t).isEmpty && // cover all squares
-      t.sliding(2).forall { case List(p1, p2) => isKnightMove(n, p1, p2) } // every move is a knight move
+      t.sliding(2).forall { case p1 :: p2 :: Nil => isKnightMove(n, p1, p2) } // every move is a knight move
 
   private def isClosedKnightsTour(n: Int, t: Tour) = isKnightsTour(n, t) && isKnightMove(n, t.last, t.head)
 
@@ -129,7 +129,7 @@ class PuzzleSuite extends FunSuite {
   test("94 generate all K-regular simple graphs with N nodes") {
     // N = 6  K = 3   2 solutions  (38662 inferences)
     val (rg1, rg2) = regularGraphs(6, 3) match {
-      case List(r1, r2) => (r1, r2)
+      case r1 :: r2 :: Nil => (r1, r2)
     }
     val g1 = Graph.fromString("[1-2, 1-3, 1-4, 2-3, 2-5, 3-6, 4-5, 4-6, 5-6]")
     val g2 = Graph.fromString("[1-2, 1-3, 1-4, 2-5, 2-6, 3-5, 3-6, 4-5, 4-6]")
