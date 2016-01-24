@@ -5,6 +5,7 @@ import EnglishNumberWords._
 import KnightsTour._
 import RegularGraphs._
 import SudokuBoard._
+import SyntaxChecker._
 import VonKochConjecture._
 import org.scalatest.{FunSuite, Inspectors, Matchers}
 
@@ -134,7 +135,22 @@ class PuzzleSuite extends FunSuite with Matchers with Inspectors {
     fullWords(175) shouldEqual "one-seven-five"
   }
 
-  test("96 check whether or not a given string is a legal identifier")(pending)
+  test("96 check whether or not a given string is a legal identifier (1)") {
+    "".isIdentifier shouldBe false
+    "1".isIdentifier shouldBe false
+    "_".isIdentifier shouldBe false
+    "_1".isIdentifier shouldBe false
+    "_a".isIdentifier shouldBe false
+    "a_".isIdentifier shouldBe false
+  }
+
+  test("96 check whether or not a given string is a legal identifier (2)") {
+    "a".isIdentifier shouldBe true
+    "a1b2".isIdentifier shouldBe true
+    "a_b".isIdentifier shouldBe true
+    "a_1".isIdentifier shouldBe true
+    "a12_3bcd_e4".isIdentifier shouldBe true
+  }
 
   test("97 find the solution for an (incomplete) starting sudoku board") {
     val board =
