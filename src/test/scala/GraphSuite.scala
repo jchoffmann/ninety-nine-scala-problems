@@ -146,14 +146,16 @@ class GraphSuite extends FunSuite with Matchers {
   }
 
   test("83 find all spanning trees for a given graph") {
-    val g1 = Graph.fromString("[a-b, b-c, a-c]")
-    g1.spanningTrees should contain theSameElementsAs
+    val g = Graph.fromString("[a-b, b-c, a-c]")
+    g.spanningTrees should contain theSameElementsAs
       List("[a-b, b-c]", "[a-c, b-c]", "[a-b, a-c]").map(Graph.fromString)
-    // TODO Check solution for g2
-    //    val g2 = Graph.term(
-    //      List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h),
-    //      List(('a, 'b), ('a, 'd), ('b, 'c), ('b, 'e), ('c, 'e), ('d, 'e), ('d, 'f), ('d, 'g), ('e, 'h), ('f, 'g), ('g, 'h)))
   }
+
+  test("83 find all spanning trees for the bigger graph given in the problem statement")(pending)
+  //  val g = Graph.term(
+  //    List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h),
+  //    List(('a, 'b), ('a, 'd), ('b, 'c), ('b, 'e), ('c, 'e), ('d, 'e), ('d, 'f), ('d, 'g), ('e, 'h), ('f, 'g), ('g, 'h)))
+
 
   test("83 check if a graph is a tree") {
     Graph.fromString("[a-b, b-c, a-c]").isTree shouldBe false
@@ -166,13 +168,14 @@ class GraphSuite extends FunSuite with Matchers {
   }
 
   test("84 find the minimum spanning tree for a given graph") {
-    val g1 = Graph.fromStringLabel("[a-b/1, b-c/2, a-c/3]")
-    g1.minimalSpanningTree shouldEqual Graph.fromStringLabel("[a-b/1, b-c/2]")
-    // TODO Check solution for g2
-    //    val g2 = Graph.termLabel(
-    //      List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h),
-    //      List(('a, 'b, 5), ('a, 'd, 3), ('b, 'c, 2), ('b, 'e, 4), ('c, 'e, 6), ('d, 'e, 7), ('d, 'f, 4), ('d, 'g, 3), ('e, 'h, 5), ('f, 'g, 4), ('g, 'h, 1)))
+    val g = Graph.fromStringLabel("[a-b/1, b-c/2, a-c/3]")
+    g.minimalSpanningTree shouldEqual Graph.fromStringLabel("[a-b/1, b-c/2]")
   }
+
+  test("84 find the minimum spanning tree for the bigger graph given in the problem statement")(pending)
+  //  val g = Graph.termLabel(
+  //    List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h),
+  //    List(('a, 'b, 5), ('a, 'd, 3), ('b, 'c, 2), ('b, 'e, 4), ('c, 'e, 6), ('d, 'e, 7), ('d, 'f, 4), ('d, 'g, 3), ('e, 'h, 5), ('f, 'g, 4), ('g, 'h, 1)))
 
   test("85 check if two graphs are isomorphic") {
     val g1 = Graph.fromString("[a-b, c]")

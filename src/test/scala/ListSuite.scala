@@ -10,20 +10,24 @@ class ListSuite extends FunSuite with Matchers with Inspectors {
     a[NoSuchElementException] should be thrownBy last(List.empty)
   }
 
-  test("02 find the last but one element of a list") {
+  test("02 find the penultimate element of a list") {
     penultimate(List(1, 1, 2, 3, 5, 8)) shouldBe 5
   }
 
-  test("02 finding the last but one element of a too small list should throw an exception") {
+  test("02 finding the penultimate element of a list should throw an exception if the list is too small") {
     a[NoSuchElementException] should be thrownBy penultimate(List.empty)
     a[NoSuchElementException] should be thrownBy penultimate(List(1))
+  }
+
+  test("03 finding the Kth element of a list should throw an exception when K is negative") {
+    an[IllegalArgumentException] should be thrownBy nth(0, List(1, 1, 2, 3, 5, 8))
   }
 
   test("03 find the Kth element of a list") {
     nth(2, List(1, 1, 2, 3, 5, 8)) shouldBe 2
   }
 
-  test("03 find the Kth element of a too small list should throw an exception") {
+  test("03 find the Kth element of a list should throw an exception if the list is too small") {
     a[NoSuchElementException] should be thrownBy nth(2, List.empty)
     a[NoSuchElementException] should be thrownBy nth(2, List(1, 1))
   }
@@ -69,7 +73,7 @@ class ListSuite extends FunSuite with Matchers with Inspectors {
     compress(List.empty) shouldBe empty
   }
 
-  test("09 pack consecutive duplicates of list elements into sublists") {
+  test("09 pack consecutive duplicates of list elements into sub-lists") {
     pack(List('a, 'a, 'a, 'a, 'b, 'c, 'c, 'a, 'a, 'd, 'e, 'e, 'e, 'e)) shouldEqual
       List(List('a, 'a, 'a, 'a), List('b), List('c, 'c), List('a, 'a), List('d), List('e, 'e, 'e, 'e))
   }
@@ -263,12 +267,12 @@ class ListSuite extends FunSuite with Matchers with Inspectors {
     forAll(result) { r => r.flatten should contain theSameElementsAs input }
   }
 
-  test("28 sorting a list of lists according to length of sublists") {
+  test("28 sorting a list of lists according to length of sub-lists") {
     lsort(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o))) shouldEqual
       List(List('o), List('d, 'e), List('d, 'e), List('m, 'n), List('a, 'b, 'c), List('f, 'g, 'h), List('i, 'j, 'k, 'l))
   }
 
-  test("28 sorting a list of lists according to length frequency of sublists") {
+  test("28 sorting a list of lists according to length frequency of sub-lists") {
     lsortFreq(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o))) shouldEqual
       List(List('i, 'j, 'k, 'l), List('o), List('a, 'b, 'c), List('f, 'g, 'h), List('d, 'e), List('d, 'e), List('m, 'n))
   }

@@ -17,22 +17,25 @@ class PuzzleSuite extends FunSuite with Matchers with Inspectors {
     result should have size 92
   }
 
-  test("91 knight jumps from invalid positions should throw an exception") {
+  test("91 knight jumps from invalid positions should throw exceptions") {
     an[IllegalArgumentException] should be thrownBy jumps(4, (0, 1))
     an[IllegalArgumentException] should be thrownBy jumps(4, (5, 1))
     an[IllegalArgumentException] should be thrownBy jumps(4, (1, 0))
     an[IllegalArgumentException] should be thrownBy jumps(4, (1, 5))
   }
 
-  test("91 there are no knight jumps for small n") {
+  test("91 there are no valid knight jumps on NxN boards where N=1,2") {
     jumps(1, (1, 1)) shouldBe empty
     jumps(2, (1, 1)) shouldBe empty
   }
 
-  test("91 knight jumps") {
+  test("91 knight jumps on a 3x3 board") {
     jumps(3, (2, 2)) shouldBe empty
     jumps(3, (1, 1)) should contain theSameElementsAs List((3, 2), (2, 3))
     jumps(3, (1, 2)) should contain theSameElementsAs List((3, 1), (3, 3))
+  }
+
+  test("91 knight jumps on a 5x5 board") {
     jumps(5, (3, 3)) should contain theSameElementsAs List((2, 1), (4, 1), (5, 2), (5, 4), (4, 5), (2, 5), (1, 4), (1, 2))
   }
 
@@ -45,13 +48,18 @@ class PuzzleSuite extends FunSuite with Matchers with Inspectors {
 
   private def isClosedKnightsTour(n: Int, t: Tour) = isKnightsTour(n, t) && isKnightMove(n, t.last, t.head)
 
-  test("91 there are no nxn knight's tours for small n (1)") {
+  test("91 there are no knight's tours on NxN boards where N=1,2,3,4") {
+    knightsTourComplete(1) shouldBe empty
     knightsTourComplete(2) shouldBe empty
     knightsTourComplete(3) shouldBe empty
     knightsTourComplete(4) shouldBe empty
+    knightsTour(1) shouldBe empty
+    knightsTour(2) shouldBe empty
+    knightsTour(3) shouldBe empty
+    knightsTour(4) shouldBe empty
   }
 
-  test("91 generate all 5x5 knight's tours") {
+  test("91 generate all knight's tours on a 5x5 board") {
     val result = knightsTourComplete(5)
     // An open tour: See http://ibmathsresources.com/2013/11/19/knights-tour/
     val openTour = List(
@@ -66,22 +74,22 @@ class PuzzleSuite extends FunSuite with Matchers with Inspectors {
     result should have size 1728
   }
 
-  test("91 there are no nxn knight's tours for small n (2)") {
-    knightsTour(2) shouldBe empty
-    knightsTour(3) shouldBe empty
-    knightsTour(4) shouldBe empty
-  }
-
-  test("91 generate one 5x5 knight's tour") {
+  test("91 generate one knight's tour on a 5x5 board") {
     isKnightsTour(5, knightsTour(5).get) shouldBe true
   }
 
-  test("91 there are no closed nxn knight's tours for small n (1)") {
+  test("91 there are no closed knight's tours on NxN boards where N=1,2,3,4") {
+    knightsTourCompleteClosed(1) shouldBe empty
     knightsTourCompleteClosed(2) shouldBe empty
+    knightsTourCompleteClosed(3) shouldBe empty
     knightsTourCompleteClosed(4) shouldBe empty
+    knightsTourClosed(1) shouldBe empty
+    knightsTourClosed(2) shouldBe empty
+    knightsTourClosed(3) shouldBe empty
+    knightsTourClosed(4) shouldBe empty
   }
 
-  test("91 generate all closed 6x6 knight's tours") {
+  test("91 generate all closed knight's tours on a 6x6 board") {
     val result = knightsTourCompleteClosed(6)
     // A closed tour: See http://www.mayhematics.com/t/6a.htm
     val closedTour = List(
@@ -98,16 +106,11 @@ class PuzzleSuite extends FunSuite with Matchers with Inspectors {
     result should have size 9862
   }
 
-  test("91 there are no closed nxn knight's tours for small n (2)") {
-    knightsTourClosed(2) shouldBe empty
-    knightsTourClosed(4) shouldBe empty
-  }
-
-  test("91 generate one closed 6x6 knight's tour") {
+  test("91 generate one closed knight's tour on a 6x6 board") {
     isClosedKnightsTour(6, knightsTourClosed(6).get) shouldBe true
   }
 
-  test("92 von Koch's conjecture") {
+  test("92 label a graph according to the rules stated in von Koch's conjecture") {
     val g = Graph.fromString("[a-b, a-d, a-g, b-c, b-e, e-f]")
     labelGraph(g) shouldEqual Graph.fromStringLabel("[1-7/6, 2-7/5, 3-5/2, 3-6/3, 3-7/4, 4-5/1]")
   }
@@ -119,7 +122,7 @@ class PuzzleSuite extends FunSuite with Matchers with Inspectors {
     result should have size 12
   }
 
-  test("94 generate all K-regular simple graphs with N nodes") {
+  test("94 generate all 3-regular simple graphs with 6 nodes") {
     // N = 6  K = 3   2 solutions  (38662 inferences)
     val result = regularGraphs(6, 3)
     val g1 = Graph.fromString("[1-2, 1-3, 1-4, 2-3, 2-5, 3-6, 4-5, 4-6, 5-6]")
@@ -135,7 +138,7 @@ class PuzzleSuite extends FunSuite with Matchers with Inspectors {
     fullWords(175) shouldEqual "one-seven-five"
   }
 
-  test("96 check whether or not a given string is a legal identifier (1)") {
+  test("96 list of strings that are legal identifiers") {
     "".isIdentifier shouldBe false
     "1".isIdentifier shouldBe false
     "_".isIdentifier shouldBe false
@@ -144,7 +147,7 @@ class PuzzleSuite extends FunSuite with Matchers with Inspectors {
     "a_".isIdentifier shouldBe false
   }
 
-  test("96 check whether or not a given string is a legal identifier (2)") {
+  test("96 list of strings that are not legal identifiers") {
     "a".isIdentifier shouldBe true
     "a1b2".isIdentifier shouldBe true
     "a_b".isIdentifier shouldBe true
