@@ -20,7 +20,7 @@ class ListSuite extends FunSuite with Matchers with Inspectors {
   }
 
   test("03 finding the Kth element of a list should throw an exception when K is negative") {
-    an[IllegalArgumentException] should be thrownBy nth(0, List(1, 1, 2, 3, 5, 8))
+    an[IllegalArgumentException] should be thrownBy nth(-1, List(1, 1, 2, 3, 5, 8))
   }
 
   test("03 find the Kth element of a list") {
