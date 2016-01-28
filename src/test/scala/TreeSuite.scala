@@ -6,7 +6,7 @@ class TreeSuite extends FunSuite with Matchers {
     End
   }
 
-  test("52 (not mentioned in problem statements) construct tree consisting of root node only") {
+  test("52 (not mentioned in problem statements) construct tree with one root node") {
     Node('a)
   }
 
@@ -19,6 +19,10 @@ class TreeSuite extends FunSuite with Matchers {
   }
 
   test("55 construct all completely balanced binary trees") {
+    cBalanced(1, 'x) shouldEqual Node('x)
+    cBalanced(2, 'x) should contain theSameElementsAs List(
+      Node('x, Node('x), End), Node('x, End, Node('x))
+    )
     cBalanced(3, 'x) shouldEqual List(Node('x, Node('x), Node('x)))
     cBalanced(4, 'x) should contain theSameElementsAs List(
       Node('x, Node('x), Node('x, End, Node('x))),
@@ -43,6 +47,9 @@ class TreeSuite extends FunSuite with Matchers {
 
   test("57 construct a binary search tree from a list of integers") {
     fromList(List(3, 2, 5, 7, 1)) shouldEqual Node(3, Node(2, Node(1), End), Node(5, End, Node(7)))
+  }
+
+  test("57 check whether a given binary search tree is symmetric") {
     fromList(List(5, 3, 18, 1, 4, 12, 21)).isSymmetric shouldBe true
     fromList(List(3, 2, 5, 7, 4)).isSymmetric shouldBe false
   }
