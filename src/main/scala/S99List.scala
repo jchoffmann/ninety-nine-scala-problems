@@ -30,7 +30,7 @@ object S99List {
   def encode[T](l: List[T]): List[(Int, T)] = ???
 
   // P11
-  def encodeModified[T](l: List[T]): List[Either[(Int, T), T]] = ???
+  def encodeModified[T](l: List[T]): List[Any] = ???
 
   // P12
   def decode[T](l: List[(Int, T)]): List[T] = ???
