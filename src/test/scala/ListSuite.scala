@@ -158,8 +158,7 @@ class ListSuite extends FunSuite with Matchers with Inspectors {
   }
 
   test("17 split an empty list into two parts") {
-    val result = split(3, List.empty)
-    forAll(result) { r => r shouldBe empty }
+    split(3, List.empty) shouldBe(List.empty, List.empty)
   }
 
   test("18 extract a slice from a list") {
