@@ -48,7 +48,7 @@ object S99List {
   def drop[T](n: Int, l: List[T]): List[T] = ???
 
   // P17
-  def split[T](n: Int, l: List[T]): List[List[T]] = ???
+  def split[T](n: Int, l: List[T]): (List[T], List[T]) = ???
 
   // P18
   def slice[T](from: Int, to: Int, l: List[T]): List[T] = ???
