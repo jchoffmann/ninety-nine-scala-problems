@@ -19,9 +19,8 @@ class S99Int(val i: Int) {
   def totient: Int = (1 to i) count isCoprimeTo
 
   // P35
-  def primeFactors: List[Int] = primes find (i % _ == 0) map (p => p +: (i / p).primeFactors) getOrElse List.empty
-
-  //  (2 to i) filter (_.isPrime) find (i % _ == 0) map (p => p +: (i / p).primeFactors) getOrElse List.empty
+  def primeFactors: List[Int] =
+    (2 to i) filter (_.isPrime) find (i % _ == 0) map (p => p +: (i / p).primeFactors) getOrElse List.empty
 
   // P36
   def primeFactorMultiplicity: List[(Int, Int)] = encode(i.primeFactors) map (_.swap)
