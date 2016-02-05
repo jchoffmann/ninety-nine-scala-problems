@@ -1,3 +1,9 @@
+/**
+  * Exercises: http://aperiodic.net/phil/scala/s-99/#logic
+  *
+  * For the logic exercises, avoid using builtin functions. Define `not`, `and`, `or` in terms of pattern matching, and
+  * other functions in terms of those three.
+  */
 class S99Logic(val b: Boolean) {
   // P47
   def and(y: Boolean): Boolean = ???

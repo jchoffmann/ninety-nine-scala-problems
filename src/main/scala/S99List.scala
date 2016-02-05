@@ -1,6 +1,11 @@
 import scala.annotation.tailrec
 import scala.util.Random
 
+/**
+  * Exercises: http://aperiodic.net/phil/scala/s-99/#lists
+  *
+  * For the list exercises, avoid using builtin functions such as length, slice, ...
+  */
 object S99List {
   // P01
   @tailrec

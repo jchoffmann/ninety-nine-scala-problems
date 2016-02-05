@@ -1,3 +1,6 @@
+/**
+  * Exercises: http://aperiodic.net/phil/scala/s-99/#mtrees
+  */
 case class MTree[+T](value: T, children: List[MTree[T]]) {
   override def toString: String = "M(" + value.toString + " {" + children.map(_.toString).mkString(",") + "})"
 

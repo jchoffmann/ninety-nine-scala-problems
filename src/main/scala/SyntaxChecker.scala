@@ -1,5 +1,8 @@
-// P96
+/**
+  * Exercises: http://aperiodic.net/phil/scala/s-99/#misc
+  */
 class SyntaxChecker(s: String) {
+  // P96
   def isIdentifier: Boolean = ???
 }
 
