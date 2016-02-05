@@ -8,7 +8,9 @@ import scala.annotation.tailrec
   */
 class S99Int(val i: Int) {
   // P31
-  def isPrime: Boolean = (i > 1) && ((2 until i) forall (i % _ > 0))
+  def isPrime: Boolean = i > 1 && primes.takeWhile(j => j * j <= i).forall(k => i % k > 0)
+
+  // (i > 1) && ((2 until i) forall (i % _ > 0))
 
   // P33
   def isCoprimeTo(y: Int): Boolean = gcd(i, y) == 1
@@ -17,8 +19,9 @@ class S99Int(val i: Int) {
   def totient: Int = (1 to i) count isCoprimeTo
 
   // P35
-  def primeFactors: List[Int] =
-    (2 to i) filter (_.isPrime) find (i % _ == 0) map (p => p +: (i / p).primeFactors) getOrElse List.empty
+  def primeFactors: List[Int] = primes find (i % _ == 0) map (p => p +: (i / p).primeFactors) getOrElse List.empty
+
+  //  (2 to i) filter (_.isPrime) find (i % _ == 0) map (p => p +: (i / p).primeFactors) getOrElse List.empty
 
   // P36
   def primeFactorMultiplicity: List[(Int, Int)] = encode(i.primeFactors) map (_.swap)
@@ -38,6 +41,8 @@ class S99Int(val i: Int) {
 
 object S99Int {
   implicit def int2S99Int(i: Int): S99Int = new S99Int(i)
+
+  val primes: Stream[Int] = 2 #:: Stream.from(3, 2).filter(_.isPrime)
 
   // P32
   @tailrec
