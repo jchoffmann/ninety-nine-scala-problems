@@ -121,7 +121,12 @@ class LogicSuite extends FunSuite with Matchers {
     gray(3) should contain theSameElementsAs List("000", "001", "011", "010", "110", "111", "101", "100")
   }
 
-  test("50 huffmann code") {
+  test("50 constructing the huffman code for a too small list of symbol frequencies should throw an exception") {
+    an[IllegalArgumentException] should be thrownBy huffman(List.empty)
+    an[IllegalArgumentException] should be thrownBy huffman(List(('a, 100)))
+  }
+
+  test("50 construct the huffman code for a list of symbol frequencies") {
     huffman(List(('a, 45), ('b, 13), ('c, 12), ('d, 16), ('e, 9), ('f, 5))) should contain theSameElementsAs
       List(('a, "0"), ('b, "101"), ('c, "100"), ('d, "111"), ('e, "1101"), ('f, "1100"))
   }

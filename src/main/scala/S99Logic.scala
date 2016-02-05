@@ -80,5 +80,5 @@ object S99Logic {
   }
 
   // P50
-  def huffman(symbolFrequencies: List[(Symbol, Int)]): List[(Symbol, String)] = ???
+  def huffman[T](frequencies: List[(T, Int)]): List[(T, String)] = ???
 }
