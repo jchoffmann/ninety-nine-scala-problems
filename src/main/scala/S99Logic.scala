@@ -45,7 +45,7 @@ object S99Logic {
   def not(x: Boolean): Boolean = ???
 
   // P49
-  def gray(x: Int): List[String] = ???
+  def gray(n: Int): List[String] = ???
 
   // P50
   def huffman(symbolFrequencies: List[(Symbol, Int)]): List[(Symbol, String)] = ???

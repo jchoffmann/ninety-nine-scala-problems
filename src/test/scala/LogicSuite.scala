@@ -110,7 +110,14 @@ class LogicSuite extends FunSuite with Matchers {
       Map((true, true) -> true, (true, false) -> true, (false, true) -> false, (false, false) -> false)
   }
 
-  test("49 gray code") {
+  test("49 n-bit gray code should throw an exception if n < 1") {
+    an[IllegalArgumentException] should be thrownBy gray(-1)
+    an[IllegalArgumentException] should be thrownBy gray(0)
+  }
+
+  test("49 n-bit gray code") {
+    gray(1) should contain theSameElementsAs List("0", "1")
+    gray(2) should contain theSameElementsAs List("00", "01", "11", "10")
     gray(3) should contain theSameElementsAs List("000", "001", "011", "010", "110", "111", "101", "100")
   }
 
