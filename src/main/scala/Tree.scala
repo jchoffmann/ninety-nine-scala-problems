@@ -1,3 +1,6 @@
+/**
+  * Exercises: http://aperiodic.net/phil/scala/s-99/#btrees
+  */
 sealed abstract class Tree[+T] {
   // P56
   def isSymmetric: Boolean = ???

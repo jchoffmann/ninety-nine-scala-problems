@@ -1,3 +1,6 @@
+/**
+  * Exercises: http://aperiodic.net/phil/scala/s-99/#graphs
+  */
 abstract class GraphBase[T, U] {
 
   case class Edge(n1: Node, n2: Node, value: U) {

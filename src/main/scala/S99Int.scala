@@ -1,3 +1,6 @@
+/**
+  * Exercises: http://aperiodic.net/phil/scala/s-99/#math
+  */
 class S99Int(val i: Int) {
   // P31
   def isPrime: Boolean = ???
