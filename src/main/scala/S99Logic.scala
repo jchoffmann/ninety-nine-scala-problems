@@ -80,5 +80,25 @@ object S99Logic {
   }
 
   // P50
-  def huffman[T](frequencies: List[(T, Int)]): List[(T, String)] = ???
+  private abstract sealed class Tree[T](val freq: Int)
+
+  private final case class Node[T](left: Tree[T], right: Tree[T]) extends Tree[T](left.freq + right.freq)
+
+  private final case class Leaf[T](override val freq: Int, elem: T) extends Tree[T](freq)
+
+  def huffman[T](frequencies: List[(T, Int)]): List[(T, String)] = {
+    require(frequencies.size > 1)
+    def buildTreeR(fs: List[Tree[T]]): Tree[T] =
+      fs.sortBy(_.freq) match {
+        case t1 +: t2 +: ts => buildTreeR(Node(t1, t2) +: ts)
+        case t +: Nil => t
+      }
+
+    def listCodesR(t: Tree[T], code: String): List[(T, String)] = t match {
+      case Leaf(_, s) => List((s, code))
+      case Node(l, r) => listCodesR(l, code + "0") ++ listCodesR(r, code + "1")
+    }
+
+    listCodesR(buildTreeR(frequencies map { case (s, f) => Leaf(f, s) }), "")
+  }
 }
