@@ -19,7 +19,7 @@ class TreeSuite extends FunSuite with Matchers {
   }
 
   test("55 construct all completely balanced binary trees") {
-    cBalanced(1, 'x) shouldEqual Node('x)
+    cBalanced(1, 'x) shouldEqual List(Node('x))
     cBalanced(2, 'x) should contain theSameElementsAs List(
       Node('x, Node('x), End), Node('x, End, Node('x))
     )
