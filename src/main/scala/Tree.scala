@@ -3,7 +3,9 @@
   */
 sealed abstract class Tree[+T] {
   // P56
-  def isSymmetric: Boolean = ???
+  def isMirrorOf[U](other: Tree[U]): Boolean
+
+  def isSymmetric: Boolean
 
   // P57
   def addValue[U >: T](x: U)(implicit o: U => Ordered[U]): Tree[U] = ???
@@ -35,14 +37,33 @@ sealed abstract class Tree[+T] {
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
+  override def isMirrorOf[U](other: Tree[U]): Boolean = other match {
+    case t: Node[U] => left.isMirrorOf(t.right) && right.isMirrorOf(t.left)
+    case _ => false
+  }
+
+  override def isSymmetric: Boolean = left.isMirrorOf(right)
+
   override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
+
 }
 
 case object End extends Tree[Nothing] {
+  override def isMirrorOf[U](other: Tree[U]): Boolean = other == End
+
+  override def isSymmetric: Boolean = true
+
   override def toString = "."
 }
 
 case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends Tree[T] {
+  override def isMirrorOf[U](other: Tree[U]): Boolean = other match {
+    case t: PositionedNode[U] => left.isMirrorOf(t.right) && right.isMirrorOf(t.left)
+    case _ => false
+  }
+
+  override def isSymmetric: Boolean = left.isMirrorOf(right)
+
   override def toString: String = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
 }
 
