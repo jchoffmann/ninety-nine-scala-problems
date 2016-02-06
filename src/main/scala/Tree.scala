@@ -48,7 +48,19 @@ case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y
 
 object Tree {
   // P55
-  def cBalanced[T](n: Int, value: T): List[Tree[T]] = ???
+  def cBalanced[T](n: Int, value: T): List[Tree[T]] = {
+    if (n < 1) List(End)
+    else if (n % 2 == 1) {
+      val t = cBalanced(n / 2, value)
+      for (l <- t; r <- t) yield Node(value, l, r)
+    }
+    else {
+      for {
+        t1 <- cBalanced((n - 1) / 2, value)
+        t2 <- cBalanced((n - 1) / 2 + 1, value)
+      } yield List(Node(value, t1, t2), Node(value, t2, t1))
+    }.flatten
+  }
 
   // P57
   def fromList[T](l: List[T]): Tree[T] = ???
