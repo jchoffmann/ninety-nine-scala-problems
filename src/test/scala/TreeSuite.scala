@@ -41,7 +41,7 @@ class TreeSuite extends FunSuite with Matchers {
 
   test("57 add a value to a binary search tree") {
     End.addValue(2) shouldEqual Node(2)
-    End.addValue(2).addValue(3) shouldEqual Node(2, Node(3))
+    End.addValue(2).addValue(3) shouldEqual Node(2, End, Node(3))
     End.addValue(2).addValue(3).addValue(0) shouldEqual Node(2, Node(0), Node(3))
   }
 
