@@ -85,14 +85,14 @@ object Tree {
   def cBalanced[T](n: Int, value: T): List[Tree[T]] =
     if (n < 1) List(End)
     else if (n % 2 == 1) {
-      val t = cBalanced(n / 2, value)
-      for (l <- t; r <- t) yield Node(value, l, r)
+      val ts = cBalanced(n / 2, value)
+      for (l <- ts; r <- ts) yield Node(value, l, r)
     }
     else {
       for {
-        t1 <- cBalanced((n - 1) / 2, value)
-        t2 <- cBalanced((n - 1) / 2 + 1, value)
-      } yield List(Node(value, t1, t2), Node(value, t2, t1))
+        smaller <- cBalanced((n - 1) / 2, value)
+        bigger <- cBalanced((n - 1) / 2 + 1, value)
+      } yield List(Node(value, smaller, bigger), Node(value, bigger, smaller))
     }.flatten
 
   // P57
@@ -102,7 +102,15 @@ object Tree {
   def symmetricBalancedTrees[T](n: Int, value: T): List[Tree[T]] = cBalanced(n, value) filter (_.isSymmetric)
 
   // P59
-  def hBalanced[T](n: Int, value: T): List[Tree[T]] = ???
+  def hBalanced[T](n: Int, value: T): List[Tree[T]] =
+    if (n < 1) List(End)
+    else if (n == 1) List(Node(value))
+    else {
+      val fullHeight = hBalanced(n - 1, value)
+      val smallerHeight = hBalanced(n - 2, value)
+      (for (l <- fullHeight; r <- fullHeight) yield Node(value, l, r)) ++
+        (for (t1 <- fullHeight; t2 <- smallerHeight) yield List(Node(value, t1, t2), Node(value, t2, t1))).flatten
+    }
 
   // P60
   def minHbalNodes(n: Int): Int = ???
