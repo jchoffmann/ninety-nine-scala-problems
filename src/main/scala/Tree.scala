@@ -83,15 +83,15 @@ case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y
 object Tree {
   // P55
   def completelyBalancedTrees[T](nodes: Int, value: T): List[Tree[T]] =
-    if (n < 1) List(End)
-    else if (n % 2 == 1) {
-      val ts = cBalanced(n / 2, value)
+    if (nodes < 1) List(End)
+    else if (nodes % 2 == 1) {
+      val ts = completelyBalancedTrees(nodes / 2, value)
       for (l <- ts; r <- ts) yield Node(value, l, r)
     }
     else {
       for {
-        smaller <- cBalanced((n - 1) / 2, value)
-        bigger <- cBalanced((n - 1) / 2 + 1, value)
+        smaller <- completelyBalancedTrees((nodes - 1) / 2, value)
+        bigger <- completelyBalancedTrees((nodes - 1) / 2 + 1, value)
       } yield List(Node(value, smaller, bigger), Node(value, bigger, smaller))
     }.flatten
 
@@ -99,15 +99,16 @@ object Tree {
   def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = l.foldLeft(End: Tree[T])((t, x) => t.addValue(x))
 
   // P58
-  def symmetricBalancedTrees[T](nodes: Int, value: T): List[Tree[T]] = cBalanced(n, value) filter (_.isSymmetric)
+  def symmetricBalancedTrees[T](nodes: Int, value: T): List[Tree[T]] =
+    completelyBalancedTrees(nodes, value) filter (_.isSymmetric)
 
   // P59
   def heightBalancedTrees[T](height: Int, value: T): List[Tree[T]] =
-    if (n < 1) List(End)
-    else if (n == 1) List(Node(value))
+    if (height < 1) List(End)
+    else if (height == 1) List(Node(value))
     else {
-      val fullHeight = hBalanced(n - 1, value)
-      val smallerHeight = hBalanced(n - 2, value)
+      val fullHeight = heightBalancedTrees(height - 1, value)
+      val smallerHeight = heightBalancedTrees(height - 2, value)
       (for (l <- fullHeight; r <- fullHeight) yield Node(value, l, r)) ++
         (for (t1 <- fullHeight; t2 <- smallerHeight) yield List(Node(value, t1, t2), Node(value, t2, t1))).flatten
     }
