@@ -8,7 +8,7 @@ sealed abstract class Tree[+T] {
   def isSymmetric: Boolean
 
   // P57
-  def addValue[U >: T](x: U)(implicit o: U => Ordered[U]): Tree[U] = ???
+  def addValue[U >: T](x: U)(implicit o: U => Ordered[U]): Tree[U]
 
   // P61
   def leafCount: Int = ???
@@ -37,6 +37,9 @@ sealed abstract class Tree[+T] {
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
+  override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
+
+  // P56
   override def isMirrorOf[U](other: Tree[U]): Boolean = other match {
     case t: Node[U] => left.isMirrorOf(t.right) && right.isMirrorOf(t.left)
     case _ => false
@@ -44,19 +47,27 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
 
   override def isSymmetric: Boolean = left.isMirrorOf(right)
 
-  override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
-
+  // P57
+  override def addValue[U >: T](x: U)(implicit o: (U) => Ordered[U]): Tree[U] =
+    if (x <= value) Node(value, left.addValue(x), right) else Node(value, left, right.addValue(x))
 }
 
 case object End extends Tree[Nothing] {
+  override def toString = "."
+
+  // P56
   override def isMirrorOf[U](other: Tree[U]): Boolean = other == End
 
   override def isSymmetric: Boolean = true
 
-  override def toString = "."
+  // P57
+  override def addValue[U >: Nothing](x: U)(implicit o: (U) => Ordered[U]): Tree[U] = Node(x)
 }
 
 case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends Tree[T] {
+  override def toString: String = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
+
+  // P56
   override def isMirrorOf[U](other: Tree[U]): Boolean = other match {
     case t: PositionedNode[U] => left.isMirrorOf(t.right) && right.isMirrorOf(t.left)
     case _ => false
@@ -64,7 +75,9 @@ case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y
 
   override def isSymmetric: Boolean = left.isMirrorOf(right)
 
-  override def toString: String = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
+  // P57
+  override def addValue[U >: T](x: U)(implicit o: (U) => Ordered[U]): Tree[U] =
+    if (x <= value) Node(value, left.addValue(x), right) else Node(value, left, right.addValue(x))
 }
 
 object Tree {
@@ -84,7 +97,7 @@ object Tree {
   }
 
   // P57
-  def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = ???
+  def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = l.foldLeft(End: Tree[T])((t, x) => t.addValue(x))
 
   // P58
   def symmetricBalancedTrees[T](n: Int, value: T): List[Tree[T]] = ???
