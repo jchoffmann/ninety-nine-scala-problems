@@ -19,12 +19,12 @@ class TreeSuite extends FunSuite with Matchers {
   }
 
   test("55 construct all completely balanced binary trees") {
-    cBalanced(1, 'x) shouldEqual List(Node('x))
-    cBalanced(2, 'x) should contain theSameElementsAs List(
+    completelyBalancedTrees(1, 'x) shouldEqual List(Node('x))
+    completelyBalancedTrees(2, 'x) should contain theSameElementsAs List(
       Node('x, Node('x), End), Node('x, End, Node('x))
     )
-    cBalanced(3, 'x) shouldEqual List(Node('x, Node('x), Node('x)))
-    cBalanced(4, 'x) should contain theSameElementsAs List(
+    completelyBalancedTrees(3, 'x) shouldEqual List(Node('x, Node('x), Node('x)))
+    completelyBalancedTrees(4, 'x) should contain theSameElementsAs List(
       Node('x, Node('x), Node('x, End, Node('x))),
       Node('x, Node('x), Node('x, Node('x), End)),
       Node('x, Node('x, End, Node('x)), Node('x)),
@@ -61,29 +61,43 @@ class TreeSuite extends FunSuite with Matchers {
   }
 
   test("59 construct height-balanced binary trees") {
-    hBalanced(2, 'x) should have size 3
-    hBalanced(3, 'x) should have size 15
-    hBalanced(4, 'x) should have size 315
-    hBalanced(5, 'x) should have size 108675
+    heightBalancedTrees(2, 'x) should have size 3
+    heightBalancedTrees(3, 'x) should have size 15
+    heightBalancedTrees(4, 'x) should have size 315
+    heightBalancedTrees(5, 'x) should have size 108675
   }
 
-  test("60 minimum number of nodes of a height-balanced binary tree") {
+  test("60 minimum number of nodes a height-balanced binary tree can contain for a given height") {
     minHbalNodes(3) shouldBe 4
     minHbalNodes(4) shouldBe 7
     minHbalNodes(5) shouldBe 12
   }
 
-  test("60 maximum height of a height-balanced binary tree") {
+  test("60 maximum number of nodes a height-balanced binary tree can contain for a given height") {
+    maxHbalNodes(3) shouldBe 5
+    maxHbalNodes(4) shouldBe 7
+    maxHbalNodes(5) shouldBe 9
+  }
+
+  test("60 minimum height a height-balanced binary tree can have given a number of nodes ") {
+    minHbalHeight(3) shouldBe 2
+    minHbalHeight(4) shouldBe 3
+    minHbalHeight(5) shouldBe 3
+  }
+
+  test("60 maximum height a height-balanced binary tree can have given a number of nodes ") {
+    maxHbalHeight(3) shouldBe 2
     maxHbalHeight(4) shouldBe 3
+    maxHbalHeight(5) shouldBe 3
   }
 
   test("60 construct height-balanced binary trees with a given number of nodes") {
-    hbalTreesWithNodes(4, 'x) should contain theSameElementsAs List(
+    heightBalancedTreesWithNodes(4, 'x) should contain theSameElementsAs List(
       Node('x, Node('x), Node('x, End, Node('x))),
       Node('x, Node('x, End, Node('x)), Node('x)),
       Node('x, Node('x), Node('x, Node('x), End)),
       Node('x, Node('x, Node('x), End), Node('x)))
-    hbalTreesWithNodes(15, 'x) should have size 1553
+    heightBalancedTreesWithNodes(15, 'x) should have size 1553
   }
 
   test("61 count leaves of a binary tree") {

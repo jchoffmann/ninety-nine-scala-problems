@@ -82,7 +82,7 @@ case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y
 
 object Tree {
   // P55
-  def cBalanced[T](n: Int, value: T): List[Tree[T]] =
+  def completelyBalancedTrees[T](nodes: Int, value: T): List[Tree[T]] =
     if (n < 1) List(End)
     else if (n % 2 == 1) {
       val ts = cBalanced(n / 2, value)
@@ -99,10 +99,10 @@ object Tree {
   def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = l.foldLeft(End: Tree[T])((t, x) => t.addValue(x))
 
   // P58
-  def symmetricBalancedTrees[T](n: Int, value: T): List[Tree[T]] = cBalanced(n, value) filter (_.isSymmetric)
+  def symmetricBalancedTrees[T](nodes: Int, value: T): List[Tree[T]] = cBalanced(n, value) filter (_.isSymmetric)
 
   // P59
-  def hBalanced[T](n: Int, value: T): List[Tree[T]] =
+  def heightBalancedTrees[T](height: Int, value: T): List[Tree[T]] =
     if (n < 1) List(End)
     else if (n == 1) List(Node(value))
     else {
@@ -113,14 +113,18 @@ object Tree {
     }
 
   // P60
-  def minHbalNodes(n: Int): Int = ???
+  def minHbalNodes(height: Int): Int = ???
 
-  def maxHbalHeight(n: Int): Int = ???
+  def maxHbalNodes(height: Int): Int = ???
 
-  def hbalTreesWithNodes[T](n: Int, value: T): List[Tree[T]] = ???
+  def minHbalHeight(nodes: Int): Int = ???
+
+  def maxHbalHeight(nodes: Int): Int = ???
+
+  def heightBalancedTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] = ???
 
   // P63
-  def completeBinaryTree[T](n: Int, value: T): Tree[T] = ???
+  def completeBinaryTree[T](nodes: Int, value: T): Tree[T] = ???
 
   // P67
   def fromString(s: String): Tree[String] = ???
