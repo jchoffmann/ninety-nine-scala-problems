@@ -84,7 +84,7 @@ object Tree {
   }
 
   // P57
-  def fromList[T](l: List[T]): Tree[T] = ???
+  def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = ???
 
   // P58
   def symmetricBalancedTrees[T](n: Int, value: T): List[Tree[T]] = ???
