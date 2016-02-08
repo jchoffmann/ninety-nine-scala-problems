@@ -22,13 +22,13 @@ sealed abstract class Tree[+T] {
   def atLevel(n: Int): List[T] = ???
 
   // P64
-  def layoutBinaryTree: PositionedNode[T] = ???
+  def layoutBinaryTree: Tree[T] = ???
 
   // P65
-  def layoutBinaryTree2: PositionedNode[T] = ???
+  def layoutBinaryTree2: Tree[T] = ???
 
   // P66
-  def layoutBinaryTree3: PositionedNode[T] = ???
+  def layoutBinaryTree3: Tree[T] = ???
 
   // P68
   def preorder: List[T] = ???
