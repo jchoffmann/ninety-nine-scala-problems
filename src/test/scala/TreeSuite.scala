@@ -124,7 +124,7 @@ class TreeSuite extends FunSuite with Matchers {
 
   test("61 list leaves of a binary tree") {
     End.leafList shouldBe empty
-    Node('x).leafList shouldEqual List(Node('x))
+    Node('x).leafList shouldEqual List('x)
     Node('a, Node('b), Node('c, Node('d), Node('e))).leafList should contain theSameElementsAs List('b, 'd, 'e)
   }
 
