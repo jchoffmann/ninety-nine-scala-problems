@@ -135,10 +135,18 @@ class TreeSuite extends FunSuite with Matchers {
   }
 
   test("62 list all nodes of a binary tree at a given level") {
+    Node('a, Node('b), Node('c, Node('d), Node('e))).atLevel(0) shouldBe empty
+    Node('a, Node('b), Node('c, Node('d), Node('e))).atLevel(1) shouldEqual List('a)
     Node('a, Node('b), Node('c, Node('d), Node('e))).atLevel(2) should contain theSameElementsAs List('b, 'c)
   }
 
   test("63 construct a complete binary tree") {
+    completeBinaryTree(0, 'x) shouldEqual End
+    completeBinaryTree(1, 'x) shouldEqual Node('x)
+    completeBinaryTree(2, 'x) shouldEqual Node('x, Node('x), End)
+    completeBinaryTree(3, 'x) shouldEqual Node('x, Node('x), Node('x))
+    completeBinaryTree(4, 'x) shouldEqual Node('x, Node('x, Node('x), End), Node('x))
+    completeBinaryTree(5, 'x) shouldEqual Node('x, Node('x, Node('x), Node('x)), Node('x))
     completeBinaryTree(6, 'x) shouldEqual Node('x, Node('x, Node('x), Node('x)), Node('x, Node('x), End))
   }
 
