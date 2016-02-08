@@ -61,34 +61,51 @@ class TreeSuite extends FunSuite with Matchers {
   }
 
   test("59 construct height-balanced binary trees") {
-    heightBalancedTrees(2, 'x) should have size 3
+    heightBalancedTrees(1, 'x) should contain theSameElementsAs List(Node('x))
+    heightBalancedTrees(2, 'x) should contain theSameElementsAs
+      List(Node('x, Node('x), End), Node('x, End, Node('x)), Node('x, Node('x), Node('x)))
     heightBalancedTrees(3, 'x) should have size 15
     heightBalancedTrees(4, 'x) should have size 315
     heightBalancedTrees(5, 'x) should have size 108675
   }
 
+  test("60 count nodes of a binary tree") {
+    End.nodeCount shouldBe 0
+    Node('x).nodeCount shouldBe 1
+    Node('x, End, Node('x)).nodeCount shouldBe 2
+    Node('x, Node('x), End).nodeCount shouldBe 2
+    Node('x, Node('x), Node('x)).nodeCount shouldBe 3
+  }
+
   test("60 minimum number of nodes a height-balanced binary tree can contain for a given height") {
+    minHbalNodes(1) shouldBe 1
+    minHbalNodes(2) shouldBe 2
     minHbalNodes(3) shouldBe 4
     minHbalNodes(4) shouldBe 7
-    minHbalNodes(5) shouldBe 12
   }
 
   test("60 maximum number of nodes a height-balanced binary tree can contain for a given height") {
-    maxHbalNodes(3) shouldBe 5
-    maxHbalNodes(4) shouldBe 7
-    maxHbalNodes(5) shouldBe 9
+    maxHbalNodes(1) shouldBe 1
+    maxHbalNodes(2) shouldBe 3
+    maxHbalNodes(3) shouldBe 7
+    maxHbalNodes(4) shouldBe 15
   }
 
   test("60 minimum height a height-balanced binary tree can have given a number of nodes ") {
+    minHbalHeight(1) shouldBe 1
+    minHbalHeight(2) shouldBe 2
     minHbalHeight(3) shouldBe 2
     minHbalHeight(4) shouldBe 3
     minHbalHeight(5) shouldBe 3
+    minHbalHeight(8) shouldBe 4
+    minHbalHeight(9) shouldBe 4
   }
 
   test("60 maximum height a height-balanced binary tree can have given a number of nodes ") {
+    maxHbalHeight(1) shouldBe 1
+    maxHbalHeight(2) shouldBe 2
     maxHbalHeight(3) shouldBe 2
     maxHbalHeight(4) shouldBe 3
-    maxHbalHeight(5) shouldBe 3
   }
 
   test("60 construct height-balanced binary trees with a given number of nodes") {
@@ -101,7 +118,11 @@ class TreeSuite extends FunSuite with Matchers {
   }
 
   test("61 count leaves of a binary tree") {
+    End.leafCount shouldBe 0
+    Node('x).leafCount shouldBe 1
+    Node('x, End, Node('x)).leafCount shouldBe 1
     Node('x, Node('x), End).leafCount shouldBe 1
+    Node('x, Node('x), Node('x)).leafCount shouldBe 2
   }
 
   test("62 list leaves of a binary tree") {
