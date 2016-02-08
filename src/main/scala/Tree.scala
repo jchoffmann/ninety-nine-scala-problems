@@ -14,8 +14,10 @@ sealed abstract class Tree[+T] {
   // P61
   def leafCount: Int = ???
 
-  // P62
   def leafList: List[T] = ???
+
+  // P62
+  def internalList: List[T] = ???
 
   def atLevel(n: Int): List[T] = ???
 

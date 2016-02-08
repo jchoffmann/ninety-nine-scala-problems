@@ -122,12 +122,16 @@ class TreeSuite extends FunSuite with Matchers {
     Node('x, Node('x), Node('x)).leafCount shouldBe 2
   }
 
-  test("62 list leaves of a binary tree") {
+  test("61 list leaves of a binary tree") {
+    End.leafList shouldBe empty
+    Node('x).leafList shouldEqual List(Node('x))
     Node('a, Node('b), Node('c, Node('d), Node('e))).leafList should contain theSameElementsAs List('b, 'd, 'e)
   }
 
   test("62 list internal nodes of a binary tree") {
-    Node('a, Node('b), Node('c, Node('d), Node('e))).leafList should contain theSameElementsAs List('b, 'd, 'e)
+    End.internalList shouldBe empty
+    Node('x).internalList shouldBe empty
+    Node('a, Node('b), Node('c, Node('d), Node('e))).internalList should contain theSameElementsAs List('a, 'c)
   }
 
   test("62 list all nodes of a binary tree at a given level") {
