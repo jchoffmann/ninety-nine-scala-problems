@@ -14,14 +14,14 @@ sealed abstract class Tree[+T] {
   def nodeCount: Int
 
   // P61
-  def leafCount: Int = ???
+  def leafCount: Int = leafList.size
 
-  def leafList: List[T] = ???
+  def leafList: List[T]
 
   // P62
-  def internalList: List[T] = ???
+  def internalList: List[T]
 
-  def atLevel(n: Int): List[T] = ???
+  def atLevel(n: Int): List[T]
 
   // P64
   def layoutBinaryTree: PositionedNode[T] = ???
@@ -58,6 +58,18 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
 
   // P60
   override def nodeCount: Int = 1 + left.nodeCount + right.nodeCount
+
+  // P61
+  override def leafList: List[T] = if (left == End && right == End) List(value) else left.leafList ++ right.leafList
+
+  // P62
+  override def internalList: List[T] =
+    if (left == End && right == End) List.empty else value +: (left.internalList ++ right.internalList)
+
+  override def atLevel(n: Int): List[T] =
+    if (n < 1) List.empty
+    else if (n == 1) List(value)
+    else left.atLevel(n - 1) ++ right.atLevel(n - 1)
 }
 
 case object End extends Tree[Nothing] {
@@ -73,6 +85,14 @@ case object End extends Tree[Nothing] {
 
   // P60
   override def nodeCount: Int = 0
+
+  // P61
+  override def leafList: List[Nothing] = List.empty
+
+  // P62
+  override def internalList: List[Nothing] = List.empty
+
+  override def atLevel(n: Int): List[Nothing] = List.empty
 }
 
 case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends Tree[T] {
@@ -92,6 +112,15 @@ case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y
 
   // P60
   override def nodeCount: Int = 1 + left.nodeCount + right.nodeCount
+
+  // P 61
+  override def leafList: List[T] = if (left == End && right == End) List(value) else left.leafList ++ right.leafList
+
+  // P62
+  override def internalList: List[T] =
+    if (left == End && right == End) List.empty else value +: (left.leafList ++ right.leafList)
+
+  override def atLevel(n: Int): List[T] = if (n < 1) List.empty else if (n == 1) List(value) else atLevel(n - 1)
 }
 
 object Tree {
@@ -145,7 +174,12 @@ object Tree {
     ) (collection.breakOut)
 
   // P63
-  def completeBinaryTree[T](nodes: Int, value: T): Tree[T] = ???
+  def completeBinaryTree[T](nodes: Int, value: T): Tree[T] = {
+    def generate[V <: T](address: Int): Tree[T] =
+      if (address > nodes) End
+      else Node(value, generate(2 * address), generate(2 * address + 1))
+    generate(1)
+  }
 
   // P67
   def fromString(s: String): Tree[String] = ???
