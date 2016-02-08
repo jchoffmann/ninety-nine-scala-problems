@@ -122,19 +122,31 @@ class TreeSuite extends FunSuite with Matchers {
     Node('x, Node('x), Node('x)).leafCount shouldBe 2
   }
 
-  test("62 list leaves of a binary tree") {
+  test("61 list leaves of a binary tree") {
+    End.leafList shouldBe empty
+    Node('x).leafList shouldEqual List('x)
     Node('a, Node('b), Node('c, Node('d), Node('e))).leafList should contain theSameElementsAs List('b, 'd, 'e)
   }
 
   test("62 list internal nodes of a binary tree") {
-    Node('a, Node('b), Node('c, Node('d), Node('e))).leafList should contain theSameElementsAs List('b, 'd, 'e)
+    End.internalList shouldBe empty
+    Node('x).internalList shouldBe empty
+    Node('a, Node('b), Node('c, Node('d), Node('e))).internalList should contain theSameElementsAs List('a, 'c)
   }
 
   test("62 list all nodes of a binary tree at a given level") {
+    Node('a, Node('b), Node('c, Node('d), Node('e))).atLevel(0) shouldBe empty
+    Node('a, Node('b), Node('c, Node('d), Node('e))).atLevel(1) shouldEqual List('a)
     Node('a, Node('b), Node('c, Node('d), Node('e))).atLevel(2) should contain theSameElementsAs List('b, 'c)
   }
 
   test("63 construct a complete binary tree") {
+    completeBinaryTree(0, 'x) shouldEqual End
+    completeBinaryTree(1, 'x) shouldEqual Node('x)
+    completeBinaryTree(2, 'x) shouldEqual Node('x, Node('x), End)
+    completeBinaryTree(3, 'x) shouldEqual Node('x, Node('x), Node('x))
+    completeBinaryTree(4, 'x) shouldEqual Node('x, Node('x, Node('x), End), Node('x))
+    completeBinaryTree(5, 'x) shouldEqual Node('x, Node('x, Node('x), Node('x)), Node('x))
     completeBinaryTree(6, 'x) shouldEqual Node('x, Node('x, Node('x), Node('x)), Node('x, Node('x), End))
   }
 
