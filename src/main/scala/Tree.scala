@@ -11,7 +11,7 @@ sealed abstract class Tree[+T] {
   def addValue[U >: T](x: U)(implicit o: U => Ordered[U]): Tree[U]
 
   // P60
-  def nodeCount: Int = ???
+  def nodeCount: Int
 
   // P61
   def leafCount: Int = ???
@@ -53,6 +53,9 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
   // P57
   override def addValue[U >: T](x: U)(implicit o: (U) => Ordered[U]): Tree[U] =
     if (x <= value) Node(value, left.addValue(x), right) else Node(value, left, right.addValue(x))
+
+  // P60
+  override def nodeCount: Int = 1 + left.nodeCount + right.nodeCount
 }
 
 case object End extends Tree[Nothing] {
@@ -65,6 +68,9 @@ case object End extends Tree[Nothing] {
 
   // P57
   override def addValue[U >: Nothing](x: U)(implicit o: (U) => Ordered[U]): Tree[U] = Node(x)
+
+  // P60
+  override def nodeCount: Int = 0
 }
 
 case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends Tree[T] {
@@ -81,6 +87,9 @@ case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y
   // P57
   override def addValue[U >: T](x: U)(implicit o: (U) => Ordered[U]): Tree[U] =
     if (x <= value) Node(value, left.addValue(x), right) else Node(value, left, right.addValue(x))
+
+  // P60
+  override def nodeCount: Int = 1 + left.nodeCount + right.nodeCount
 }
 
 object Tree {
@@ -117,15 +126,21 @@ object Tree {
     }
 
   // P60
-  def minHbalNodes(height: Int): Int = ???
+  def minHbalNodes(height: Int): Int =
+    if (height <= 1) height else 1 + minHbalNodes(height - 1) + minHbalNodes(height - 2)
 
-  def maxHbalNodes(height: Int): Int = ???
+  def maxHbalNodes(height: Int): Int = math.pow(2, height).toInt - 1
 
-  def minHbalHeight(nodes: Int): Int = ???
+  def minHbalHeight(nodes: Int): Int = if (nodes == 0) 0 else 1 + minHbalHeight(nodes / 2)
 
-  def maxHbalHeight(nodes: Int): Int = ???
+  def maxHbalHeight(nodes: Int): Int = (nodes to 0 by -1).dropWhile(minHbalNodes(_) > nodes).head
 
-  def heightBalancedTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] = ???
+  def heightBalancedTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] = (
+    for {
+      h <- minHbalHeight(nodes) to maxHbalHeight(nodes)
+      t <- heightBalancedTrees(h, value) if t.nodeCount == nodes
+    } yield t
+    ) (collection.breakOut)
 
   // P63
   def completeBinaryTree[T](nodes: Int, value: T): Tree[T] = ???
