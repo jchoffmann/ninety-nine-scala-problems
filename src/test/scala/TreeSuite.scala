@@ -155,7 +155,7 @@ class TreeSuite extends FunSuite with Matchers {
       PositionedNode('a, PositionedNode('b, End, PositionedNode('c, 2, 3), 1, 2), PositionedNode('d, 4, 2), 3, 1)
 
     fromList(List('n', 'k', 'm', 'c', 'a', 'h', 'g', 'e', 'u', 'p', 's', 'q')).layoutBinaryTree shouldEqual
-      PositionedNode('n', PositionedNode('k', PositionedNode('c', PositionedNode('a', 1, 5), PositionedNode('h', PositionedNode('g', PositionedNode('e', 3, 6), End, 4, 5), End, 5, 4), 2, 3), PositionedNode('m', 7, 3), 6, 2), PositionedNode('u', PositionedNode('p', End, PositionedNode('s', PositionedNode('q', 10, 5), End, 11, 4), 9, 3), End, 12, 2), 8, 1)
+      PositionedNode('n', PositionedNode('k', PositionedNode('c', PositionedNode('a', 1, 4), PositionedNode('h', PositionedNode('g', PositionedNode('e', 3, 6), End, 4, 5), End, 5, 4), 2, 3), PositionedNode('m', 7, 3), 6, 2), PositionedNode('u', PositionedNode('p', End, PositionedNode('s', PositionedNode('q', 10, 5), End, 11, 4), 9, 3), End, 12, 2), 8, 1)
   }
 
   test("65 layout a binary tree (2)") {
