@@ -66,6 +66,15 @@ class TreeSuite extends FunSuite with Matchers {
       Node('x, Node('x, Node('x), End), Node('x, End, Node('x))))
   }
 
+  test("59 height of a binary tree") {
+    End.height shouldBe 0
+    Node('x).height shouldBe 1
+    Node('x, End, Node('x)).height shouldBe 2
+    Node('x, Node('x), End).height shouldBe 2
+    Node('x, Node('x), Node('x)).height shouldBe 2
+    Node('x, Node('x, Node('x), End), Node('x)).height shouldBe 3
+  }
+
   test("59 construct height-balanced binary trees") {
     heightBalancedTrees(0, 'x) shouldEqual List(End)
     heightBalancedTrees(1, 'x) shouldEqual List(Node('x))
@@ -154,23 +163,23 @@ class TreeSuite extends FunSuite with Matchers {
     Node('a, Node('b, End, Node('c)), Node('d)).layoutBinaryTree shouldEqual
       PositionedNode('a, PositionedNode('b, End, PositionedNode('c, 2, 3), 1, 2), PositionedNode('d, 4, 2), 3, 1)
 
-    fromList(List('n', 'k', 'm', 'c', 'a', 'h', 'g', 'e', 'u', 'p', 's', 'q')) shouldEqual
-      PositionedNode('n', PositionedNode('k', PositionedNode('c', PositionedNode('a', 1, 5), PositionedNode('h', PositionedNode('g', PositionedNode('e', 3, 6), End, 4, 5), End, 5, 4), 2, 3), PositionedNode('m', 7, 3), 6, 2), PositionedNode('u', PositionedNode('p', End, PositionedNode('s', PositionedNode('q', 10, 5), End, 11, 4), 9, 3), End, 12, 2), 8, 1)
+    fromList(List('n', 'k', 'm', 'c', 'a', 'h', 'g', 'e', 'u', 'p', 's', 'q')).layoutBinaryTree shouldEqual
+      PositionedNode('n', PositionedNode('k', PositionedNode('c', PositionedNode('a', 1, 4), PositionedNode('h', PositionedNode('g', PositionedNode('e', 3, 6), End, 4, 5), End, 5, 4), 2, 3), PositionedNode('m', 7, 3), 6, 2), PositionedNode('u', PositionedNode('p', End, PositionedNode('s', PositionedNode('q', 10, 5), End, 11, 4), 9, 3), End, 12, 2), 8, 1)
   }
 
   test("65 layout a binary tree (2)") {
     Node('a, Node('b, End, Node('c)), Node('d)).layoutBinaryTree2 shouldEqual
       PositionedNode('a, PositionedNode('b, End, PositionedNode('c, 2, 3), 1, 2), PositionedNode('d, 5, 2), 3, 1)
 
-    fromList(List('n', 'k', 'm', 'c', 'a', 'e', 'd', 'g', 'u', 'p', 'q')) shouldEqual
-      PositionedNode('n', PositionedNode('k', PositionedNode('c', PositionedNode('a', 1, 4), PositionedNode('e', PositionedNode('d', 4, 5), PositionedNode('g', 6, 5), 5, 4), 3, 3), PositionedNode('m', 11, 3), 6, 2), PositionedNode('u', PositionedNode('p', End, PositionedNode('q', 21, 4), 19, 3), End, 23, 2), 15, 1)
+    fromList(List('n', 'k', 'm', 'c', 'a', 'e', 'd', 'g', 'u', 'p', 'q')).layoutBinaryTree2 shouldEqual
+      PositionedNode('n', PositionedNode('k', PositionedNode('c', PositionedNode('a', 1, 4), PositionedNode('e', PositionedNode('d', 4, 5), PositionedNode('g', 6, 5), 5, 4), 3, 3), PositionedNode('m', 11, 3), 7, 2), PositionedNode('u', PositionedNode('p', End, PositionedNode('q', 21, 4), 19, 3), End, 23, 2), 15, 1)
   }
 
   test("66 layout a binary tree (3)") {
     Node('a, Node('b, End, Node('c)), Node('d)).layoutBinaryTree3 shouldEqual
       PositionedNode('a, PositionedNode('b, End, PositionedNode('c, 2, 3), 1, 2), PositionedNode('d, 3, 2), 2, 1)
 
-    fromList(List('n', 'k', 'm', 'c', 'a', 'e', 'd', 'g', 'u', 'p', 'q')) shouldEqual
+    fromList(List('n', 'k', 'm', 'c', 'a', 'e', 'd', 'g', 'u', 'p', 'q')).layoutBinaryTree3 shouldEqual
       PositionedNode('n', PositionedNode('k', PositionedNode('c', PositionedNode('a', 1, 4), PositionedNode('e', PositionedNode('d', 2, 5), PositionedNode('g', 4, 5), 3, 4), 2, 3), PositionedNode('m', 4, 3), 3, 2), PositionedNode('u', PositionedNode('p', End, PositionedNode('q', 7, 4), 6, 3), End, 7, 2), 5, 1)
   }
 
