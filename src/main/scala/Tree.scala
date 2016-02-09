@@ -27,10 +27,14 @@ sealed abstract class Tree[+T] {
   def atLevel(n: Int): List[T]
 
   // P64
-  def layoutBinaryTree: Tree[T] = ???
+  def layoutBinaryTreeR(depth: Int, startX: Int): Tree[T]
+
+  def layoutBinaryTree: Tree[T] = layoutBinaryTreeR(1, 0)
 
   // P65
-  def layoutBinaryTree2: Tree[T] = ???
+  def layoutBinaryTree2R(depth: Int, height: Int, startX: Int): Tree[T]
+
+  def layoutBinaryTree2: Tree[T] = layoutBinaryTree2R(1, height, 0)
 
   // P66
   def layoutBinaryTree3: Tree[T] = ???
@@ -76,6 +80,20 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
     if (n < 1) List.empty
     else if (n == 1) List(value)
     else left.atLevel(n - 1) ++ right.atLevel(n - 1)
+
+  // P64
+  override def layoutBinaryTreeR(depth: Int, startX: Int): PositionedNode[T] = {
+    val newStartX = startX + left.nodeCount + 1
+    PositionedNode(value, left.layoutBinaryTreeR(depth + 1, startX), right.layoutBinaryTreeR(depth + 1, newStartX),
+      newStartX, depth)
+  }
+
+  // P65
+  override def layoutBinaryTree2R(depth: Int, height: Int, startX: Int): PositionedNode[T] = {
+    val newStartX = startX + math.pow(2, height - 1).toInt - 1
+    PositionedNode(value, left.layoutBinaryTree2R(depth + 1, height - 1, startX), right.layoutBinaryTree2R(depth + 1, height - 1, newStartX + 1),
+      newStartX, depth)
+  }
 }
 
 case object End extends Tree[Nothing] {
@@ -102,6 +120,12 @@ case object End extends Tree[Nothing] {
   override def internalList: List[Nothing] = List.empty
 
   override def atLevel(n: Int): List[Nothing] = List.empty
+
+  // P64
+  override def layoutBinaryTreeR(depth: Int, startX: Int): Tree[Nothing] = this
+
+  // P65
+  override def layoutBinaryTree2R(depth: Int, height: Int, startX: Int): Tree[Nothing] = this
 }
 
 case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends Tree[T] {
@@ -125,7 +149,7 @@ case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y
   // P60
   override def nodeCount: Int = 1 + left.nodeCount + right.nodeCount
 
-  // P 61
+  // P61
   override def leafList: List[T] = if (left == End && right == End) List(value) else left.leafList ++ right.leafList
 
   // P62
@@ -133,6 +157,20 @@ case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y
     if (left == End && right == End) List.empty else value +: (left.leafList ++ right.leafList)
 
   override def atLevel(n: Int): List[T] = if (n < 1) List.empty else if (n == 1) List(value) else atLevel(n - 1)
+
+  // P64
+  override def layoutBinaryTreeR(depth: Int, startX: Int): PositionedNode[T] = {
+    val newStartX = startX + left.nodeCount + 1
+    PositionedNode(value, left.layoutBinaryTreeR(depth + 1, startX), right.layoutBinaryTreeR(depth + 1, newStartX),
+      newStartX, depth)
+  }
+
+  // P65
+  override def layoutBinaryTree2R(depth: Int, height: Int, startX: Int): PositionedNode[T] = {
+    val newStartX = startX + math.pow(2, height - 1).toInt - 1
+    PositionedNode(value, left.layoutBinaryTree2R(depth + 1, height - 1, startX), right.layoutBinaryTree2R(depth + 1, height - 1, newStartX + 1),
+      newStartX, depth)
+  }
 }
 
 object Tree {
