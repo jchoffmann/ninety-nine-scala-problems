@@ -8,6 +8,9 @@ sealed abstract class Tree[+T] {
   // P57
   def addValue[U >: T](x: U)(implicit o: U => Ordered[U]): Tree[U] = ???
 
+  // P59
+  def height: Int = ???
+
   // P60
   def nodeCount: Int = ???
 
