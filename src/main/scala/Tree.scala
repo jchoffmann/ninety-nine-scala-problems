@@ -1,7 +1,7 @@
 /**
   * Exercises: http://aperiodic.net/phil/scala/s-99/#btrees
   */
-sealed abstract class Tree[+T] {
+sealed trait Tree[+T] {
   // P56
   def isMirrorOf[U](other: Tree[U]): Boolean
 
@@ -48,23 +48,18 @@ sealed abstract class Tree[+T] {
   def toDotString: String = ???
 }
 
-case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
-  override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
+sealed trait NodeLike[+T] extends Tree[T] {
+  def value: T
+
+  def left: Tree[T]
+
+  def right: Tree[T]
 
   // P56
-  override def isMirrorOf[U](other: Tree[U]): Boolean = other match {
-    case t: Node[U] => left.isMirrorOf(t.right) && right.isMirrorOf(t.left)
-    case _ => false
-  }
-
   override def isSymmetric: Boolean = left.isMirrorOf(right)
 
   // P59
   override def height: Int = 1 + math.max(left.height, right.height)
-
-  // P57
-  override def addValue[U >: T](x: U)(implicit o: (U) => Ordered[U]): Tree[U] =
-    if (x <= value) Node(value, left.addValue(x), right) else Node(value, left, right.addValue(x))
 
   // P60
   override def nodeCount: Int = 1 + left.nodeCount + right.nodeCount
@@ -96,6 +91,20 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
   }
 }
 
+case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends NodeLike[T] {
+  override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
+
+  // P56
+  override def isMirrorOf[U](other: Tree[U]): Boolean = other match {
+    case t: Node[U] => left.isMirrorOf(t.right) && right.isMirrorOf(t.left)
+    case _ => false
+  }
+
+  // P57
+  override def addValue[U >: T](x: U)(implicit o: (U) => Ordered[U]): Tree[U] =
+    if (x <= value) Node(value, left.addValue(x), right) else Node(value, left, right.addValue(x))
+}
+
 case object End extends Tree[Nothing] {
   override def toString = "."
 
@@ -122,13 +131,13 @@ case object End extends Tree[Nothing] {
   override def atLevel(n: Int): List[Nothing] = List.empty
 
   // P64
-  override def layoutBinaryTreeR(depth: Int, startX: Int): Tree[Nothing] = this
+  override def layoutBinaryTreeR(depth: Int, startX: Int): Tree[Nothing] = End
 
   // P65
-  override def layoutBinaryTree2R(depth: Int, height: Int, startX: Int): Tree[Nothing] = this
+  override def layoutBinaryTree2R(depth: Int, height: Int, startX: Int): Tree[Nothing] = End
 }
 
-case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends Tree[T] {
+case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends NodeLike[T] {
   override def toString: String = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
 
   // P56
@@ -137,40 +146,9 @@ case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y
     case _ => false
   }
 
-  override def isSymmetric: Boolean = left.isMirrorOf(right)
-
   // P57
   override def addValue[U >: T](x: U)(implicit o: (U) => Ordered[U]): Tree[U] =
-    if (x <= value) Node(value, left.addValue(x), right) else Node(value, left, right.addValue(x))
-
-  // P59
-  override def height: Int = 1 + math.max(left.height, right.height)
-
-  // P60
-  override def nodeCount: Int = 1 + left.nodeCount + right.nodeCount
-
-  // P61
-  override def leafList: List[T] = if (left == End && right == End) List(value) else left.leafList ++ right.leafList
-
-  // P62
-  override def internalList: List[T] =
-    if (left == End && right == End) List.empty else value +: (left.leafList ++ right.leafList)
-
-  override def atLevel(n: Int): List[T] = if (n < 1) List.empty else if (n == 1) List(value) else atLevel(n - 1)
-
-  // P64
-  override def layoutBinaryTreeR(depth: Int, startX: Int): PositionedNode[T] = {
-    val newStartX = startX + left.nodeCount + 1
-    PositionedNode(value, left.layoutBinaryTreeR(depth + 1, startX), right.layoutBinaryTreeR(depth + 1, newStartX),
-      newStartX, depth)
-  }
-
-  // P65
-  override def layoutBinaryTree2R(depth: Int, height: Int, startX: Int): PositionedNode[T] = {
-    val newStartX = startX + math.pow(2, height - 1).toInt - 1
-    PositionedNode(value, left.layoutBinaryTree2R(depth + 1, height - 1, startX), right.layoutBinaryTree2R(depth + 1, height - 1, newStartX + 1),
-      newStartX, depth)
-  }
+    throw new UnsupportedOperationException("addValue not supported for positioned trees")
 }
 
 object Tree {
