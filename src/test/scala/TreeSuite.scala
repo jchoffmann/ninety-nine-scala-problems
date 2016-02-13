@@ -187,20 +187,28 @@ class TreeSuite extends FunSuite with Matchers {
   }
 
   test("67 convert binary tree to string representation") {
-    Node('a, Node('b, Node('d), Node('e)), Node('c, End, Node('f, Node('g), End))).toString shouldEqual
+    End.toString shouldEqual ""
+    Node('a').toString shouldEqual "a"
+    Node('a', Node('b', Node('d'), Node('e')), Node('c', End, Node('f', Node('g'), End))).toString shouldEqual
       "a(b(d,e),c(,f(g,)))"
   }
 
   test("67 convert string representation to binary tree") {
+    fromString("") shouldEqual List.empty
+    fromString("a") shouldEqual Node("a")
     fromString("a(b(d,e),c(,f(g,)))") shouldEqual
       Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End)))
   }
 
   test("68 list all nodes of a binary tree in preorder sequence") {
+    fromString("").preorder shouldEqual List.empty
+    fromString("a").preorder shouldEqual Node("a")
     fromString("a(b(d,e),c(,f(g,)))").preorder shouldEqual List("a", "b", "d", "e", "c", "f", "g")
   }
 
   test("68 list all nodes of a binary tree in inorder sequence") {
+    fromString("").inorder shouldEqual List.empty
+    fromString("a").inorder shouldEqual Node("a")
     fromString("a(b(d,e),c(,f(g,)))").inorder shouldEqual List("d", "b", "e", "a", "c", "g", "f")
   }
 
