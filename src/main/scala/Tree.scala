@@ -27,17 +27,32 @@ sealed trait Tree[+T] {
   def atLevel(n: Int): List[T]
 
   // P64
-  def layoutBinaryTreeR(depth: Int, startX: Int): Tree[T]
+  def layoutBinaryTreeR(depth: Int, x: Int): Tree[T]
 
-  def layoutBinaryTree: Tree[T] = layoutBinaryTreeR(1, 0)
+  def layoutBinaryTree: Tree[T] = layoutBinaryTreeR(1, 1)
+
+  // Used for both P65 and P66
+  type Envelope = Map[Int, (Int, Int)] // Level boundaries
+
+  def envelope: Envelope
 
   // P65
-  def layoutBinaryTree2R(depth: Int, height: Int, startX: Int): Tree[T]
+  def layoutBinaryTree2R(depth: Int, totalHeight: Int, x: Int): Tree[T]
 
-  def layoutBinaryTree2: Tree[T] = layoutBinaryTree2R(1, height, 0)
+  def layoutBinaryTree2: Tree[T] = {
+    val maxLevel = if (envelope.isEmpty) 0 else envelope.minBy { case (_, (l, _)) => l }._1 + 1
+    val h = height
+    // For the root node position we sum the x distances from the level of the leftmost element to the root
+    layoutBinaryTree2R(1, h, 1 + (h - maxLevel).until(h - 1).map(math.pow(2, _).toInt).sum)
+  }
 
   // P66
-  def layoutBinaryTree3: Tree[T] = ???
+  def layoutBinaryTree3R(depth: Int, x: Int): Tree[T]
+
+  def layoutBinaryTree3: Tree[T] =
+  // For the root node position we look for the smallest left boundary l of the root envelope (which is <= 0)
+  // Then startX = 1 - l
+    layoutBinaryTree3R(1, 1 - (if (envelope.isEmpty) 0 else envelope.map { case (_, (l, _)) => l }.min))
 
   // P68
   def preorder: List[T] = ???
@@ -77,17 +92,52 @@ sealed trait NodeLike[+T] extends Tree[T] {
     else left.atLevel(n - 1) ++ right.atLevel(n - 1)
 
   // P64
-  override def layoutBinaryTreeR(depth: Int, startX: Int): PositionedNode[T] = {
-    val newStartX = startX + left.nodeCount + 1
-    PositionedNode(value, left.layoutBinaryTreeR(depth + 1, startX), right.layoutBinaryTreeR(depth + 1, newStartX),
-      newStartX, depth)
+  override def layoutBinaryTreeR(depth: Int, x: Int): PositionedNode[T] = {
+    val dx = left.nodeCount
+    PositionedNode(value,
+      left.layoutBinaryTreeR(depth + 1, x),
+      right.layoutBinaryTreeR(depth + 1, x + dx + 1),
+      x + dx, depth)
+  }
+
+  // Used for both P65 and P66
+  override lazy val envelope: Envelope = {
+    // Merge subtree envelopes
+    val merged = (left.envelope.keys ++ right.envelope.keys).map(k => k + 1 ->(left.envelope.get(k), right.envelope.get(k))).toMap
+    // We look at each level to check if subtree envelopes overlap, and by how much they need to be shifted
+    // The maximum then is the overall amount by which we need to shift
+    // Since it is applied to both subtrees, we only need ceil[max/2] (i.e. 1 => 1, 2 => 1, 3 => 2, 4 => 2, ...)
+    val shift = math.round(
+      if (merged.isEmpty) 0 // Don't need shift for leaf nodes
+      else merged.map {
+        // Nodes on both sides: Calculate amount by which we need to shift (> 0 means overlap)
+        case (_, (Some((_, l)), Some((r, _)))) => l - r + 1
+        // Only nodes on one side: Per default need a shift of 1
+        case _ => 1
+      }.max / 2f)
+    // Shift left boundaries to the left, right boundaries to the right
+    merged.mapValues {
+      case (Some((l, _)), Some((_, r))) => (l - shift, r + shift)
+      case (Some((l, r)), None) => (l - shift, r - shift)
+      case (None, Some((l, r))) => (l + shift, r + shift)
+      case _ => throw new Exception // won't happen
+    } + (0 ->(0, 0))
   }
 
   // P65
-  override def layoutBinaryTree2R(depth: Int, height: Int, startX: Int): PositionedNode[T] = {
-    val newStartX = startX + math.pow(2, height - 1).toInt - 1
-    PositionedNode(value, left.layoutBinaryTree2R(depth + 1, height - 1, startX), right.layoutBinaryTree2R(depth + 1, height - 1, newStartX + 1),
-      newStartX, depth)
+  override def layoutBinaryTree2R(depth: Int, totalHeight: Int, x: Int): Tree[T] = {
+    val dx = math.pow(2, totalHeight - depth - 1).toInt
+    PositionedNode(value,
+      left.layoutBinaryTree2R(depth + 1, totalHeight, x - dx),
+      right.layoutBinaryTree2R(depth + 1, totalHeight, x + dx),
+      x, depth)
+  }
+
+  // P66
+  override def layoutBinaryTree3R(depth: Int, x: Int): Tree[T] = {
+    // The boundaries of the envelope of the next level (key = 1) are exactly the offsets for the subtrees
+    val (shiftL, shiftR) = envelope.getOrElse(1, (0, 0)) // Guard for the leaf nodes
+    PositionedNode(value, left.layoutBinaryTree3R(depth + 1, x + shiftL), right.layoutBinaryTree3R(depth + 1, x + shiftR), x, depth)
   }
 }
 
@@ -131,10 +181,16 @@ case object End extends Tree[Nothing] {
   override def atLevel(n: Int): List[Nothing] = List.empty
 
   // P64
-  override def layoutBinaryTreeR(depth: Int, startX: Int): Tree[Nothing] = End
+  override def layoutBinaryTreeR(depth: Int, x: Int): Tree[Nothing] = End
+
+  // Used for both P65 and P66
+  override def envelope: End.Envelope = Map.empty
 
   // P65
-  override def layoutBinaryTree2R(depth: Int, height: Int, startX: Int): Tree[Nothing] = End
+  override def layoutBinaryTree2R(depth: Int, totalHeight: Int, x: Int): Tree[Nothing] = End
+
+  // P66
+  override def layoutBinaryTree3R(depth: Int, x: Int): Tree[Nothing] = End
 }
 
 case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends NodeLike[T] {
