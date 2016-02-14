@@ -1,3 +1,5 @@
+import scala.util.parsing.combinator.RegexParsers
+
 /**
   * Exercises: http://aperiodic.net/phil/scala/s-99/#btrees
   */
@@ -142,7 +144,11 @@ sealed trait NodeLike[+T] extends Tree[T] {
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends NodeLike[T] {
-  override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
+  // P67
+  override def toString = (left, right) match {
+    case (End, End) => value.toString
+    case _ => s"${value}(${left},${right})"
+  }
 
   // P56
   override def isMirrorOf[U](other: Tree[U]): Boolean = other match {
@@ -156,7 +162,8 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends NodeLike[T]
 }
 
 case object End extends Tree[Nothing] {
-  override def toString = "."
+  // P67
+  override def toString = ""
 
   // P56
   override def isMirrorOf[U](other: Tree[U]): Boolean = other == End
@@ -266,7 +273,11 @@ object Tree {
   }
 
   // P67
-  def fromString(s: String): Tree[String] = ???
+  import TreeParsers._
+  def fromString(s: String): Tree[String] = parseAll(tree, s) match {
+    case Success(tree, _) => tree
+    case NoSuccess(msg, _) => throw new IllegalArgumentException("Cannot parse tree: " + msg)
+  }
 
   // P68
   def preInTree[T](preorder: List[T], inorder: List[T]): Tree[T] = ???
@@ -283,3 +294,14 @@ object PositionedNode {
   def apply[T](value: T, x: Int, y: Int): PositionedNode[T] = PositionedNode(value, End, End, x, y)
 }
 
+object TreeParsers extends RegexParsers {
+  def tree: Parser[Tree[String]] = node | leaf | end
+
+  def node: Parser[Tree[String]] = (label ~ "(" ~ tree ~ "," ~ tree ~ ")") ^^ { case value ~ "(" ~ left ~ "," ~ right ~ ")" => Node(value, left, right) }
+
+  def leaf: Parser[Tree[String]] = label ^^ (Node(_))
+
+  def end: Parser[Tree[String]] = "" ^^ (_ => End)
+
+  def label: Parser[String] = "\\w+".r
+}
