@@ -62,7 +62,7 @@ sealed trait Tree[+T] {
   def inorder: List[T]
 
   // P69
-  def toDotString: String = ???
+  def toDotString: String
 }
 
 sealed trait NodeLike[+T] extends Tree[T] {
@@ -146,6 +146,9 @@ sealed trait NodeLike[+T] extends Tree[T] {
   override def preorder: List[T] = value +: (left.preorder ++ right.preorder)
 
   override def inorder: List[T] = left.inorder ++ (value +: right.inorder)
+
+  // P69
+  override def toDotString: String = value + left.toDotString + right.toDotString
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends NodeLike[T] {
@@ -208,6 +211,9 @@ case object End extends Tree[Nothing] {
   override def preorder: List[Nothing] = List.empty
 
   override def inorder: List[Nothing] = List.empty
+
+  // P69
+  override def toDotString: String = "."
 }
 
 case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends NodeLike[T] {
@@ -283,25 +289,25 @@ object Tree {
   }
 
   // P67
-  import TreeParsers.{NoSuccess, Success, parseAll, tree}
-
-  def fromString(s: String): Tree[String] = parseAll(tree, s) match {
-    case Success(tree, _) => tree
-    case NoSuccess(msg, _) => throw new IllegalArgumentException("Cannot parse tree: " + msg)
+  def fromString(s: String): Tree[String] = StringParser.parseAll(StringParser.tree, s) match {
+    case StringParser.Success(tree, _) => tree
+    case StringParser.NoSuccess(msg, _) => throw new IllegalArgumentException(s"Cannot parse tree: $msg")
   }
 
   // P68
   def preInTree[T](preorder: List[T], inorder: List[T]): Tree[T] = preorder match {
     case Nil => End
-    case p :: ps => {
+    case p :: ps =>
       val (inLeft, inRight) = inorder.span(_ != p)
       val (preLeft, preRight) = ps.splitAt(inLeft.length)
       Node(p, preInTree(preLeft, inLeft), preInTree(preRight, inRight.tail))
-    }
   }
 
   // P69
-  def fromDotString(s: String): Tree[String] = ???
+  def fromDotString(s: String): Tree[String] = DotStringParser.parseAll(DotStringParser.tree, s) match {
+    case DotStringParser.Success(tree, _) => tree
+    case DotStringParser.NoSuccess(msg, _) => throw new IllegalArgumentException(s"Cannot parse tree: $msg")
+  }
 }
 
 object Node {
@@ -312,7 +318,7 @@ object PositionedNode {
   def apply[T](value: T, x: Int, y: Int): PositionedNode[T] = PositionedNode(value, End, End, x, y)
 }
 
-object TreeParsers extends RegexParsers {
+object StringParser extends RegexParsers {
   def tree: Parser[Tree[String]] = node | leaf | end
 
   def node: Parser[Tree[String]] = (label <~ "(") ~ (tree <~ ",") ~ (tree <~ ")") ^^ { case value ~ left ~ right => Node(value, left, right) }
@@ -322,4 +328,14 @@ object TreeParsers extends RegexParsers {
   def end: Parser[Tree[String]] = "" ^^ (_ => End)
 
   def label: Parser[String] = "\\w+".r
+}
+
+object DotStringParser extends RegexParsers {
+  def tree: Parser[Tree[String]] = node | end
+
+  def node: Parser[Tree[String]] = (label ~ tree ~ tree) ^^ { case value ~ left ~ right => Node(value, left, right) }
+
+  def end: Parser[Tree[String]] = "." ^^ (_ => End)
+
+  def label: Parser[String] = "\\w".r
 }
