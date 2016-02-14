@@ -57,9 +57,9 @@ sealed trait Tree[+T] {
     layoutBinaryTree3R(1, 1 - (if (envelope.isEmpty) 0 else envelope.map { case (_, (l, _)) => l }.min))
 
   // P68
-  def preorder: List[T] = ???
+  def preorder: List[T]
 
-  def inorder: List[T] = ???
+  def inorder: List[T]
 
   // P69
   def toDotString: String = ???
@@ -141,6 +141,11 @@ sealed trait NodeLike[+T] extends Tree[T] {
     val (shiftL, shiftR) = envelope.getOrElse(1, (0, 0)) // Guard for the leaf nodes
     PositionedNode(value, left.layoutBinaryTree3R(depth + 1, x + shiftL), right.layoutBinaryTree3R(depth + 1, x + shiftR), x, depth)
   }
+
+  // P68
+  override def preorder: List[T] = value +: (left.preorder ++ right.preorder)
+
+  override def inorder: List[T] = left.inorder ++ (value +: right.inorder)
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends NodeLike[T] {
@@ -198,6 +203,11 @@ case object End extends Tree[Nothing] {
 
   // P66
   override def layoutBinaryTree3R(depth: Int, x: Int): Tree[Nothing] = End
+
+  // P68
+  override def preorder: List[Nothing] = List.empty
+
+  override def inorder: List[Nothing] = List.empty
 }
 
 case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends NodeLike[T] {
@@ -281,7 +291,14 @@ object Tree {
   }
 
   // P68
-  def preInTree[T](preorder: List[T], inorder: List[T]): Tree[T] = ???
+  def preInTree[T](preorder: List[T], inorder: List[T]): Tree[T] = preorder match {
+    case Nil => End
+    case p :: ps => {
+      val (inLeft, inRight) = inorder.span(_ != p)
+      val (preLeft, preRight) = ps.splitAt(inLeft.length)
+      Node(p, preInTree(preLeft, inLeft), preInTree(preRight, inRight.tail))
+    }
+  }
 
   // P69
   def fromDotString(s: String): Tree[String] = ???
