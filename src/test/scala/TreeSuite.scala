@@ -233,7 +233,7 @@ fromString("a").preorder shouldEqual List("a")
 
   test("69 convert dot-string representation to a binary tree") {
     fromDotString(".") shouldEqual End
-    fromDotString("a") shouldEqual Node("a")
+    fromDotString("a..") shouldEqual Node("a")
     fromDotString("abd..e..c.fg...") shouldEqual
       Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End)))
   }
