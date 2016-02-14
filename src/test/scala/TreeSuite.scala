@@ -200,7 +200,7 @@ class TreeSuite extends FunSuite with Matchers {
   }
 
   test("67 convert string representation to a binary tree") {
-    fromString("") shouldEqual List.empty
+    fromString("") shouldEqual End
     fromString("a") shouldEqual Node("a")
     fromString("a(b(d,e),c(,f(g,)))") shouldEqual
       Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End)))
