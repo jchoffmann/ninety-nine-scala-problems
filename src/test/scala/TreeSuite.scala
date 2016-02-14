@@ -226,13 +226,13 @@ fromString("a").preorder shouldEqual List("a")
   }
 
   test("69 convert binary tree to dot-string representation") {
-    fromString("").toDotString shouldEqual ""
-    fromString("a").toDotString shouldEqual "a"
+    fromString("").toDotString shouldEqual "."
+    fromString("a").toDotString shouldEqual "a.."
     fromString("a(b(d,e),c(,f(g,)))").toDotString shouldEqual "abd..e..c.fg..."
   }
 
   test("69 convert dot-string representation to a binary tree") {
-    fromDotString("") shouldEqual End
+    fromDotString(".") shouldEqual End
     fromDotString("a") shouldEqual Node("a")
     fromDotString("abd..e..c.fg...") shouldEqual
       Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End)))
