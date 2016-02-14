@@ -218,8 +218,6 @@ fromString("a").preorder shouldEqual List("a")
     fromString("a(b(d,e),c(,f(g,)))").inorder shouldEqual List("d", "b", "e", "a", "c", "g", "f")
   }
 
-  test("68 constructing a binary tree from incompatible pre-order and in-order sequences should throw an Exception") (pending)
-
   test("68 construct a binary tree from pre-order and in-order representation") {
     preInTree(List.empty, List.empty) shouldEqual End
     preInTree(List('a), List('a)) shouldEqual Node('a)
@@ -232,8 +230,6 @@ fromString("a").preorder shouldEqual List("a")
     fromString("a").toDotString shouldEqual "a"
     fromString("a(b(d,e),c(,f(g,)))").toDotString shouldEqual "abd..e..c.fg..."
   }
-
-  test("69 converting an illegal dot-string representation to a binary tree should throw an Exception") (pending)
 
   test("69 convert dot-string representation to a binary tree") {
     fromDotString("") shouldEqual End
