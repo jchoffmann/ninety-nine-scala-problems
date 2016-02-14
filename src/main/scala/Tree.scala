@@ -152,7 +152,7 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends NodeLike[T]
   // P67
   override def toString = (left, right) match {
     case (End, End) => value.toString
-    case _ => s"${value}(${left},${right})"
+    case _ => s"$value($left,$right)"
   }
 
   // P56
