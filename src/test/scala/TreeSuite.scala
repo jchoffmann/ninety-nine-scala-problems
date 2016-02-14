@@ -206,28 +206,38 @@ class TreeSuite extends FunSuite with Matchers {
       Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End)))
   }
 
-  test("68 list all nodes of a binary tree in preorder sequence") {
+  test("68 list all nodes of a binary tree in pre-order sequence") {
     fromString("").preorder shouldEqual List.empty
-    fromString("a").preorder shouldEqual Node("a")
+fromString("a").preorder shouldEqual List("a")
     fromString("a(b(d,e),c(,f(g,)))").preorder shouldEqual List("a", "b", "d", "e", "c", "f", "g")
   }
 
-  test("68 list all nodes of a binary tree in inorder sequence") {
+  test("68 list all nodes of a binary tree in in-order sequence") {
     fromString("").inorder shouldEqual List.empty
-    fromString("a").inorder shouldEqual Node("a")
+    fromString("a").inorder shouldEqual List("a")
     fromString("a(b(d,e),c(,f(g,)))").inorder shouldEqual List("d", "b", "e", "a", "c", "g", "f")
   }
 
-  test("68 construct a binary tree from preorder and inorder representation") {
+  test("68 constructing a binary tree from incompatible pre-order and in-order sequences should throw an Exception") (pending)
+
+  test("68 construct a binary tree from pre-order and in-order representation") {
+    preInTree(List.empty, List.empty) shouldEqual End
+    preInTree(List('a), List('a)) shouldEqual Node('a)
     preInTree(List('a, 'b, 'd, 'e, 'c, 'f, 'g), List('d, 'b, 'e, 'a, 'c, 'g, 'f)) shouldEqual
       Node('a, Node('b, Node('d), Node('e)), Node('c, End, Node('f, Node('g), End)))
   }
 
   test("69 convert binary tree to dot-string representation") {
+    fromString("").toDotString shouldEqual ""
+    fromString("a").toDotString shouldEqual "a"
     fromString("a(b(d,e),c(,f(g,)))").toDotString shouldEqual "abd..e..c.fg..."
   }
 
+  test("69 converting an illegal dot-string representation to a binary tree should throw an Exception") (pending)
+
   test("69 convert dot-string representation to a binary tree") {
+    fromDotString("") shouldEqual End
+    fromDotString("a") shouldEqual Node("a")
     fromDotString("abd..e..c.fg...") shouldEqual
       Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End)))
   }
