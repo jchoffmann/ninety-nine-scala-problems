@@ -273,7 +273,8 @@ object Tree {
   }
 
   // P67
-  import TreeParsers._
+  import TreeParsers.{NoSuccess, Success, parseAll, tree}
+
   def fromString(s: String): Tree[String] = parseAll(tree, s) match {
     case Success(tree, _) => tree
     case NoSuccess(msg, _) => throw new IllegalArgumentException("Cannot parse tree: " + msg)
@@ -297,7 +298,7 @@ object PositionedNode {
 object TreeParsers extends RegexParsers {
   def tree: Parser[Tree[String]] = node | leaf | end
 
-  def node: Parser[Tree[String]] = (label ~ "(" ~ tree ~ "," ~ tree ~ ")") ^^ { case value ~ "(" ~ left ~ "," ~ right ~ ")" => Node(value, left, right) }
+  def node: Parser[Tree[String]] = (label <~ "(") ~ (tree <~ ",") ~ (tree <~ ")") ^^ { case value ~ left ~ right => Node(value, left, right) }
 
   def leaf: Parser[Tree[String]] = label ^^ (Node(_))
 
