@@ -14,7 +14,7 @@ class MultiwayTreeSuite extends FunSuite with Matchers {
     MTree('a, List(MTree('f))).nodeCount shouldBe 2
   }
 
-  test("70 convert multi-way trFee to string representation") {
+  test("70 convert multi-way tree to string representation") {
     MTree('a, List(MTree('f, List(MTree('g))), MTree('c), MTree('b, List(MTree('d), MTree('e))))).toString shouldEqual
       "afg^^c^bd^e^^^"
   }
@@ -28,7 +28,7 @@ class MultiwayTreeSuite extends FunSuite with Matchers {
     "afg^^c^bd^e^^^".internalPathLength shouldBe 9
   }
 
-  test("72 list all nodes of a multi-way tree in postorder sequence") {
+  test("72 list all nodes of a multi-way tree in post-order sequence") {
     "afg^^c^bd^e^^^".postorder shouldEqual List('g, 'f, 'c, 'd, 'e, 'b, 'a)
   }
 
