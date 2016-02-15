@@ -17,8 +17,8 @@ class MultiwayTreeSuite extends FunSuite with Matchers {
   }
 
   test("70 convert multi-way tree to string representation") {
-    MTree('a).toString shouldEqual "a^"
-    MTree('a, List(MTree('f, List(MTree('g))), MTree('c), MTree('b, List(MTree('d), MTree('e))))).toString shouldEqual
+    MTree('a').toString shouldEqual "a^"
+    MTree('a', List(MTree('f', List(MTree('g'))), MTree('c'), MTree('b', List(MTree('d'), MTree('e'))))).toString shouldEqual
       "afg^^c^bd^e^^^"
   }
 
