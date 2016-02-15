@@ -208,7 +208,7 @@ class TreeSuite extends FunSuite with Matchers {
 
   test("68 list all nodes of a binary tree in pre-order sequence") {
     fromString("").preorder shouldEqual List.empty
-fromString("a").preorder shouldEqual List("a")
+    fromString("a").preorder shouldEqual List("a")
     fromString("a(b(d,e),c(,f(g,)))").preorder shouldEqual List("a", "b", "d", "e", "c", "f", "g")
   }
 
