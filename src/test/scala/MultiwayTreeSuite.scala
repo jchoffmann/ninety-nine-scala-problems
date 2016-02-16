@@ -22,7 +22,14 @@ class MultiwayTreeSuite extends FunSuite with Matchers {
       "afg^^c^bd^e^^^"
   }
 
-  test("70 convert string representation to multi-way tree") {
+  test("70 converting an illegal string representation to a multi-way tree should throw an Exception") {
+    an[IllegalArgumentException] should be thrownBy fromString("")
+    an[IllegalArgumentException] should be thrownBy fromString("^")
+    an[IllegalArgumentException] should be thrownBy fromString("a")
+    an[IllegalArgumentException] should be thrownBy fromString("ab^")
+  }
+
+  test("70 convert string representation to a multi-way tree") {
     fromString("a^") shouldEqual MTree("a")
     fromString("afg^^c^bd^e^^^") shouldEqual
       MTree("a", List(MTree("f", List(MTree("g"))), MTree("c"), MTree("b", List(MTree("d"), MTree("e")))))
@@ -46,7 +53,13 @@ class MultiwayTreeSuite extends FunSuite with Matchers {
     "afg^^c^bd^e^^^".toLispyString shouldEqual "(a (f g) c (b d e))"
   }
 
-  test("73 convert lispy-string representation to multi-way tree") {
+  test("73 converting an illegal lispy-string representation to a multi-way tree should throw an Exception") {
+    an[IllegalArgumentException] should be thrownBy fromLispyString("")
+    an[IllegalArgumentException] should be thrownBy fromLispyString("(a)")
+    an[IllegalArgumentException] should be thrownBy fromLispyString("(a b))")
+  }
+
+  test("73 convert lispy-string representation to a multi-way tree") {
     fromLispyString("a") shouldEqual fromString("a^")
     fromLispyString("(a b)") shouldEqual fromString("ab^^")
     fromLispyString("(a (b c))") shouldEqual fromString("abc^^^")
