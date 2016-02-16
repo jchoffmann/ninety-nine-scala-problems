@@ -79,17 +79,17 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
 
   test("80 convert digraph to graph-term form") {
     val g = Digraph.adjacent(
-      List(('b, List('c, 'f)), ('c, List('b, 'f)), ('d, Nil), ('f, List('b, 'c, 'k)), ('g, List('h)), ('h, List('g)), ('k, List('f))))
+      List(('r, Nil), ('s, List('r, 'u)), ('t, Nil), ('u, List('r, 's)), ('v, List('u))))
     val (nodes, edges) = g.toTermForm
-    nodes should contain theSameElementsAs List('b, 'c, 'd, 'f, 'g, 'h, 'k)
-    edges should contain theSameElementsAs List(('b, 'c, ()), ('b, 'f, ()), ('c, 'f, ()), ('f, 'k, ()), ('g, 'h, ()))
+    nodes should contain theSameElementsAs List('r, 's, 't, 'u, 'v)
+    edges should contain theSameElementsAs List(('s, 'r, ()), ('s, 'u, ()), ('u, 'r, ()), ('u, 's, ()), ('v, 'u, ()))
   }
 
   test("80 convert digraph to adjacency-list form") {
     val g = Digraph.term(
-      List('b, 'c, 'd, 'f, 'g, 'h, 'k),
-      List(('b, 'c), ('b, 'f), ('c, 'f), ('f, 'k), ('g, 'h)))
-    val result = List(('b, List(('c, ()), ('f, ()))), ('c, List(('b, ()), ('f, ()))), ('d, Nil), ('f, List(('b, ()), ('c, ()), ('k, ()))), ('g, List(('h, ()))), ('h, List(('g, ()))), ('k, List(('f, ()))))
+      List('r, 's, 't, 'u, 'v),
+      List(('s, 'r), ('s, 'u), ('u, 'r), ('u, 's), ('v, 'u)))
+    val result = List(('r, Nil), ('s, List(('r, ()), ('u, ()))), ('t, Nil), ('u, List(('r, ()), ('s, ()))), ('v, List(('u, ()))))
 
     val adjacentForm = g.toAdjacentForm.toMap
     val resultM = result.toMap
