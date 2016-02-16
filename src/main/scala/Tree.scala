@@ -289,9 +289,9 @@ object Tree {
   }
 
   // P67
-  def fromString(s: String): Tree[String] = StringParser.parseAll(StringParser.tree, s) match {
-    case StringParser.Success(tree, _) => tree
-    case StringParser.NoSuccess(msg, _) => throw new IllegalArgumentException(s"Cannot parse tree: $msg")
+  def fromString(s: String): Tree[String] = TreeFromStringParser.parseAll(TreeFromStringParser.tree, s) match {
+    case TreeFromStringParser.Success(tree, _) => tree
+    case TreeFromStringParser.NoSuccess(msg, _) => throw new IllegalArgumentException(s"Cannot parse tree: $msg")
   }
 
   // P68
@@ -304,9 +304,9 @@ object Tree {
   }
 
   // P69
-  def fromDotString(s: String): Tree[String] = DotStringParser.parseAll(DotStringParser.tree, s) match {
-    case DotStringParser.Success(tree, _) => tree
-    case DotStringParser.NoSuccess(msg, _) => throw new IllegalArgumentException(s"Cannot parse tree: $msg")
+  def fromDotString(s: String): Tree[String] = TreeFromDotStringParser.parseAll(TreeFromDotStringParser.tree, s) match {
+    case TreeFromDotStringParser.Success(tree, _) => tree
+    case TreeFromDotStringParser.NoSuccess(msg, _) => throw new IllegalArgumentException(s"Cannot parse tree: $msg")
   }
 }
 
@@ -318,24 +318,24 @@ object PositionedNode {
   def apply[T](value: T, x: Int, y: Int): PositionedNode[T] = PositionedNode(value, End, End, x, y)
 }
 
-object StringParser extends RegexParsers {
+object TreeFromStringParser extends RegexParsers {
   def tree: Parser[Tree[String]] = node | leaf | end
 
   def node: Parser[Tree[String]] = (label <~ "(") ~ (tree <~ ",") ~ (tree <~ ")") ^^ { case value ~ left ~ right => Node(value, left, right) }
 
   def leaf: Parser[Tree[String]] = label ^^ (Node(_))
 
-  def end: Parser[Tree[String]] = "" ^^ (_ => End)
+  def end: Parser[Tree[String]] = "" ^^^ End
 
   def label: Parser[String] = "\\w+".r
 }
 
-object DotStringParser extends RegexParsers {
+object TreeFromDotStringParser extends RegexParsers {
   def tree: Parser[Tree[String]] = node | end
 
   def node: Parser[Tree[String]] = (label ~ tree ~ tree) ^^ { case value ~ left ~ right => Node(value, left, right) }
 
-  def end: Parser[Tree[String]] = "." ^^ (_ => End)
+  def end: Parser[Tree[String]] = "." ^^^ End
 
   def label: Parser[String] = "\\w".r
 }
