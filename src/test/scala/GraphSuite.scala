@@ -1,6 +1,6 @@
-import org.scalatest.{FunSuite, Matchers}
+import org.scalatest.{FunSuite, Inspectors, Matchers}
 
-class GraphSuite extends FunSuite with Matchers {
+class GraphSuite extends FunSuite with Matchers with Inspectors {
   test("80 (not mentioned in problem statements) graphs constructed from equivalent forms are equal") {
     val gt = Graph.term(
       List('b, 'c, 'd, 'f, 'g, 'h, 'k),
@@ -60,40 +60,45 @@ class GraphSuite extends FunSuite with Matchers {
   test("80 convert graph to graph-term form") {
     val g = Graph.adjacent(
       List(('b, List('c, 'f)), ('c, List('b, 'f)), ('d, Nil), ('f, List('b, 'c, 'k)), ('g, List('h)), ('h, List('g)), ('k, List('f))))
-    val termForm = (
-      List('b, 'c, 'd, 'f, 'g, 'h, 'k),
-      List(('b, 'c, ()), ('b, 'f, ()), ('c, 'f, ()), ('f, 'k, ()), ('g, 'h, ())))
-    g.toTermForm shouldEqual termForm
+    val (nodes, edges) = g.toTermForm
+    nodes should contain theSameElementsAs List('b, 'c, 'd, 'f, 'g, 'h, 'k)
+    edges should contain theSameElementsAs List(('b, 'c, ()), ('b, 'f, ()), ('c, 'f, ()), ('f, 'k, ()), ('g, 'h, ()))
   }
 
   test("80 convert graph to adjacency-list form") {
     val g = Graph.term(
       List('b, 'c, 'd, 'f, 'g, 'h, 'k),
       List(('b, 'c), ('b, 'f), ('c, 'f), ('f, 'k), ('g, 'h)))
-    val adjacentForm = List(('b, List(('c, ()), ('f, ()))), ('c, List(('b, ()), ('f, ()))), ('d, Nil), ('f, List(('b, ()), ('c, ()), ('k, ()))), ('g, List(('h, ()))), ('h, List(('g, ()))), ('k, List(('f, ()))))
-    g.toAdjacentForm shouldEqual adjacentForm
+    val result = List(('b, List(('c, ()), ('f, ()))), ('c, List(('b, ()), ('f, ()))), ('d, Nil), ('f, List(('b, ()), ('c, ()), ('k, ()))), ('g, List(('h, ()))), ('h, List(('g, ()))), ('k, List(('f, ()))))
+
+    val adjacentForm = g.toAdjacentForm.toMap
+    val resultM = result.toMap
+    adjacentForm.keys should contain theSameElementsAs resultM.keys
+    forAll(adjacentForm.keys) { k => adjacentForm(k) should contain theSameElementsAs resultM(k) }
   }
 
   test("80 convert digraph to graph-term form") {
     val g = Digraph.adjacent(
       List(('b, List('c, 'f)), ('c, List('b, 'f)), ('d, Nil), ('f, List('b, 'c, 'k)), ('g, List('h)), ('h, List('g)), ('k, List('f))))
-    val termForm = (
-      List('b, 'c, 'd, 'f, 'g, 'h, 'k),
-      List(('b, 'c, ()), ('b, 'f, ()), ('c, 'f, ()), ('f, 'k, ()), ('g, 'h, ())))
-    g.toTermForm shouldEqual termForm
+    val (nodes, edges) = g.toTermForm
+    nodes should contain theSameElementsAs List('b, 'c, 'd, 'f, 'g, 'h, 'k)
+    edges should contain theSameElementsAs List(('b, 'c, ()), ('b, 'f, ()), ('c, 'f, ()), ('f, 'k, ()), ('g, 'h, ()))
   }
 
   test("80 convert digraph to adjacency-list form") {
     val g = Digraph.term(
       List('b, 'c, 'd, 'f, 'g, 'h, 'k),
       List(('b, 'c), ('b, 'f), ('c, 'f), ('f, 'k), ('g, 'h)))
-    val adjacentForm = List(('b, List(('c, ()), ('f, ()))), ('c, List(('b, ()), ('f, ()))), ('d, Nil), ('f, List(('b, ()), ('c, ()), ('k, ()))), ('g, List(('h, ()))), ('h, List(('g, ()))), ('k, List(('f, ()))))
-    g.toAdjacentForm shouldEqual adjacentForm
+    val result = List(('b, List(('c, ()), ('f, ()))), ('c, List(('b, ()), ('f, ()))), ('d, Nil), ('f, List(('b, ()), ('c, ()), ('k, ()))), ('g, List(('h, ()))), ('h, List(('g, ()))), ('k, List(('f, ()))))
 
+    val adjacentForm = g.toAdjacentForm.toMap
+    val resultM = result.toMap
+    adjacentForm.keys should contain theSameElementsAs resultM.keys
+    forAll(adjacentForm.keys) { k => adjacentForm(k) should contain theSameElementsAs resultM(k) }
   }
 
   test("80 convert graph to human-friendly form") {
-    val g = Graph.term(List('d, 'k, 'h, 'c, 'f, 'g, 'b), List(('h, 'g), ('k, 'f), ('f, 'b), ('g, 'h), ('f, 'c), ('b, 'c)))
+    val g = Graph.term(List('d', 'k', 'h', 'c', 'f', 'g', 'b'), List(('h', 'g'), ('k', 'f'), ('f', 'b'), ('g', 'h'), ('f', 'c'), ('b', 'c')))
     g.toString shouldEqual "[b-c, f-c, g-h, d, f-b, k-f, h-g]"
   }
 
@@ -103,7 +108,7 @@ class GraphSuite extends FunSuite with Matchers {
   }
 
   test("80 convert labeled graph to human-friendly form with labels") {
-    val g = Graph.termLabel(List('d, 'k, 'h, 'c, 'f, 'g, 'b), List(('h, 'g, 3), ('k, 'f, ()), ('f, 'b, ()), ('g, 'h, 2), ('f, 'c, ()), ('b, 'c, 1)))
+    val g = Graph.termLabel(List('d', 'k', 'h', 'c', 'f', 'g', 'b'), List(('h', 'g', 3), ('k', 'f', ()), ('f', 'b', ()), ('g', 'h', 2), ('f', 'c', ()), ('b', 'c', 1)))
     g.toString shouldEqual "[b-c/1, f-c, g-h/2, d, f-b, k-f, h-g/3]"
   }
 
@@ -113,7 +118,7 @@ class GraphSuite extends FunSuite with Matchers {
   }
 
   test("80 convert digraph to human-friendly form") {
-    val g = Digraph.adjacent(List(('m, List('q)), ('p, List('m, 'q)), ('k, Nil), ('q, Nil)))
+    val g = Digraph.adjacent(List(('m', List('q')), ('p', List('m', 'q')), ('k', Nil), ('q', Nil)))
     g.toString shouldEqual "[p>q, m>q, k, p>m]"
   }
 
@@ -123,11 +128,11 @@ class GraphSuite extends FunSuite with Matchers {
   }
 
   test("80 convert labeled digraph to human-friendly form with labels") {
-    val g = Digraph.adjacentLabel(List(('m, List(('q, 7))), ('p, List(('m, 5), ('q, 9))), ('k, Nil), ('q, Nil)))
+    val g = Digraph.adjacentLabel(List(('m', List(('q', 7))), ('p', List(('m', 5), ('q', 9))), ('k', Nil), ('q', Nil)))
     g.toString shouldEqual "[p>q/9, m>q/7, k, p>m/5]"
   }
 
-  test("80 convert human-friendly form with bales to labeled digraph") {
+  test("80 convert human-friendly form with labels to labeled digraph") {
     val g = Digraph.adjacentLabel(List(("m", List(("q", 7))), ("p", List(("m", 5), ("q", 9))), ("k", Nil), ("q", Nil)))
     Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]") shouldEqual g
   }
