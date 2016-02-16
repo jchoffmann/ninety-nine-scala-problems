@@ -43,7 +43,7 @@ sealed abstract class Tree[+T] {
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends Tree[T] {
-  override def toString = "T(" + value.toString + " " + left.toString + " " + right.toString + ")"
+  override def toString = s"T($value $left $right)"
 }
 
 case object End extends Tree[Nothing] {
@@ -51,7 +51,7 @@ case object End extends Tree[Nothing] {
 }
 
 case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y: Int) extends Tree[T] {
-  override def toString: String = "T[" + x.toString + "," + y.toString + "](" + value.toString + " " + left.toString + " " + right.toString + ")"
+  override def toString: String = s"T[$x,$y]($value $left $right)"
 }
 
 object Tree {

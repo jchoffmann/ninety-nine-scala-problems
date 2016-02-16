@@ -2,7 +2,7 @@
   * Exercises: http://aperiodic.net/phil/scala/s-99/#mtrees
   */
 case class MTree[+T](value: T, children: List[MTree[T]]) {
-  override def toString: String = "M(" + value.toString + " {" + children.map(_.toString).mkString(",") + "})"
+  override def toString: String = s"M($value {" + children.map(_.toString).mkString(",") + "})"
 
   // P70
   def nodeCount: Int = ???
