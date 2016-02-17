@@ -99,7 +99,7 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
 
   test("80 convert graph to human-friendly form") {
     val g = Graph.term(List('d', 'k', 'h', 'c', 'f', 'g', 'b'), List(('h', 'g'), ('k', 'f'), ('f', 'b'), ('g', 'h'), ('f', 'c'), ('b', 'c')))
-    g.toString shouldEqual "[b-c, f-c, g-h, d, f-b, k-f, h-g]"
+    g.toString shouldEqual "[d, b-c, f-c, g-h, f-b, k-f, h-g]"
   }
 
   test("80 convert human-friendly form to graph") {
@@ -109,17 +109,17 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
 
   test("80 convert labeled graph to human-friendly form with labels") {
     val g = Graph.termLabel(List('d', 'k', 'h', 'c', 'f', 'g', 'b'), List(('h', 'g', 3), ('k', 'f', ()), ('f', 'b', ()), ('g', 'h', 2), ('f', 'c', ()), ('b', 'c', 1)))
-    g.toString shouldEqual "[b-c/1, f-c, g-h/2, d, f-b, k-f, h-g/3]"
+    g.toString shouldEqual "[d, b-c/1, f-c, g-h/2, f-b, k-f, h-g/3]"
   }
 
   test("80 convert human-friendly form with labels to labeled graph") {
-    val g = Graph.termLabel(List("d", "k", "h", "c", "f", "g", "b"), List(("h", "g", 3), ("k", "f", ()), ("f", "b", ()), ("g", "h", 2), ("f", "c", ()), ("b", "c", 1)))
+    val g = Graph.termLabel(List("d", "k", "h", "c", "f", "g", "b"), List(("h", "g", "3"), ("k", "f", ()), ("f", "b", ()), ("g", "h", "2"), ("f", "c", ()), ("b", "c", "1")))
     Graph.fromStringLabel("[b-c/1, f-c, g-h/2, d, f-b, k-f, h-g/3]") shouldEqual g
   }
 
   test("80 convert digraph to human-friendly form") {
     val g = Digraph.adjacent(List(('m', List('q')), ('p', List('m', 'q')), ('k', Nil), ('q', Nil)))
-    g.toString shouldEqual "[p>q, m>q, k, p>m]"
+    g.toString shouldEqual "[k, p>q, p>m, m>q]"
   }
 
   test("80 convert human-friendly form to digraph") {
@@ -129,11 +129,11 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
 
   test("80 convert labeled digraph to human-friendly form with labels") {
     val g = Digraph.adjacentLabel(List(('m', List(('q', 7))), ('p', List(('m', 5), ('q', 9))), ('k', Nil), ('q', Nil)))
-    g.toString shouldEqual "[p>q/9, m>q/7, k, p>m/5]"
+    g.toString shouldEqual "[k, p>q/9, p>m/5, m>q/7]"
   }
 
   test("80 convert human-friendly form with labels to labeled digraph") {
-    val g = Digraph.adjacentLabel(List(("m", List(("q", 7))), ("p", List(("m", 5), ("q", 9))), ("k", Nil), ("q", Nil)))
+    val g = Digraph.adjacentLabel(List(("m", List(("q", "7"))), ("p", List(("m", "5"), ("q", "9"))), ("k", Nil), ("q", Nil)))
     Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]") shouldEqual g
   }
 
