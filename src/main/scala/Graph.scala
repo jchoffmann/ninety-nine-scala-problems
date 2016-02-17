@@ -25,8 +25,10 @@ abstract class GraphBase[T, U] {
   def edgeTarget(e: Edge, n: Node): Option[Node]
 
   override def equals(o: Any) = o match {
-    case g: GraphBase[_, _] => (nodes.keys.toList diff g.nodes.keys.toList).isEmpty &&
-      (edges.map(_.toTuple) diff g.edges.map(_.toTuple)).isEmpty
+    case g: GraphBase[_, _] =>
+      nodes.size == g.nodes.size && edges.size == g.edges.size &&
+        (nodes.keys.toList diff g.nodes.keys.toList).isEmpty &&
+        (edges.map(_.toTuple) diff g.edges.map(_.toTuple)).isEmpty
     case _ => false
   }
 
