@@ -130,9 +130,9 @@ abstract class GraphObjBase {
   def adjacentLabel[T, U](nodes: List[(T, List[(T, U)])]): GraphClass[T, U]
 
   // P80
-  def fromString(s: String): Graph[String, Unit] = ???
+  def fromString(s: String): GraphClass[String, Unit] = ???
 
-  def fromStringLabel(s: String): Graph[String, Unit] = ???
+  def fromStringLabel(s: String): GraphClass[String, Any] = ???
 }
 
 object Graph extends GraphObjBase {
