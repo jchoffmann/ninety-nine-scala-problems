@@ -5,6 +5,15 @@ abstract class GraphBase[T, U] {
 
   case class Edge(n1: Node, n2: Node, value: U) {
     def toTuple = (n1.value, n2.value, value)
+
+    // P80
+    override def toString: String = {
+      val label = value match {
+        case () => ""
+        case _ => labelSep + value
+      }
+      s"$n1$edgeSep$n2$label"
+    }
   }
 
   case class Node(value: T) {
@@ -12,6 +21,9 @@ abstract class GraphBase[T, U] {
 
     // neighbors are all nodes adjacent to this node.
     def neighbors: List[Node] = adj.map(edgeTarget(_, this).get)
+
+    // P80
+    override def toString: String = value.toString
 
     // P86
     def degree: Int = ???
@@ -38,9 +50,20 @@ abstract class GraphBase[T, U] {
   }
 
   // P80
-  def toTermForm: (List[T], List[(T, T, U)]) = ???
+  def toTermForm: (List[T], List[(T, T, U)]) = (nodes.keys.toList, edges.map(_.toTuple))
 
-  def toAdjacentForm: List[(T, List[(T, U)])] = ???
+  def toAdjacentForm: List[(T, List[(T, U)])] =
+    nodes.values.map(n => (n.value, n.adj.map(e => (edgeTarget(e, n).get.value, e.value))))(collection.breakOut)
+
+  val labelSep = "/"
+
+  val edgeSep: String
+
+  override def toString: String = {
+    val edgeNodes = edges.flatMap(e => List(e.n1, e.n2))
+    val isolated = nodes.values.filter(!edgeNodes.contains(_))
+    s"[${(isolated ++ edges).mkString(", ")}]"
+  }
 
   // P81
   def findPaths(from: T, to: T): List[List[T]] = ???
@@ -84,6 +107,9 @@ class Graph[T, U] extends GraphBase[T, U] {
     nodes(n2).adj = e :: nodes(n2).adj
   }
 
+  // P80
+  override val edgeSep: String = "-"
+
   // P83
   def spanningTrees: List[Graph[T, U]] = ???
 
@@ -110,6 +136,9 @@ class Digraph[T, U] extends GraphBase[T, U] {
     edges = e :: edges
     nodes(source).adj = e :: nodes(source).adj
   }
+
+  // P80
+  override val edgeSep: String = ">"
 }
 
 abstract class GraphObjBase {
@@ -132,9 +161,24 @@ abstract class GraphObjBase {
   def adjacentLabel[T, U](nodes: List[(T, List[(T, U)])]): GraphClass[T, U]
 
   // P80
-  def fromString(s: String): GraphClass[String, Unit] = ???
+  def fromString(s: String): GraphClass[String, Unit] = {
+    val edgesR = """(\w+)[->](\w+)""".r
+    val edges = edgesR.findAllMatchIn(s).map { case edgesR(n1, n2) => (n1, n2) }.toList
+    val nodesR = """(\w+)""".r
+    val nodes = nodesR.findAllMatchIn(s).map { case nodesR(n) => n }.toSet.toList
+    term(nodes, edges)
+  }
 
-  def fromStringLabel(s: String): GraphClass[String, Any] = ???
+  def fromStringLabel(s: String): GraphClass[String, Any] = {
+    val tokens = s.replaceAll("""[\[\]]""", "").split(""",\s*""").map(_.split("[-/>]").toList)
+    val (nodes, edges) = tokens.foldLeft(List.empty[String], List.empty[(String, String, Any)]) {
+      case ((ns, es), n :: Nil) => (n +: ns, es)
+      case ((ns, es), n1 :: n2 :: Nil) => (n1 +: n2 +: ns, (n1, n2, ()) +: es)
+      case ((ns, es), n1 :: n2 :: label :: _) => (n1 +: n2 +: ns, (n1, n2, label) +: es)
+      case _ => throw new Exception // Won't happen
+    }
+    termLabel(nodes, edges)
+  }
 }
 
 object Graph extends GraphObjBase {
