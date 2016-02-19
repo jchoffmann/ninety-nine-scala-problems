@@ -49,7 +49,7 @@ abstract class GraphBase[T, U] {
   def findCycles(from: T): List[List[T]] = ???
 
   // P85
-  def isIsomophicTo[R, S](g: GraphBase[R, S]): Boolean = ???
+  def isIsomorphicTo[R, S](g: GraphBase[R, S]): Boolean = ???
 
   // P86
   def nodesByDegree: List[Node] = ???

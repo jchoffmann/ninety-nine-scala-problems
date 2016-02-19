@@ -139,6 +139,7 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
 
   test("81 find all acyclic paths from one node to another in a graph") {
     val g = Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]")
+    g.findPaths("p", "p") shouldEqual List(List("p"))
     g.findPaths("p", "k") shouldBe empty
     g.findPaths("p", "q") should contain theSameElementsAs List(List("p", "q"), List("p", "m", "q"))
   }
@@ -186,8 +187,8 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
     val g1 = Graph.fromString("[a-b, c]")
     val g2 = Graph.fromString("[8, 5-7]")
     val g3 = Graph.fromString("[a-b, b-c]")
-    g1.isIsomophicTo(g2) shouldBe true
-    g1.isIsomophicTo(g3) shouldBe false
+    g1.isIsomorphicTo(g2) shouldBe true
+    g1.isIsomorphicTo(g3) shouldBe false
   }
 
   test("86 determine the degree of a given node") {
