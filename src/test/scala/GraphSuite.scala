@@ -174,7 +174,7 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
   }
 
   test("84 find the minimum spanning tree for a given graph") {
-    val g = Graph.fromStringLabel("[a-b/1, b-c/2, a-c/3]")
+    val g = Graph.fromStringLabel("[a-b/1, b-c/2, a-c/3]").asInstanceOf[Graph[String, Int]]
     g.minimalSpanningTree shouldEqual Graph.fromStringLabel("[a-b/1, b-c/2]")
   }
 

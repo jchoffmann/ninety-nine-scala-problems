@@ -92,7 +92,7 @@ class Graph[T, U] extends GraphBase[T, U] {
   def isConnected: Boolean = ???
 
   // P84
-  def minimalSpanningTree: Graph[T, U] = ???
+  def minimalSpanningTree(implicit o: U => Ordered[U]): Graph[T, U] = ???
 }
 
 class Digraph[T, U] extends GraphBase[T, U] {
