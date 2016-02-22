@@ -128,8 +128,8 @@ class PuzzleSuite extends FunSuite with Matchers with Inspectors {
     val g1 = Graph.fromString("[1-2, 1-3, 1-4, 2-3, 2-5, 3-6, 4-5, 4-6, 5-6]")
     val g2 = Graph.fromString("[1-2, 1-3, 1-4, 2-5, 2-6, 3-5, 3-6, 4-5, 4-6]")
 
-    (result.head.isIsomophicTo(g1) && result(1).isIsomophicTo(g2) ||
-      result(1).isIsomophicTo(g2) && result.head.isIsomophicTo(g1)) shouldBe true
+    (result.head.isIsomorphicTo(g1) && result(1).isIsomorphicTo(g2) ||
+      result(1).isIsomorphicTo(g2) && result.head.isIsomorphicTo(g1)) shouldBe true
 
     // TODO Add all of these as tests? http://aperiodic.net/phil/scala/s-99/p94.txt
   }

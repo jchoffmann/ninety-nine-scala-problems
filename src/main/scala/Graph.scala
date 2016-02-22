@@ -36,13 +36,18 @@ abstract class GraphBase[T, U] {
   // otherwise returns None.
   def edgeTarget(e: Edge, n: Node): Option[Node]
 
+  def canEqual(other: Any): Boolean
+
   override def equals(o: Any) = o match {
     case g: GraphBase[_, _] =>
-      nodes.size == g.nodes.size && edges.size == g.edges.size &&
-        (nodes.keys.toList diff g.nodes.keys.toList).isEmpty &&
-        (edges.map(_.toTuple) diff g.edges.map(_.toTuple)).isEmpty
+      (g canEqual this) &&
+        (nodes.keys.groupBy(identity) == g.nodes.keys.groupBy(identity)) &&
+        (edges.map(_.toTuple).groupBy(identity) == g.edges.map(_.toTuple).groupBy(identity))
     case _ => false
   }
+
+  override def hashCode(): Int =
+    41 * (41 + nodes.keys.groupBy(identity).hashCode) + edges.map(_.toTuple).groupBy(identity).hashCode
 
   def addNode(value: T): Unit = {
     val n = new Node(value)
@@ -65,6 +70,8 @@ abstract class GraphBase[T, U] {
     s"[${(isolated ++ edges).mkString(", ")}]"
   }
 
+  override def toString: String = s"G(${nodes.keys}, ${edges.map(_.toTuple)})"
+
   // P81
   def findPaths(from: T, to: T): List[List[T]] = ???
 
@@ -72,7 +79,7 @@ abstract class GraphBase[T, U] {
   def findCycles(from: T): List[List[T]] = ???
 
   // P85
-  def isIsomophicTo[R, S](g: GraphBase[R, S]): Boolean = ???
+  def isIsomorphicTo[R, S](g: GraphBase[R, S]): Boolean = ???
 
   // P86
   def nodesByDegree: List[Node] = ???
@@ -90,10 +97,7 @@ abstract class GraphBase[T, U] {
 }
 
 class Graph[T, U] extends GraphBase[T, U] {
-  override def equals(o: Any) = o match {
-    case g: Graph[_, _] => super.equals(g)
-    case _ => false
-  }
+  override def canEqual(other: Any): Boolean = other.isInstanceOf[Graph[_, _]]
 
   def edgeTarget(e: Edge, n: Node): Option[Node] =
     if (e.n1 == n) Some(e.n2)
@@ -118,14 +122,11 @@ class Graph[T, U] extends GraphBase[T, U] {
   def isConnected: Boolean = ???
 
   // P84
-  def minimalSpanningTree: Graph[T, U] = ???
+  def minimalSpanningTree(implicit o: U => Ordered[U]): Graph[T, U] = ???
 }
 
 class Digraph[T, U] extends GraphBase[T, U] {
-  override def equals(o: Any) = o match {
-    case g: Digraph[_, _] => super.equals(g)
-    case _ => false
-  }
+  override def canEqual(other: Any): Boolean = other.isInstanceOf[Digraph[_, _]]
 
   def edgeTarget(e: Edge, n: Node): Option[Node] =
     if (e.n1 == n) Some(e.n2)

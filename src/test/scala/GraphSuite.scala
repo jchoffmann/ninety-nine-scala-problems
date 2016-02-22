@@ -139,6 +139,7 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
 
   test("81 find all acyclic paths from one node to another in a graph") {
     val g = Digraph.fromStringLabel("[p>q/9, m>q/7, k, p>m/5]")
+    g.findPaths("p", "p") shouldEqual List(List("p"))
     g.findPaths("p", "k") shouldBe empty
     g.findPaths("p", "q") should contain theSameElementsAs List(List("p", "q"), List("p", "m", "q"))
   }
@@ -151,8 +152,9 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
   }
 
   test("83 find all spanning trees for a given graph") {
-    val g = Graph.fromString("[a-b, b-c, a-c]")
-    g.spanningTrees should contain theSameElementsAs
+    Graph.fromString("[a]").spanningTrees shouldEqual List(Graph.fromString("[a]"))
+    Graph.fromString("[a, b-c]").spanningTrees shouldBe empty
+    Graph.fromString("[a-b, b-c, a-c]").spanningTrees should contain theSameElementsAs
       List("[a-b, b-c]", "[a-c, b-c]", "[a-b, a-c]").map(Graph.fromString)
   }
 
@@ -173,7 +175,7 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
   }
 
   test("84 find the minimum spanning tree for a given graph") {
-    val g = Graph.fromStringLabel("[a-b/1, b-c/2, a-c/3]")
+    val g = Graph.fromStringLabel("[a-b/1, b-c/2, a-c/3]").asInstanceOf[Graph[String, Int]]
     g.minimalSpanningTree shouldEqual Graph.fromStringLabel("[a-b/1, b-c/2]")
   }
 
@@ -186,8 +188,8 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
     val g1 = Graph.fromString("[a-b, c]")
     val g2 = Graph.fromString("[8, 5-7]")
     val g3 = Graph.fromString("[a-b, b-c]")
-    g1.isIsomophicTo(g2) shouldBe true
-    g1.isIsomophicTo(g3) shouldBe false
+    g1.isIsomorphicTo(g2) shouldBe true
+    g1.isIsomorphicTo(g3) shouldBe false
   }
 
   test("86 determine the degree of a given node") {
