@@ -152,8 +152,9 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
   }
 
   test("83 find all spanning trees for a given graph") {
-    val g = Graph.fromString("[a-b, b-c, a-c]")
-    g.spanningTrees should contain theSameElementsAs
+    Graph.fromString("[a]").spanningTrees shouldEqual List(Graph.fromString("[a]"))
+    Graph.fromString("[a, b-c]").spanningTrees shouldBe empty
+    Graph.fromString("[a-b, b-c, a-c]").spanningTrees should contain theSameElementsAs
       List("[a-b, b-c]", "[a-c, b-c]", "[a-b, a-c]").map(Graph.fromString)
   }
 
