@@ -70,13 +70,18 @@ abstract class GraphBase[T, U] {
     s"[${(isolated ++ edges).mkString(", ")}]"
   }
 
-  override def toString: String = s"G(${nodes.keys}, ${edges.map(_.toTuple)})"
-
   // P81
-  def findPaths(from: T, to: T): List[List[T]] = ???
+  def findPaths(from: T, to: T): List[List[T]] = {
+    def findPathsR(current: Node, path: List[T]): List[List[T]] = {
+      if (current.value == to) List(path.reverse)
+      else (for (n <- current.neighbors if !path.contains(n.value)) yield findPathsR(n, n.value +: path)).flatten
+    }
+    findPathsR(nodes(from), List(from))
+  }
 
   // P82
-  def findCycles(from: T): List[List[T]] = ???
+  def findCycles(from: T): List[List[T]] =
+    nodes(from).neighbors.flatMap(n => findPaths(n.value, from)).filter(_.size >= 3).map(from +: _)
 
   // P85
   def isIsomorphicTo[R, S](g: GraphBase[R, S]): Boolean = ???
@@ -115,11 +120,20 @@ class Graph[T, U] extends GraphBase[T, U] {
   override val edgeSep: String = "-"
 
   // P83
-  def spanningTrees: List[Graph[T, U]] = ???
+  def spanningTrees: List[Graph[T, U]] = {
+    def spanningTreesR(treeNodes: List[Node], treeEdges: List[Edge]): List[Graph[T, U]] = {
+      if (nodes.size == treeNodes.size) List(Graph.termLabel(nodes.keys.toList, treeEdges.map(_.toTuple)))
+      else {
+        for (n <- treeNodes; e <- n.adj if !treeNodes.contains(edgeTarget(e, n).get))
+          yield spanningTreesR(edgeTarget(e, n).get +: treeNodes, e +: treeEdges)
+      }.flatten
+    }
+    spanningTreesR(List(nodes.values.head), List.empty).distinct
+  }
 
-  def isTree: Boolean = ???
+  def isTree: Boolean = spanningTrees.size == 1
 
-  def isConnected: Boolean = ???
+  def isConnected: Boolean = spanningTrees.nonEmpty
 
   // P84
   def minimalSpanningTree(implicit o: U => Ordered[U]): Graph[T, U] = ???
