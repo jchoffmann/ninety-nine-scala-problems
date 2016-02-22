@@ -184,10 +184,14 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
     val g = Graph.termLabel(
       List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h),
       List(('a, 'b, 5), ('a, 'd, 3), ('b, 'c, 2), ('b, 'e, 4), ('c, 'e, 6), ('d, 'e, 7), ('d, 'f, 4), ('d, 'g, 3), ('e, 'h, 5), ('f, 'g, 4), ('g, 'h, 1)))
-    g.minimalSpanningTree shouldEqual Graph.termLabel(
-      List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h),
-      List(('a, 'b, 5), ('a, 'd, 3), ('b, 'e, 4), ('b, 'c, 2), ('d, 'g, 3), ('d, 'f, 4), ('g, 'h, 1))
-    )
+    val candidates = List(
+      Graph.termLabel(
+        List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h),
+        List(('a, 'b, 5), ('a, 'd, 3), ('b, 'e, 4), ('b, 'c, 2), ('d, 'g, 3), ('f, 'g, 4), ('g, 'h, 1))),
+      Graph.termLabel(
+        List('a, 'b, 'c, 'd, 'e, 'f, 'g, 'h),
+        List(('a, 'b, 5), ('a, 'd, 3), ('b, 'e, 4), ('b, 'c, 2), ('d, 'g, 3), ('d, 'f, 4), ('g, 'h, 1))))
+    candidates should contain(g.minimalSpanningTree)
   }
 
   test("85 check if two graphs are isomorphic") {
