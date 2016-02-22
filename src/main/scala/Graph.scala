@@ -120,13 +120,18 @@ class Graph[T, U] extends GraphBase[T, U] {
   override val edgeSep: String = "-"
 
   // P83
+  private def cut(from: List[Node]): List[(Node, Edge)] = for {
+    n <- from
+    e <- n.adj
+    n2 = edgeTarget(e, n).get if !from.contains(n2)
+  } yield (n2, e)
+
   def spanningTrees: List[Graph[T, U]] = {
     def spanningTreesR(treeNodes: List[Node], treeEdges: List[Edge]): List[Graph[T, U]] = {
       if (nodes.size == treeNodes.size) List(Graph.termLabel(nodes.keys.toList, treeEdges.map(_.toTuple)))
-      else {
-        for (n <- treeNodes; e <- n.adj if !treeNodes.contains(edgeTarget(e, n).get))
-          yield spanningTreesR(edgeTarget(e, n).get +: treeNodes, e +: treeEdges)
-      }.flatten
+      else cut(treeNodes).flatMap {
+        case (n, e) => spanningTreesR(n +: treeNodes, e +: treeEdges)
+      }
     }
     spanningTreesR(List(nodes.values.head), List.empty).distinct
   }
@@ -136,7 +141,16 @@ class Graph[T, U] extends GraphBase[T, U] {
   def isConnected: Boolean = spanningTrees.nonEmpty
 
   // P84
-  def minimalSpanningTree(implicit o: U => Ordered[U]): Graph[T, U] = ???
+  def minimalSpanningTree(implicit o: U => Ordered[U]): Graph[T, U] = {
+    def minimalSpanningTreeR(treeNodes: List[Node], treeEdges: List[Edge]): Graph[T, U] = {
+      if (nodes.size == treeNodes.size) Graph.termLabel(nodes.keys.toList, treeEdges.map(_.toTuple))
+      else {
+        val (nMin, eMin) = cut(treeNodes).sortBy { case (_, e) => e.value }.head
+        minimalSpanningTreeR(nMin +: treeNodes, eMin +: treeEdges)
+      }
+    }
+    minimalSpanningTreeR(List(nodes.values.head), List.empty)
+  }
 }
 
 class Digraph[T, U] extends GraphBase[T, U] {
