@@ -214,7 +214,7 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
 
   test("86 graph colouring: paint the nodes of a graph in such a way that adjacent nodes have different colours") {
     val g = Graph.fromString("[a-b, b-c, a-c, a-d]")
-    g.colorNodes should contain theSameElementsAs List(("a", 1), ("b", 2), ("c", 3), ("d", 2))
+    g.colorNodes should contain theSameElementsAs List(("a", 1), ("c", 2), ("b", 3), ("d", 2))
   }
 
   test("87 generate a depth-first order graph traversal sequence") {
