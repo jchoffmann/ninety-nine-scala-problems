@@ -59,9 +59,9 @@ abstract class GraphBase[T, U] {
   def isIsomorphicTo[R, S](g: GraphBase[R, S]): Boolean = ???
 
   // P86
-  def nodesByDegree: List[Node] = ???
+  def nodesByDegree: List[T] = ???
 
-  def colorNodes: List[(Node, Int)] = ???
+  def colorNodes: List[(T, Int)] = ???
 
   // P87
   def nodesByDepthFrom(from: T): List[T] = ???
