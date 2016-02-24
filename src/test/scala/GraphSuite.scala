@@ -1,3 +1,5 @@
+import java.util.NoSuchElementException
+
 import org.scalatest.{FunSuite, Inspectors, Matchers}
 
 class GraphSuite extends FunSuite with Matchers with Inspectors {
@@ -175,7 +177,13 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
     Graph.fromString("[a-b, b-c, a-c, d]").isConnected shouldBe false
   }
 
+  test("84 finding the minimum spanning tree for an unconnected graph should throw an exception") {
+    a[NoSuchElementException] should be thrownBy Graph.termLabel(List('a, 'b, 'c), List(('b, 'c, 1))).minimalSpanningTree
+  }
+
   test("84 find the minimum spanning tree for a given graph") {
+    Graph.termLabel(List('a), List.empty[(Symbol, Symbol, Int)]).minimalSpanningTree shouldEqual
+      Graph.termLabel(List('a), List.empty[(Symbol, Symbol, Int)])
     Graph.termLabel(List('a, 'b, 'c), List(('a, 'b, 1), ('b, 'c, 2), ('a, 'c, 3))).minimalSpanningTree shouldEqual
       Graph.termLabel(List('a, 'b, 'c), List(('a, 'b, 1), ('b, 'c, 2)))
   }
