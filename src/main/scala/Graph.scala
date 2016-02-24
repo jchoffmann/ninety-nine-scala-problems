@@ -85,6 +85,13 @@ abstract class GraphBase[T, U] {
   def findCycles(from: T): List[List[T]] =
     nodes(from).neighbors.flatMap(n => findPaths(n.value, from)).filter(_.size >= 3).map(from +: _)
 
+  // Used for P83 and following
+  def cut(from: List[Node]): List[(Node, Edge)] = for {
+    n <- from
+    e <- n.adj
+    n2 = edgeTarget(e, n).get if !from.contains(n2)
+  } yield (n2, e)
+
   // P85
   def isIsomorphicTo[R, S](g: GraphBase[R, S]): Boolean = {
     val graphNoLabels: Graph[T, Unit] = Graph.term(nodes.keys.toList, edges.map(e => (e.n1.value, e.n2.value)))
@@ -95,7 +102,6 @@ abstract class GraphBase[T, U] {
         val mappedEdges = g.edges.map(e => (ms.head(e.n1.value), ms.head(e.n2.value)))
         Graph.term(mappedNodes, mappedEdges) == graphNoLabels
       } || isIsomorphicToR(ms.tail))
-
     // Check all permutations
     nodes.size == g.nodes.size && edges.size == g.edges.size &&
       isIsomorphicToR(nodes.keys.toList.permutations.toStream.map(g.nodes.keys zip _).map(_.toMap))
@@ -105,12 +111,21 @@ abstract class GraphBase[T, U] {
   def nodesByDegree: List[T] = nodes.values.toList.sortBy(-_.degree).map(_.value)
 
   def colorNodes: List[(T, Int)] = nodesByDegree.foldLeft(Map.empty[T, Int])((m, current) => {
+    // Based on Welsh-Powell's algorithm (greedy)
     val maxNeighbouringColour = nodes(current).neighbors.map(n => m.getOrElse(n.value, 0)).max
     m.updated(current, maxNeighbouringColour + 1)
   }).toList
 
   // P87
-  def nodesByDepthFrom(from: T): List[T] = ???
+  def nodesByDepthFrom(from: T): List[T] = {
+    @tailrec
+    def nodesByDepthFromR(soFar: List[Node]): List[T] = {
+      val ns = cut(soFar).map(_._1)
+      if (ns.isEmpty) soFar.map(_.value)
+      else nodesByDepthFromR(ns ++ soFar)
+    }
+    nodesByDepthFromR(List(nodes(from)))
+  }
 
   // P88
   def splitGraph: List[GraphBase[T, U]] = ???
@@ -138,12 +153,6 @@ class Graph[T, U] extends GraphBase[T, U] {
   override val edgeSep: String = "-"
 
   // P83
-  private def cut(from: List[Node]): List[(Node, Edge)] = for {
-    n <- from
-    e <- n.adj
-    n2 = edgeTarget(e, n).get if !from.contains(n2)
-  } yield (n2, e)
-
   def spanningTrees: List[Graph[T, U]] = {
     def spanningTreesR(treeNodes: List[Node], treeEdges: List[Edge]): List[Graph[T, U]] = {
       if (nodes.size == treeNodes.size) List(Graph.termLabel(nodes.keys.toList, treeEdges.map(_.toTuple)))
