@@ -206,33 +206,32 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
     val g1 = Graph.fromString("[a-b, c]")
     g1.isIsomorphicTo(Graph.fromString("[8, 5-7]")) shouldBe true
     g1.isIsomorphicTo(Graph.fromString("[a-b, b-c]")) shouldBe false
-    val g2 = Graph.fromString("[a-b, b-c, c-d]")
-    g2.isIsomorphicTo(Graph.fromString("[a-b, b-c, b-d]")) shouldBe false
+    Graph.fromString("[a-b, b-c, c-d]").isIsomorphicTo(Graph.fromString("[a-b, b-c, b-d]")) shouldBe false
   }
 
   test("86 determine the degree of a given node") {
-    val g = Graph.fromString("[a-b, b-c, a-c, a-d]")
-    g.nodes("a").degree shouldBe 3
+    Graph.fromString("[a-b, b-c, a-c, a-d]").nodes("a").degree shouldBe 3
   }
 
   test("86 list all nodes of a graph sorted according to decreasing degree") {
-    val g = Graph.fromString("[a-b, b-c, a-c, a-d]")
-    g.nodesByDegree shouldEqual List("a", "c", "b", "d")
+    Graph.fromString("[a-b, b-c, a-c, a-d]").nodesByDegree shouldEqual List("a", "c", "b", "d")
   }
 
   test("86 graph colouring: paint the nodes of a graph in such a way that adjacent nodes have different colours") {
-    val g = Graph.fromString("[a-b, b-c, a-c, a-d]")
-    g.colorNodes should contain theSameElementsAs List(("a", 1), ("c", 2), ("b", 3), ("d", 2))
+    Graph.fromString("[a-b, b-c, a-c, a-d]").colorNodes should contain theSameElementsAs
+      List(("a", 1), ("c", 2), ("b", 3), ("d", 2))
   }
 
   test("87 generate a depth-first order graph traversal sequence") {
-    val g = Graph.fromString("[a-b, b-c, e, a-c, a-d]")
-    g.nodesByDepthFrom("d") shouldEqual List("c", "b", "a", "d")
+    Graph.fromString("[a]").nodesByDepthFrom("a") shouldEqual List("a")
+    Graph.fromString("[a-b, b-c, e, a-c, a-d]").nodesByDepthFrom("e") shouldEqual List("e")
+    Graph.fromString("[a-b, b-c, e, a-c, a-d]").nodesByDepthFrom("d") shouldEqual List("c", "b", "a", "d")
   }
 
   test("88 split a graph into connected components") {
-    val g = Graph.fromString("[a-b, c]")
-    g.splitGraph should contain theSameElementsAs List("[a-b]", "[c]").map(Graph.fromString)
+    Graph.fromString("[a]").splitGraph shouldEqual Graph.fromString("[a]")
+    Graph.fromString("[a-b, b-c]").splitGraph shouldEqual Graph.fromString("[a-b, b-c]")
+    Graph.fromString("[a-b, c]").splitGraph should contain theSameElementsAs List("[a-b]", "[c]").map(Graph.fromString)
   }
 
   test("89 determine whether a given graph is bipartite") {
