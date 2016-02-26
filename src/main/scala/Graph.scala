@@ -112,7 +112,8 @@ abstract class GraphBase[T, U] {
 
   def colorNodes: List[(T, Int)] = nodesByDegree.foldLeft(Map.empty[T, Int])((m, current) => {
     // Based on Welsh-Powell's algorithm (greedy)
-    val maxNeighbouringColour = nodes(current).neighbors.map(n => m.getOrElse(n.value, 0)).max
+    val ns = nodes(current).neighbors
+    val maxNeighbouringColour = if (ns.isEmpty) 1 else ns.map(n => m.getOrElse(n.value, 0)).max
     m.updated(current, maxNeighbouringColour + 1)
   }).toList
 
@@ -128,10 +129,26 @@ abstract class GraphBase[T, U] {
   }
 
   // P88
-  def splitGraph: List[GraphBase[T, U]] = ???
+  def splitGraph: List[GraphBase[T, U]] = {
+    @tailrec
+    def componentR(nodesSoFar: List[Node], edgesSoFar: List[Edge]): GraphBase[T, U] = {
+      val c = cut(nodesSoFar)
+      if (c.isEmpty) Graph.termLabel(nodesSoFar.map(_.value), edgesSoFar.map(_.toTuple))
+      else componentR(c.map(_._1) ++ nodesSoFar, c.map(_._2) ++ edgesSoFar)
+    }
+    @tailrec
+    def splitGraphR(nodesLeft: List[T], componentsSoFar: List[GraphBase[T, U]]): List[GraphBase[T, U]] = {
+      if (nodesLeft.isEmpty) componentsSoFar
+      else {
+        val component = componentR(List(nodes(nodesLeft.head)), List.empty)
+        splitGraphR(nodesLeft diff component.nodes.keys.toList, component +: componentsSoFar)
+      }
+    }
+    splitGraphR(nodes.keys.toList, List.empty)
+  }
 
   // P89
-  def isBipartite: Boolean = ???
+  def isBipartite: Boolean = colorNodes.forall { case (_, color) => color <= 2 }
 }
 
 class Graph[T, U] extends GraphBase[T, U] {
