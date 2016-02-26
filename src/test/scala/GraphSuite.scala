@@ -229,8 +229,8 @@ class GraphSuite extends FunSuite with Matchers with Inspectors {
   }
 
   test("88 split a graph into connected components") {
-    Graph.fromString("[a]").splitGraph shouldEqual Graph.fromString("[a]")
-    Graph.fromString("[a-b, b-c]").splitGraph shouldEqual Graph.fromString("[a-b, b-c]")
+    Graph.fromString("[a]").splitGraph shouldEqual List(Graph.fromString("[a]"))
+    Graph.fromString("[a-b, b-c]").splitGraph shouldEqual List(Graph.fromString("[a-b, b-c]"))
     Graph.fromString("[a-b, c]").splitGraph should contain theSameElementsAs List("[a-b]", "[c]").map(Graph.fromString)
   }
 
