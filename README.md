@@ -1,7 +1,8 @@
 # ninety-nine-scala-problems
 My solutions for Phil Gold's [S99: Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/).
 
-Progress:
+**Progress:**
+
 - [X] [Working with lists](http://aperiodic.net/phil/scala/s-99/#lists_)
 - [X] [Arithmetic](http://aperiodic.net/phil/scala/s-99/#math)
 - [X] [Logic and Codes](http://aperiodic.net/phil/scala/s-99/#logic)
@@ -22,4 +23,4 @@ Progress:
 - [ ] Nonograms
 - [ ] Crossword puzzle
 
-Last solved problem: 89 (finished Graph problems)
+**Last solved problem:** 89 (finished Graph problems)
