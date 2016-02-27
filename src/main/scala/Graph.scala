@@ -247,9 +247,9 @@ abstract class GraphObjBase {
   def fromStringLabel(s: String): GraphClass[String, Any] = {
     val tokens = s.replaceAll("""[\[\]]""", "").split(""",\s*""").map(_.split("[-/>]").toList)
     val (nodes, edges) = tokens.foldLeft(List.empty[String], List.empty[(String, String, Any)]) {
-      case ((ns, es), n :: Nil) => (n +: ns, es)
-      case ((ns, es), n1 :: n2 :: Nil) => (n1 +: n2 +: ns, (n1, n2, ()) +: es)
-      case ((ns, es), n1 :: n2 :: label :: _) => (n1 +: n2 +: ns, (n1, n2, label) +: es)
+      case ((ns, es), n +: Nil) => (n +: ns, es)
+      case ((ns, es), n1 +: n2 +: Nil) => (n1 +: n2 +: ns, (n1, n2, ()) +: es)
+      case ((ns, es), n1 +: n2 +: label +: _) => (n1 +: n2 +: ns, (n1, n2, label) +: es)
       case _ => throw new Exception // Won't happen
     }
     termLabel(nodes, edges)
