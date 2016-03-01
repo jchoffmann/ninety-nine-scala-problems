@@ -1,7 +1,5 @@
 # ninety-nine-scala-problems
-Skeleton code and test suites for Phil Gold's [S99: Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/).
-
-This is an SBT project containing all code snippets from the S99 website as well as tests covering all problems.
+Skeleton code and test suites for Phil Gold's [S99: Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/). This is an SBT project containing all code snippets from the S99 website as well as tests covering all problems.
 
 __Instructions__
 
@@ -23,7 +21,7 @@ Contributions to improve tests or code snippets are welcome via GitHub issues or
 
 __Solutions__
 
-You find my solution attempts on the `solutions` branch.
+You find my solution attempts on the [`solutions`](https://github.com/jayho/ninety-nine-scala-problems/tree/solutions) branch.
 
 __Problem Overview__
 
@@ -33,7 +31,6 @@ __Problem Overview__
 - [Binary Trees](http://aperiodic.net/phil/scala/s-99/#btrees)
 - [Multiway Trees](http://aperiodic.net/phil/scala/s-99/#mtrees)
 - [Graphs](http://aperiodic.net/phil/scala/s-99/#graphs)
-
 - [Miscellaneous Problems:](http://aperiodic.net/phil/scala/s-99/#misc)
   - Eight queens problem
   - Knight's tour
