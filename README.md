@@ -25,13 +25,13 @@ You find my solution attempts on the [`solutions`](https://github.com/jayho/nine
 
 __Problem Overview__
 
-- [Working with lists](http://aperiodic.net/phil/scala/s-99/#lists_)
-- [Arithmetic](http://aperiodic.net/phil/scala/s-99/#math)
-- [Logic and Codes](http://aperiodic.net/phil/scala/s-99/#logic)
-- [Binary Trees](http://aperiodic.net/phil/scala/s-99/#btrees)
-- [Multiway Trees](http://aperiodic.net/phil/scala/s-99/#mtrees)
-- [Graphs](http://aperiodic.net/phil/scala/s-99/#graphs)
-- [Miscellaneous Problems:](http://aperiodic.net/phil/scala/s-99/#misc)
+- [Working with lists](http://aperiodic.net/phil/scala/s-99/#lists) (1-28)
+- [Arithmetic](http://aperiodic.net/phil/scala/s-99/#math) (31-41)
+- [Logic and Codes](http://aperiodic.net/phil/scala/s-99/#logic) (46-50)
+- [Binary Trees](http://aperiodic.net/phil/scala/s-99/#btrees) (55-69)
+- [Multiway Trees](http://aperiodic.net/phil/scala/s-99/#mtrees) (70-73)
+- [Graphs](http://aperiodic.net/phil/scala/s-99/#graphs) (80-89)
+- [Miscellaneous Problems:](http://aperiodic.net/phil/scala/s-99/#misc) (90-99)
   - Eight queens problem
   - Knight's tour
   - Von Koch's conjecture
