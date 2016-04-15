@@ -1,23 +1,26 @@
 # ninety-nine-scala-problems
-Skeleton code and test suites for Phil Gold's [S99: Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/). This is an SBT project containing all code snippets from the S99 website as well as tests covering all problems.
+A convenient starting point for Phil Gold's [S99: Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/).
+
+An SBT based project containing the skeleton scala code (taken from the snippets found on the S99 website) and test coverage for all problems.
 
 __Instructions__
 
-Clone it, solve the problems, and fill in the missing implementations details to make all tests pass.
+Clone it and run the following to see most tests failing:
     
     sbt test
 
+Now it's time to activate those brain cells and fill in the missing implementations to make all tests pass.
+
 __Notes__
 
-The code adheres mostly to Phil's code snippets with a few exceptions. Some changes were made because they were
-necessary (new Scala version), some improved clarity or conciseness. Also, added missing code for the puzzles section.
+The code is based on Phil's snippets with some minor and a few bigger changes.
 
 Uses [Scala 2.11](http://www.scala-lang.org/news/2.11.7/), [SBT](http://www.scala-sbt.org/),
 and [ScalaTest](http://www.scalatest.org/).
 
 __Contributions__
 
-Contributions to improve tests or code snippets are welcome via GitHub issues or pull requests.
+Contributions are welcome via GitHub issues or pull requests.
 
 __Solutions__
 
