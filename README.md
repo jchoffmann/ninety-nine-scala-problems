@@ -1,45 +1,32 @@
 # ninety-nine-scala-problems
 Convenient starting point for Phil Gold's [S99: Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/). Contains skeleton scala code (taken from the S99 snippets) and complete test coverage for all problems.
 
-__Instructions__
-
-Clone it and run
+## Instructions
+You need [SBT](http://www.scala-sbt.org/) installed (current version 0.13.13).
+Clone the project and run
     
     sbt test
 
-You'll see most tests failing. Fill in the missing implementations and make them all pass.
+You'll see most tests failing. Fill in the missing implementations using your favourite text editor or IDE, and make them pass.
 
-__Notes__
+## Problem Descriptions
+[My problem descriptions](https://gist.github.com/jayho/50bbf1945bed86be71c87fb10b6296a3) come in the form of a Gist (work in progress). They are tailored to the code and differ in some places from Phil's descriptions.
 
-The code is based on Phil's snippets with some minor and a few bigger changes. Some were necessary (e.g. because of a newer Scala version), some added clarity or conciseness.
+## Problem Solutions
+You'll learn most if you design and implement your own solutions. However, if you need inspiration or want to compare solutions, you're welcome to look at my attempts on the [`solutions`](https://github.com/jayho/ninety-nine-scala-problems/tree/solutions) branch, or at Phil's solutions on his S99 website.
 
-Uses [Scala 2.11](http://www.scala-lang.org/news/2.11.7/), [SBT](http://www.scala-sbt.org/),
-and [ScalaTest](http://www.scalatest.org/).
+## Notes
+The code is based on Phil's snippets with some changes in order to be able to add tests, or because a newer Scala version required them.
 
-__Contributions__
+Libraries used:
 
+| Library            | Version                                                                |
+| ------------------ | ---------------------------------------------------------------------- |
+| Scala              | [2.12.0](http://www.scala-lang.org/news/2.12.0)                        |
+| ScalaTest          | [3.0.0](http://www.scalatest.org/release_notes/3.0.0)                  |
+| Parser Combinators | [1.0.4](https://github.com/scala/scala-parser-combinators/tree/v1.0.4) |
+
+Parser Combinators come in handy in those tree or graph problems that task us to convert from String representations to objects.
+
+## Contributions
 Contributions are welcome via GitHub issues or pull requests.
-
-__Solutions__
-
-You'll learn most if you find your own solutions. However, if you need inspiration or want to compare solutions, you're welcome to look at my attempts on the [`solutions`](https://github.com/jayho/ninety-nine-scala-problems/tree/solutions) branch, or at Phil's solutions on his S99 website.
-
-__Problem Overview__
-
-- [Working with lists](http://aperiodic.net/phil/scala/s-99/#lists) (1-28)
-- [Arithmetic](http://aperiodic.net/phil/scala/s-99/#math) (31-41)
-- [Logic and Codes](http://aperiodic.net/phil/scala/s-99/#logic) (46-50)
-- [Binary Trees](http://aperiodic.net/phil/scala/s-99/#btrees) (55-69)
-- [Multiway Trees](http://aperiodic.net/phil/scala/s-99/#mtrees) (70-73)
-- [Graphs](http://aperiodic.net/phil/scala/s-99/#graphs) (80-89)
-- [Miscellaneous Problems:](http://aperiodic.net/phil/scala/s-99/#misc) (90-99)
-  - Eight queens problem
-  - Knight's tour
-  - Von Koch's conjecture
-  - An Arithmetic puzzle
-  - Generate K-regular simple graphs with N nodes
-  - English number words
-  - Syntax checker
-  - Sudoku
-  - Nonograms
-  - Crossword puzzle
