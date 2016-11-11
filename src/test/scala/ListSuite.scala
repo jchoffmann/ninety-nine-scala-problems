@@ -301,7 +301,7 @@ class ListSuite extends FunSuite with Matchers with Inspectors {
     combinations(6, List('a, 'b, 'c, 'd, 'e, 'f)).head should contain theSameElementsAs List('a, 'b, 'c, 'd, 'e, 'f)
   }
 
-  test("27 group the elements of a set into disjoint subsets") {
+  test("27a group the elements of a set into disjoint subsets") {
     val input = List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida")
     val result = group3(input)
     result should have size 1260
@@ -309,29 +309,29 @@ class ListSuite extends FunSuite with Matchers with Inspectors {
     forAll(result) { r => r.flatten should contain theSameElementsAs input }
   }
 
-  test("27 grouping the elements of a an empty set into disjoint subsets should yield an empty set") {
+  test("27a grouping the elements of a an empty set into disjoint subsets should yield an empty set") {
     group3(List.empty) shouldEqual List.empty
   }
 
-  test("27 grouping the elements of a set into disjoint subsets of configurable size should throw an exception if the subset configuration is empty") {
+  test("27b grouping the elements of a set into disjoint subsets of configurable size should throw an exception if the subset configuration is empty") {
     val input = List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida")
     an[IllegalArgumentException] should be thrownBy group(List.empty, input)
   }
 
-  test("27 grouping the elements of a set into disjoint subsets of configurable size should throw an exception if the subset configuration does not match the list size") {
+  test("27b grouping the elements of a set into disjoint subsets of configurable size should throw an exception if the subset configuration does not match the list size") {
     val input = List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida")
     an[IllegalArgumentException] should be thrownBy group(List(2, 3, 3), input)
     an[IllegalArgumentException] should be thrownBy group(List(2, 3, 5), input)
     an[IllegalArgumentException] should be thrownBy group(List(2, 3, 4), List.empty)
   }
 
-  test("27 grouping the elements of a set into disjoint subsets of configurable size should throw an exception if the subset configuration contains sizes <= 0") {
+  test("27b grouping the elements of a set into disjoint subsets of configurable size should throw an exception if the subset configuration contains sizes <= 0") {
     val input = List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida")
     an[IllegalArgumentException] should be thrownBy group(List(0, 3, 6), input)
     an[IllegalArgumentException] should be thrownBy group(List(-1, 3, 7), input)
   }
 
-  test("27 group the elements of a set into disjoint subsets of configurable size") {
+  test("27b group the elements of a set into disjoint subsets of configurable size") {
     val input = List("Aldo", "Beat", "Carla", "David", "Evi", "Flip", "Gary", "Hugo", "Ida")
     group(List(2, 3, 4), input) shouldEqual group3(input)
     val result = group(List(2, 2, 5), input)

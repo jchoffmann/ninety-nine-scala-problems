@@ -82,9 +82,10 @@ object S99List {
   // P26
   def combinations[T](n: Int, l: List[T]): List[List[T]] = ???
 
-  // P27
+  // P27a
   def group3[T](l: List[T]): List[List[List[T]]] = ???
 
+  // P27b
   def group[T](groupSizes: List[Int], l: List[T]): List[List[List[T]]] = ???
 
   // P28
