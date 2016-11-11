@@ -196,8 +196,9 @@ object S99List {
     } yield comb +: next
   }
 
-  // P28
+  // P28a
   def lsort[T](l: List[List[T]]): List[List[T]] = l.sortBy(_.size)
 
+  // P28b
   def lsortFreq[T](l: List[List[T]]): List[List[T]] = l.sortBy(ls => l.count(_.size == ls.size))
 }

@@ -340,21 +340,21 @@ class ListSuite extends FunSuite with Matchers with Inspectors {
     forAll(result) { r => r.flatten should contain theSameElementsAs input }
   }
 
-  test("28 sorting a list of lists according to length of sub-lists") {
+  test("28a sorting a list of lists according to length of sub-lists") {
     lsort(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o))) shouldEqual
       List(List('o), List('d, 'e), List('d, 'e), List('m, 'n), List('a, 'b, 'c), List('f, 'g, 'h), List('i, 'j, 'k, 'l))
   }
 
-  test("28 sorting an empty list of lists according to length of sub-lists should yield an empty list") {
+  test("28a sorting an empty list of lists according to length of sub-lists should yield an empty list") {
     lsort(List.empty) shouldEqual List.empty
   }
 
-  test("28 sorting a list of lists according to length frequency of sub-lists") {
+  test("28b sorting a list of lists according to length frequency of sub-lists") {
     lsortFreq(List(List('a, 'b, 'c), List('d, 'e), List('f, 'g, 'h), List('d, 'e), List('i, 'j, 'k, 'l), List('m, 'n), List('o))) shouldEqual
       List(List('i, 'j, 'k, 'l), List('o), List('a, 'b, 'c), List('f, 'g, 'h), List('d, 'e), List('d, 'e), List('m, 'n))
   }
 
-  test("28 sorting an empty list of lists according to length frequency of sub-lists should yield an empty list") {
+  test("28b sorting an empty list of lists according to length frequency of sub-lists should yield an empty list") {
     lsortFreq(List.empty) shouldEqual List.empty
   }
 }
