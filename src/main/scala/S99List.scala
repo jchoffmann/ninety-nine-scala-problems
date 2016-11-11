@@ -88,8 +88,9 @@ object S99List {
   // P27b
   def group[T](groupSizes: List[Int], l: List[T]): List[List[List[T]]] = ???
 
-  // P28
+  // P28a
   def lsort[T](l: List[List[T]]): List[List[T]] = ???
 
+  // P28b
   def lsortFreq[T](l: List[List[T]]): List[List[T]] = ???
 }
