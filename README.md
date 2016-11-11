@@ -1,16 +1,16 @@
 # ninety-nine-scala-problems
-My solutions for Phil Gold's [S99: Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/).
+My solutions for Phil Gold's [S99: Ninety-Nine Scala Problems](https://gist.github.com/jayho/50bbf1945bed86be71c87fb10b6296a3).
 
-**Progress:**
+## Progress
 
-- [X] [Working with lists](http://aperiodic.net/phil/scala/s-99/#lists_)
-- [X] [Arithmetic](http://aperiodic.net/phil/scala/s-99/#math)
-- [X] [Logic and Codes](http://aperiodic.net/phil/scala/s-99/#logic)
-- [X] [Binary Trees](http://aperiodic.net/phil/scala/s-99/#btrees)
-- [X] [Multiway Trees](http://aperiodic.net/phil/scala/s-99/#mtrees)
-- [X] [Graphs](http://aperiodic.net/phil/scala/s-99/#graphs)
+- [X] Lists
+- [X] Arithmetic
+- [X] Logic and Codes
+- [X] Binary Trees
+- [X] Multiway Trees
+- [X] Graphs
 
-[Miscellaneous Problems:](http://aperiodic.net/phil/scala/s-99/#misc)
+Puzzles:
 
 - [ ] Eight queens problem
 - [ ] Knight's tour
