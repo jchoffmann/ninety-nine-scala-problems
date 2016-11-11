@@ -178,13 +178,14 @@ object S99List {
       ) (collection.breakOut)
   }
 
-  // P27
+  // P27a
   def group3[T](l: List[T]): List[List[List[T]]] = for {
     twos <- combinations(2, l)
     noTwos = l diff twos
     threes <- combinations(3, noTwos)
   } yield List(twos, threes, noTwos diff threes)
 
+  // P27b
   def group[T](groupSizes: List[Int], l: List[T]): List[List[List[T]]] = {
     require(groupSizes.sum == l.size)
     if (l.isEmpty) List(List())
