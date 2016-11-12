@@ -24,7 +24,7 @@ class S99Logic(val b: Boolean) {
 object S99Logic {
   implicit def boolean2S99Logic(b: Boolean): S99Logic = new S99Logic(b)
 
-  // P46
+  // P46a
   def and(x: Boolean, y: Boolean): Boolean = ???
 
   def or(x: Boolean, y: Boolean): Boolean = ???
@@ -39,6 +39,7 @@ object S99Logic {
 
   def equ(x: Boolean, y: Boolean): Boolean = ???
 
+  // P46b
   def table2(f: (Boolean, Boolean) => Boolean): Map[(Boolean, Boolean), Boolean] = ???
 
   // P47

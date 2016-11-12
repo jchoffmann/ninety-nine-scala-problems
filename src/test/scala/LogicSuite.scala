@@ -2,56 +2,56 @@ import S99Logic.{not => s99not, _}
 import org.scalatest.{FunSuite, Matchers}
 
 class LogicSuite extends FunSuite with Matchers {
-  test("46 logical and") {
+  test("46a logical and") {
     and(true, true) shouldBe true
     and(true, false) shouldBe false
     and(false, true) shouldBe false
     and(false, false) shouldBe false
   }
 
-  test("46 logical or") {
+  test("46a logical or") {
     or(true, true) shouldBe true
     or(true, false) shouldBe true
     or(false, true) shouldBe true
     or(false, false) shouldBe false
   }
 
-  test("46 logical nand") {
+  test("46a logical nand") {
     nand(true, true) shouldBe false
     nand(true, false) shouldBe true
     nand(false, true) shouldBe true
     nand(false, false) shouldBe true
   }
 
-  test("46 logical nor") {
+  test("46a logical nor") {
     nor(true, true) shouldBe false
     nor(true, false) shouldBe false
     nor(false, true) shouldBe false
     nor(false, false) shouldBe true
   }
 
-  test("46 logical xor") {
+  test("46a logical xor") {
     xor(true, true) shouldBe false
     xor(true, false) shouldBe true
     xor(false, true) shouldBe true
     xor(false, false) shouldBe false
   }
 
-  test("46 logical impl") {
+  test("46a logical impl") {
     impl(true, true) shouldBe true
     impl(true, false) shouldBe false
     impl(false, true) shouldBe true
     impl(false, false) shouldBe true
   }
 
-  test("46 logical equ") {
+  test("46a logical equ") {
     equ(true, true) shouldBe true
     equ(true, false) shouldBe false
     equ(false, true) shouldBe false
     equ(false, false) shouldBe true
   }
 
-  test("46 truth table") {
+  test("46b truth table") {
     table2((a, b) => and(a, or(a, b))) should contain theSameElementsAs
       Map((true, true) -> true, (true, false) -> true, (false, true) -> false, (false, false) -> false)
   }
