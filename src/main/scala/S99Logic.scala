@@ -34,7 +34,7 @@ class S99Logic(val b: Boolean) {
 object S99Logic {
   implicit def boolean2S99Logic(b: Boolean): S99Logic = new S99Logic(b)
 
-  // P46
+  // P46a
   def and(x: Boolean, y: Boolean): Boolean = (x, y) match {
     case (true, true) => true
     case _ => false
@@ -56,6 +56,7 @@ object S99Logic {
 
   def equ(x: Boolean, y: Boolean): Boolean = not(xor(x, y))
 
+  // P46b
   def table2(f: (Boolean, Boolean) => Boolean): Map[(Boolean, Boolean), Boolean] = {
     for {
       x <- List(false, true)
