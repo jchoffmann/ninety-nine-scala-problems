@@ -5,7 +5,7 @@ sealed abstract class Tree[+T] {
   // P56
   def isSymmetric: Boolean = ???
 
-  // P57
+  // P57a
   def addValue[U >: T](x: U)(implicit o: U => Ordered[U]): Tree[U] = ???
 
   // P59
@@ -58,7 +58,7 @@ object Tree {
   // P55
   def completelyBalancedTrees[T](nodes: Int, value: T): List[Tree[T]] = ???
 
-  // P57
+  // P57b
   def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = ???
 
   // P58

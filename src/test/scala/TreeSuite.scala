@@ -40,17 +40,17 @@ class TreeSuite extends FunSuite with Matchers {
     Node('a, Node('a1, Node('b1), End), Node('a2, Node('b2), End)).isSymmetric shouldBe false
   }
 
-  test("57 add a value to a binary search tree") {
+  test("57a add a value to a binary search tree") {
     End.addValue(2) shouldEqual Node(2)
     End.addValue(2).addValue(3) shouldEqual Node(2, End, Node(3))
     End.addValue(2).addValue(3).addValue(0) shouldEqual Node(2, Node(0), Node(3))
   }
 
-  test("57 construct a binary search tree from a list of integers") {
+  test("57b construct a binary search tree from a list of integers") {
     fromList(List(3, 2, 5, 7, 1)) shouldEqual Node(3, Node(2, Node(1), End), Node(5, End, Node(7)))
   }
 
-  test("57 check whether a given binary search tree is symmetric") {
+  test("57b check whether a given binary search tree is symmetric") {
     fromList(List(5, 3, 18, 1, 4, 12, 21)).isSymmetric shouldBe true
     fromList(List(3, 2, 5, 7, 4)).isSymmetric shouldBe false
   }
