@@ -8,7 +8,7 @@ sealed abstract class Tree[+T] {
   // P58a
   def addValue[U >: T](x: U)(implicit o: U => Ordered[U]): Tree[U] = ???
 
-  // P59
+  // P59a
   def height: Int = ???
 
   // P60
@@ -64,7 +64,7 @@ object Tree {
   // P58b
   def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = ???
 
-  // P59
+  // P59b
   def heightBalancedTrees[T](height: Int, value: T): List[Tree[T]] = ???
 
   // P60
