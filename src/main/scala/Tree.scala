@@ -9,7 +9,7 @@ sealed trait Tree[+T] {
 
   def isSymmetric: Boolean
 
-  // P57a
+  // P58a
   def addValue[U >: T](x: U)(implicit o: U => Ordered[U]): Tree[U]
 
   // P59
@@ -245,12 +245,12 @@ object Tree {
       } yield List(Node(value, smaller, bigger), Node(value, bigger, smaller))
     }.flatten
 
-  // P57b
-  def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = l.foldLeft(End: Tree[T])((t, x) => t.addValue(x))
-
-  // P58
+  // P57
   def symmetricBalancedTrees[T](nodes: Int, value: T): List[Tree[T]] =
-    completelyBalancedTrees(nodes, value) filter (_.isSymmetric)
+  completelyBalancedTrees(nodes, value) filter (_.isSymmetric)
+
+  // P58b
+  def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = l.foldLeft(End: Tree[T])((t, x) => t.addValue(x))
 
   // P59
   def heightBalancedTrees[T](height: Int, value: T): List[Tree[T]] =
