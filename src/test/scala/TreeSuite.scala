@@ -66,7 +66,7 @@ class TreeSuite extends FunSuite with Matchers {
     fromList(List(3, 2, 5, 7, 4)).isSymmetric shouldBe false
   }
 
-  test("59 height of a binary tree") {
+  test("59a height of a binary tree") {
     End.height shouldBe 0
     Node('x).height shouldBe 1
     Node('x, End, Node('x)).height shouldBe 2
@@ -75,7 +75,7 @@ class TreeSuite extends FunSuite with Matchers {
     Node('x, Node('x, Node('x), End), Node('x)).height shouldBe 3
   }
 
-  test("59 construct height-balanced binary trees") {
+  test("59b construct height-balanced binary trees") {
     heightBalancedTrees(0, 'x) shouldEqual List(End)
     heightBalancedTrees(1, 'x) shouldEqual List(Node('x))
     heightBalancedTrees(2, 'x) should contain theSameElementsAs
