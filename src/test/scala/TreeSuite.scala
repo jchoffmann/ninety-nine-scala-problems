@@ -40,22 +40,7 @@ class TreeSuite extends FunSuite with Matchers {
     Node('a, Node('a1, Node('b1), End), Node('a2, Node('b2), End)).isSymmetric shouldBe false
   }
 
-  test("57a add a value to a binary search tree") {
-    End.addValue(2) shouldEqual Node(2)
-    End.addValue(2).addValue(3) shouldEqual Node(2, End, Node(3))
-    End.addValue(2).addValue(3).addValue(0) shouldEqual Node(2, Node(0), Node(3))
-  }
-
-  test("57b construct a binary search tree from a list of integers") {
-    fromList(List(3, 2, 5, 7, 1)) shouldEqual Node(3, Node(2, Node(1), End), Node(5, End, Node(7)))
-  }
-
-  test("57b check whether a given binary search tree is symmetric") {
-    fromList(List(5, 3, 18, 1, 4, 12, 21)).isSymmetric shouldBe true
-    fromList(List(3, 2, 5, 7, 4)).isSymmetric shouldBe false
-  }
-
-  test("58 construct all symmetric, completely balanced binary trees") {
+  test("57 construct all symmetric, completely balanced binary trees") {
     symmetricBalancedTrees(0, 'x) shouldEqual List(End)
     symmetricBalancedTrees(1, 'x) shouldEqual List(Node('x))
     symmetricBalancedTrees(2, 'x) shouldBe empty
@@ -64,6 +49,21 @@ class TreeSuite extends FunSuite with Matchers {
     symmetricBalancedTrees(5, 'x) should contain theSameElementsAs List(
       Node('x, Node('x, End, Node('x)), Node('x, Node('x), End)),
       Node('x, Node('x, Node('x), End), Node('x, End, Node('x))))
+  }
+
+  test("58a add a value to a binary search tree") {
+    End.addValue(2) shouldEqual Node(2)
+    End.addValue(2).addValue(3) shouldEqual Node(2, End, Node(3))
+    End.addValue(2).addValue(3).addValue(0) shouldEqual Node(2, Node(0), Node(3))
+  }
+
+  test("58b construct a binary search tree from a list of integers") {
+    fromList(List(3, 2, 5, 7, 1)) shouldEqual Node(3, Node(2, Node(1), End), Node(5, End, Node(7)))
+  }
+
+  test("58b check whether a given binary search tree is symmetric") {
+    fromList(List(5, 3, 18, 1, 4, 12, 21)).isSymmetric shouldBe true
+    fromList(List(3, 2, 5, 7, 4)).isSymmetric shouldBe false
   }
 
   test("59 height of a binary tree") {
