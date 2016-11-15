@@ -74,10 +74,10 @@ object Tree {
   def minHbalNodes(height: Int): Int = ???
 
   // P60d
-  def minHbalHeight(nodes: Int): Int = ???
+  def maxHbalHeight(nodes: Int): Int = ???
 
   // P60e
-  def maxHbalHeight(nodes: Int): Int = ???
+  def minHbalHeight(nodes: Int): Int = ???
 
   // P60f
   def heightBalancedTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] = ???
