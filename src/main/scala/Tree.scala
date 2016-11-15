@@ -75,7 +75,7 @@ sealed trait NodeLike[+T] extends Tree[T] {
   // P56
   override def isSymmetric: Boolean = left.isMirrorOf(right)
 
-  // P59
+  // P59a
   override def height: Int = 1 + math.max(left.height, right.height)
 
   // P60
@@ -164,7 +164,7 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends NodeLike[T]
     case _ => false
   }
 
-  // P57
+  // P58a
   override def addValue[U >: T](x: U)(implicit o: (U) => Ordered[U]): Tree[U] =
     if (x <= value) Node(value, left.addValue(x), right) else Node(value, left, right.addValue(x))
 }
@@ -178,10 +178,10 @@ case object End extends Tree[Nothing] {
 
   override def isSymmetric: Boolean = true
 
-  // P57
+  // P58a
   override def addValue[U >: Nothing](x: U)(implicit o: (U) => Ordered[U]): Tree[U] = Node(x)
 
-  // P59
+  // P59a
   override def height: Int = -1
 
   // P60
@@ -225,7 +225,7 @@ case class PositionedNode[+T](value: T, left: Tree[T], right: Tree[T], x: Int, y
     case _ => false
   }
 
-  // P57
+  // P58a
   override def addValue[U >: T](x: U)(implicit o: (U) => Ordered[U]): Tree[U] =
     throw new UnsupportedOperationException("addValue not supported for positioned trees")
 }
