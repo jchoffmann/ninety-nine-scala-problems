@@ -43,7 +43,7 @@ sealed trait Tree[+T] {
 
   def layoutBinaryTree2: Tree[T] = {
     val maxLevel = if (envelope.isEmpty) 0 else envelope.minBy { case (_, (l, _)) => l }._1 + 1
-    val h = height
+    val h = height + 1
     // For the root node position we sum the x distances from the level of the leftmost element to the root
     layoutBinaryTree2R(1, h, 1 + (h - maxLevel).until(h - 1).map(math.pow(2, _).toInt).sum)
   }
@@ -182,7 +182,7 @@ case object End extends Tree[Nothing] {
   override def addValue[U >: Nothing](x: U)(implicit o: (U) => Ordered[U]): Tree[U] = Node(x)
 
   // P59
-  override def height: Int = 0
+  override def height: Int = -1
 
   // P60
   override def nodeCount: Int = 0
@@ -254,8 +254,8 @@ object Tree {
 
   // P59b
   def heightBalancedTrees[T](height: Int, value: T): List[Tree[T]] =
-    if (height < 1) List(End)
-    else if (height == 1) List(Node(value))
+    if (height < 0) List(End)
+    else if (height == 0) List(Node(value))
     else {
       val fullHeight = heightBalancedTrees(height - 1, value)
       val smallerHeight = heightBalancedTrees(height - 2, value)
@@ -265,13 +265,13 @@ object Tree {
 
   // P60
   def minHbalNodes(height: Int): Int =
-    if (height <= 1) height else 1 + minHbalNodes(height - 1) + minHbalNodes(height - 2)
+    if (height <= 0) height + 1 else 1 + minHbalNodes(height - 1) + minHbalNodes(height - 2)
 
-  def maxHbalNodes(height: Int): Int = math.pow(2, height).toInt - 1
+  def maxHbalNodes(height: Int): Int = math.pow(2, height + 1).toInt - 1
 
-  def minHbalHeight(nodes: Int): Int = if (nodes == 0) 0 else 1 + minHbalHeight(nodes / 2)
+  def minHbalHeight(nodes: Int): Int = if (nodes == 0) -1 else 1 + minHbalHeight(nodes / 2)
 
-  def maxHbalHeight(nodes: Int): Int = (nodes to 0 by -1).dropWhile(minHbalNodes(_) > nodes).head
+  def maxHbalHeight(nodes: Int): Int = (nodes to 0 by -1).dropWhile(minHbalNodes(_) > nodes).headOption.getOrElse(-1)
 
   def heightBalancedTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] = (
     for {
