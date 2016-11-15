@@ -15,7 +15,7 @@ sealed trait Tree[+T] {
   // P59a
   def height: Int
 
-  // P60
+  // P60a
   def nodeCount: Int
 
   // P61
@@ -78,7 +78,7 @@ sealed trait NodeLike[+T] extends Tree[T] {
   // P59a
   override def height: Int = 1 + math.max(left.height, right.height)
 
-  // P60
+  // P60a
   override def nodeCount: Int = 1 + left.nodeCount + right.nodeCount
 
   // P61
@@ -184,7 +184,7 @@ case object End extends Tree[Nothing] {
   // P59a
   override def height: Int = -1
 
-  // P60
+  // P60a
   override def nodeCount: Int = 0
 
   // P61
@@ -263,16 +263,20 @@ object Tree {
         (for (t1 <- fullHeight; t2 <- smallerHeight) yield List(Node(value, t1, t2), Node(value, t2, t1))).flatten
     }
 
-  // P60
+  // P60b
+  def maxHbalNodes(height: Int): Int = math.pow(2, height + 1).toInt - 1
+
+  // P60c
   def minHbalNodes(height: Int): Int =
     if (height <= 0) height + 1 else 1 + minHbalNodes(height - 1) + minHbalNodes(height - 2)
 
-  def maxHbalNodes(height: Int): Int = math.pow(2, height + 1).toInt - 1
-
+  // P60d
   def minHbalHeight(nodes: Int): Int = if (nodes == 0) -1 else 1 + minHbalHeight(nodes / 2)
 
+  // P60e
   def maxHbalHeight(nodes: Int): Int = (nodes to 0 by -1).dropWhile(minHbalNodes(_) > nodes).headOption.getOrElse(-1)
 
+  // P60f
   def heightBalancedTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] = (
     for {
       h <- minHbalHeight(nodes) to maxHbalHeight(nodes)

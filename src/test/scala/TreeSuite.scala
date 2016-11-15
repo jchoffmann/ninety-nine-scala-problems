@@ -84,7 +84,7 @@ class TreeSuite extends FunSuite with Matchers {
     heightBalancedTreesWithHeight(4, 'x) should have size 108675
   }
 
-  test("60 count nodes of a binary tree") {
+  test("60a count nodes of a binary tree") {
     End.nodeCount shouldBe 0
     Node('x).nodeCount shouldBe 1
     Node('x, End, Node('x)).nodeCount shouldBe 2
@@ -92,23 +92,23 @@ class TreeSuite extends FunSuite with Matchers {
     Node('x, Node('x), Node('x)).nodeCount shouldBe 3
   }
 
-  test("60 minimum number of nodes a height-balanced binary tree can contain for a given height") {
-    (0 to 4).map(minHbalNodes) shouldEqual List(1, 2, 4, 7, 12)
-  }
-
-  test("60 maximum number of nodes a height-balanced binary tree can contain for a given height") {
+  test("60b maximum number of nodes a height-balanced binary tree can contain for a given height") {
     (0 to 4).map(maxHbalNodes) shouldEqual List(1, 3, 7, 15, 31)
   }
 
-  test("60 minimum height a height-balanced binary tree can have given a number of nodes ") {
+  test("60c minimum number of nodes a height-balanced binary tree can contain for a given height") {
+    (0 to 4).map(minHbalNodes) shouldEqual List(1, 2, 4, 7, 12)
+  }
+
+  test("60d minimum height a height-balanced binary tree can have given a number of nodes ") {
     (0 to 9).map(minHbalHeight) shouldEqual List(-1, 0, 1, 1, 2, 2, 2, 2, 3, 3)
   }
 
-  test("60 maximum height a height-balanced binary tree can have given a number of nodes ") {
+  test("60e maximum height a height-balanced binary tree can have given a number of nodes ") {
     (0 to 9).map(maxHbalHeight) shouldEqual List(-1, 0, 1, 1, 2, 2, 2, 3, 3, 3)
   }
 
-  test("60 construct height-balanced binary trees with a given number of nodes") {
+  test("60f construct height-balanced binary trees with a given number of nodes") {
     heightBalancedTreesWithNodes(0, 'x) shouldEqual List(End)
     heightBalancedTreesWithNodes(1, 'x) shouldEqual List(Node('x))
     heightBalancedTreesWithNodes(2, 'x) should contain theSameElementsAs
