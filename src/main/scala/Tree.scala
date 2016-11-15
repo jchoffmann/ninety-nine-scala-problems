@@ -253,12 +253,12 @@ object Tree {
   def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = l.foldLeft(End: Tree[T])((t, x) => t.addValue(x))
 
   // P59b
-  def heightBalancedTrees[T](height: Int, value: T): List[Tree[T]] =
+  def heightBalancedTreesWithHeight[T](height: Int, value: T): List[Tree[T]] =
     if (height < 0) List(End)
     else if (height == 0) List(Node(value))
     else {
-      val fullHeight = heightBalancedTrees(height - 1, value)
-      val smallerHeight = heightBalancedTrees(height - 2, value)
+      val fullHeight = heightBalancedTreesWithHeight(height - 1, value)
+      val smallerHeight = heightBalancedTreesWithHeight(height - 2, value)
       (for (l <- fullHeight; r <- fullHeight) yield Node(value, l, r)) ++
         (for (t1 <- fullHeight; t2 <- smallerHeight) yield List(Node(value, t1, t2), Node(value, t2, t1))).flatten
     }
@@ -276,7 +276,7 @@ object Tree {
   def heightBalancedTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] = (
     for {
       h <- minHbalHeight(nodes) to maxHbalHeight(nodes)
-      t <- heightBalancedTrees(h, value) if t.nodeCount == nodes
+      t <- heightBalancedTreesWithHeight(h, value) if t.nodeCount == nodes
     } yield t
     ) (collection.breakOut)
 
