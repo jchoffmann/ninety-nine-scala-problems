@@ -65,7 +65,7 @@ object Tree {
   def fromList[T](l: List[T])(implicit o: T => Ordered[T]): Tree[T] = ???
 
   // P59b
-  def heightBalancedTrees[T](height: Int, value: T): List[Tree[T]] = ???
+  def heightBalancedTreesWithHeight[T](height: Int, value: T): List[Tree[T]] = ???
 
   // P60
   def minHbalNodes(height: Int): Int = ???

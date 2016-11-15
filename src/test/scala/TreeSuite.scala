@@ -76,12 +76,12 @@ class TreeSuite extends FunSuite with Matchers {
   }
 
   test("59b construct height-balanced binary trees") {
-    heightBalancedTrees(0, 'x) shouldEqual List(Node('x))
-    heightBalancedTrees(1, 'x) should contain theSameElementsAs
+    heightBalancedTreesWithHeight(0, 'x) shouldEqual List(Node('x))
+    heightBalancedTreesWithHeight(1, 'x) should contain theSameElementsAs
       List(Node('x, Node('x), End), Node('x, End, Node('x)), Node('x, Node('x), Node('x)))
-    heightBalancedTrees(2, 'x) should have size 15
-    heightBalancedTrees(3, 'x) should have size 315
-    heightBalancedTrees(4, 'x) should have size 108675
+    heightBalancedTreesWithHeight(2, 'x) should have size 15
+    heightBalancedTreesWithHeight(3, 'x) should have size 315
+    heightBalancedTreesWithHeight(4, 'x) should have size 108675
   }
 
   test("60 count nodes of a binary tree") {
