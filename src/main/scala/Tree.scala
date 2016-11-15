@@ -11,7 +11,7 @@ sealed abstract class Tree[+T] {
   // P59a
   def height: Int = ???
 
-  // P60
+  // P60a
   def nodeCount: Int = ???
 
   // P61
@@ -67,15 +67,19 @@ object Tree {
   // P59b
   def heightBalancedTreesWithHeight[T](height: Int, value: T): List[Tree[T]] = ???
 
-  // P60
-  def minHbalNodes(height: Int): Int = ???
-
+  // P60b
   def maxHbalNodes(height: Int): Int = ???
 
+  // P60c
+  def minHbalNodes(height: Int): Int = ???
+
+  // P60d
   def minHbalHeight(nodes: Int): Int = ???
 
+  // P60e
   def maxHbalHeight(nodes: Int): Int = ???
 
+  // P60f
   def heightBalancedTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] = ???
 
   // P63
