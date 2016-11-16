@@ -122,18 +122,18 @@ class TreeSuite extends FunSuite with Matchers {
     heightBalancedTreesWithNodes(15, 'x) should have size 1553
   }
 
-  test("61 count leaves of a binary tree") {
+  test("61a list leaves of a binary tree") {
+    End.leafList shouldBe empty
+    Node('x).leafList shouldEqual List('x)
+    Node('a, Node('b), Node('c, Node('d), Node('e))).leafList should contain theSameElementsAs List('b, 'd, 'e)
+  }
+
+  test("61b count leaves of a binary tree") {
     End.leafCount shouldBe 0
     Node('x).leafCount shouldBe 1
     Node('x, End, Node('x)).leafCount shouldBe 1
     Node('x, Node('x), End).leafCount shouldBe 1
     Node('x, Node('x), Node('x)).leafCount shouldBe 2
-  }
-
-  test("61 list leaves of a binary tree") {
-    End.leafList shouldBe empty
-    Node('x).leafList shouldEqual List('x)
-    Node('a, Node('b), Node('c, Node('d), Node('e))).leafList should contain theSameElementsAs List('b, 'd, 'e)
   }
 
   test("62 list internal nodes of a binary tree") {
