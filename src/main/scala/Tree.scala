@@ -24,9 +24,10 @@ sealed trait Tree[+T] {
   // P61b
   def leafCount: Int = leafList.size
 
-  // P62
+  // P62a
   def internalList: List[T]
 
+  // P62b
   def atLevel(n: Int): List[T]
 
   // P64
@@ -85,10 +86,11 @@ sealed trait NodeLike[+T] extends Tree[T] {
   // P61a
   override def leafList: List[T] = if (left == End && right == End) List(value) else left.leafList ++ right.leafList
 
-  // P62
+  // P62a
   override def internalList: List[T] =
     if (left == End && right == End) List.empty else value +: (left.internalList ++ right.internalList)
 
+  // P62b
   override def atLevel(n: Int): List[T] =
     if (n < 1) List.empty
     else if (n == 1) List(value)
@@ -191,9 +193,10 @@ case object End extends Tree[Nothing] {
   // P61a
   override def leafList: List[Nothing] = List.empty
 
-  // P62
+  // P62a
   override def internalList: List[Nothing] = List.empty
 
+  // P62b
   override def atLevel(n: Int): List[Nothing] = List.empty
 
   // P64
