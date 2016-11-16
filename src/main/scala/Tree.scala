@@ -271,10 +271,10 @@ object Tree {
     if (height <= 0) height + 1 else 1 + minHbalNodes(height - 1) + minHbalNodes(height - 2)
 
   // P60d
-  def minHbalHeight(nodes: Int): Int = if (nodes == 0) -1 else 1 + minHbalHeight(nodes / 2)
+  def maxHbalHeight(nodes: Int): Int = (nodes to 0 by -1).dropWhile(minHbalNodes(_) > nodes).headOption.getOrElse(-1)
 
   // P60e
-  def maxHbalHeight(nodes: Int): Int = (nodes to 0 by -1).dropWhile(minHbalNodes(_) > nodes).headOption.getOrElse(-1)
+  def minHbalHeight(nodes: Int): Int = if (nodes == 0) -1 else 1 + minHbalHeight(nodes / 2)
 
   // P60f
   def heightBalancedTreesWithNodes[T](nodes: Int, value: T): List[Tree[T]] = (

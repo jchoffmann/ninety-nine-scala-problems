@@ -100,12 +100,12 @@ class TreeSuite extends FunSuite with Matchers {
     (0 to 4).map(minHbalNodes) shouldEqual List(1, 2, 4, 7, 12)
   }
 
-  test("60d minimum height a height-balanced binary tree can have given a number of nodes ") {
-    (0 to 9).map(minHbalHeight) shouldEqual List(-1, 0, 1, 1, 2, 2, 2, 2, 3, 3)
+  test("60d maximum height a height-balanced binary tree can have given a number of nodes ") {
+    (0 to 9).map(maxHbalHeight) shouldEqual List(-1, 0, 1, 1, 2, 2, 2, 3, 3, 3)
   }
 
-  test("60e maximum height a height-balanced binary tree can have given a number of nodes ") {
-    (0 to 9).map(maxHbalHeight) shouldEqual List(-1, 0, 1, 1, 2, 2, 2, 3, 3, 3)
+  test("60e minimum height a height-balanced binary tree can have given a number of nodes ") {
+    (0 to 9).map(minHbalHeight) shouldEqual List(-1, 0, 1, 1, 2, 2, 2, 2, 3, 3)
   }
 
   test("60f construct height-balanced binary trees with a given number of nodes") {
