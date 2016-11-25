@@ -155,7 +155,7 @@ sealed trait NodeLike[+T] extends Tree[T] {
 }
 
 case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends NodeLike[T] {
-  // P67
+  // P67a
   override def toString = (left, right) match {
     case (End, End) => value.toString
     case _ => s"$value($left,$right)"
@@ -173,7 +173,7 @@ case class Node[+T](value: T, left: Tree[T], right: Tree[T]) extends NodeLike[T]
 }
 
 case object End extends Tree[Nothing] {
-  // P67
+  // P67a
   override def toString = ""
 
   // P56
@@ -296,7 +296,7 @@ object Tree {
     generate(1)
   }
 
-  // P67
+  // P67b
   def fromString(s: String): Tree[String] = TreeFromStringParser.parseAll(TreeFromStringParser.tree, s) match {
     case TreeFromStringParser.Success(tree, _) => tree
     case TreeFromStringParser.NoSuccess(msg, _) => throw new IllegalArgumentException(s"Cannot parse tree: $msg")
