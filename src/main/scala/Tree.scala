@@ -35,9 +35,10 @@ sealed abstract class Tree[+T] {
   // P66
   def layoutBinaryTree3: Tree[T] = ???
 
-  // P68
+  // P68a
   def preorder: List[T] = ???
 
+  // P68b
   def inorder: List[T] = ???
 
   // P69
@@ -90,7 +91,7 @@ object Tree {
   // P67b
   def fromString(s: String): Tree[String] = ???
 
-  // P68
+  // P68c
   def preInTree[T](preorder: List[T], inorder: List[T]): Tree[T] = ???
 
   // P69
