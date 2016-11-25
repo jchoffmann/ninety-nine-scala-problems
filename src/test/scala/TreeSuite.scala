@@ -185,20 +185,20 @@ class TreeSuite extends FunSuite with Matchers {
       PositionedNode('n', PositionedNode('k', PositionedNode('c', PositionedNode('a', 1, 4), PositionedNode('e', PositionedNode('d', 2, 5), PositionedNode('g', 4, 5), 3, 4), 2, 3), PositionedNode('m', 4, 3), 3, 2), PositionedNode('u', PositionedNode('p', End, PositionedNode('q', 7, 4), 6, 3), End, 7, 2), 5, 1)
   }
 
-  test("67 convert binary tree to string representation") {
+  test("67a convert binary tree to string representation") {
     End.toString shouldEqual ""
     Node('a').toString shouldEqual "a"
     Node('a', Node('b', Node('d'), Node('e')), Node('c', End, Node('f', Node('g'), End))).toString shouldEqual
       "a(b(d,e),c(,f(g,)))"
   }
 
-  test("67 converting an illegal string representation to a binary tree should throw an Exception") {
+  test("67b converting an illegal string representation to a binary tree should throw an Exception") {
     an[IllegalArgumentException] should be thrownBy fromString("(")
     an[IllegalArgumentException] should be thrownBy fromString("a(")
     an[IllegalArgumentException] should be thrownBy fromString("a(b)")
   }
 
-  test("67 convert string representation to a binary tree") {
+  test("67b convert string representation to a binary tree") {
     fromString("") shouldEqual End
     fromString("a") shouldEqual Node("a")
     fromString("a(b(d,e),c(,f(g,)))") shouldEqual

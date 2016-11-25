@@ -87,7 +87,7 @@ object Tree {
   // P63
   def completeBinaryTree[T](nodes: Int, value: T): Tree[T] = ???
 
-  // P67
+  // P67b
   def fromString(s: String): Tree[String] = ???
 
   // P68
