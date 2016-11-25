@@ -205,19 +205,19 @@ class TreeSuite extends FunSuite with Matchers {
       Node("a", Node("b", Node("d"), Node("e")), Node("c", End, Node("f", Node("g"), End)))
   }
 
-  test("68 list all nodes of a binary tree in pre-order sequence") {
+  test("68a list all nodes of a binary tree in pre-order sequence") {
     fromString("").preorder shouldEqual List.empty
     fromString("a").preorder shouldEqual List("a")
     fromString("a(b(d,e),c(,f(g,)))").preorder shouldEqual List("a", "b", "d", "e", "c", "f", "g")
   }
 
-  test("68 list all nodes of a binary tree in in-order sequence") {
+  test("68b list all nodes of a binary tree in in-order sequence") {
     fromString("").inorder shouldEqual List.empty
     fromString("a").inorder shouldEqual List("a")
     fromString("a(b(d,e),c(,f(g,)))").inorder shouldEqual List("d", "b", "e", "a", "c", "g", "f")
   }
 
-  test("68 construct a binary tree from pre-order and in-order representation") {
+  test("68c construct a binary tree from pre-order and in-order representation") {
     preInTree(List.empty, List.empty) shouldEqual End
     preInTree(List('a), List('a)) shouldEqual Node('a)
     preInTree(List('a, 'b, 'd, 'e, 'c, 'f, 'g), List('d, 'b, 'e, 'a, 'c, 'g, 'f)) shouldEqual

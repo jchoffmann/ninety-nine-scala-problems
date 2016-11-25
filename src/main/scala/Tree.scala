@@ -58,9 +58,10 @@ sealed trait Tree[+T] {
   // Then startX = 1 - l
     layoutBinaryTree3R(1, 1 - (if (envelope.isEmpty) 0 else envelope.map { case (_, (l, _)) => l }.min))
 
-  // P68
+  // P68a
   def preorder: List[T]
 
+  // P68b
   def inorder: List[T]
 
   // P69
@@ -145,9 +146,10 @@ sealed trait NodeLike[+T] extends Tree[T] {
     PositionedNode(value, left.layoutBinaryTree3R(depth + 1, x + shiftL), right.layoutBinaryTree3R(depth + 1, x + shiftR), x, depth)
   }
 
-  // P68
+  // P68a
   override def preorder: List[T] = value +: (left.preorder ++ right.preorder)
 
+  // P68b
   override def inorder: List[T] = left.inorder ++ (value +: right.inorder)
 
   // P69
@@ -211,9 +213,10 @@ case object End extends Tree[Nothing] {
   // P66
   override def layoutBinaryTree3R(depth: Int, x: Int): Tree[Nothing] = End
 
-  // P68
+  // P68a
   override def preorder: List[Nothing] = List.empty
 
+  // P68b
   override def inorder: List[Nothing] = List.empty
 
   // P69
@@ -302,7 +305,7 @@ object Tree {
     case TreeFromStringParser.NoSuccess(msg, _) => throw new IllegalArgumentException(s"Cannot parse tree: $msg")
   }
 
-  // P68
+  // P68c
   def preInTree[T](preorder: List[T], inorder: List[T]): Tree[T] = preorder match {
     case Nil => End
     case p :: ps =>
