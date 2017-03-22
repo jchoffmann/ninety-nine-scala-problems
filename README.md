@@ -4,7 +4,7 @@ Convenient starting point for Phil Gold's [S99: Ninety-Nine Scala Problems](http
 ## Instructions
 You need [SBT](http://www.scala-sbt.org/) installed (current version 0.13.13).
 Clone the project and run
-    
+
     sbt test
 
 You'll see most tests failing. Fill in the missing implementations using your favourite text editor or IDE, and make them pass.
@@ -22,9 +22,9 @@ Libraries used:
 
 | Library            | Version                                                                |
 | ------------------ | ---------------------------------------------------------------------- |
-| Scala              | [2.12.0](http://www.scala-lang.org/news/2.12.0)                        |
-| ScalaTest          | [3.0.0](http://www.scalatest.org/release_notes/3.0.0)                  |
-| Parser Combinators | [1.0.4](https://github.com/scala/scala-parser-combinators/tree/v1.0.4) |
+| Scala              | [2.12.1](http://www.scala-lang.org/news/2.12.1)                        |
+| ScalaTest          | [3.0.1](http://www.scalatest.org/release_notes/3.0.1)                  |
+| Parser Combinators | [1.0.5](https://github.com/scala/scala-parser-combinators/tree/v1.0.5) |
 
 Parser Combinators come in handy in those tree or graph problems that task us to convert from String representations to objects.
 
