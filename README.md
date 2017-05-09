@@ -2,7 +2,7 @@
 Convenient starting point for Phil Gold's [S99: Ninety-Nine Scala Problems](http://aperiodic.net/phil/scala/s-99/). Contains skeleton scala code (taken from the S99 snippets) and complete test coverage for all problems.
 
 ## Instructions
-You need [SBT](http://www.scala-sbt.org/) installed (current version 0.13.13).
+You need [SBT](http://www.scala-sbt.org/) installed.
 Clone the project and run
 
     sbt test
@@ -20,11 +20,11 @@ The code is based on Phil's snippets with some changes in order to be able to ad
 
 Libraries used:
 
-| Library            | Version                                                                |
-| ------------------ | ---------------------------------------------------------------------- |
-| Scala              | [2.12.1](http://www.scala-lang.org/news/2.12.1)                        |
-| ScalaTest          | [3.0.1](http://www.scalatest.org/release_notes/3.0.1)                  |
-| Parser Combinators | [1.0.5](https://github.com/scala/scala-parser-combinators/tree/v1.0.5) |
+| Library            | Version                                                                        |
+| ------------------ | ------------------------------------------------------------------------------ |
+| Scala              | [2.12.2](https://github.com/scala/scala/releases/tag/v2.12.2)                  |
+| ScalaTest          | [3.0.1](http://www.scalatest.org/release_notes/3.0.1)                          |
+| Parser Combinators | [1.0.5](https://github.com/scala/scala-parser-combinators/releases/tag/v1.0.6) |
 
 Parser Combinators come in handy in those tree or graph problems that task us to convert from String representations to objects.
 
