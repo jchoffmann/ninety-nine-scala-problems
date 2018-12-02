@@ -10,7 +10,7 @@ Clone the project and run
 You'll see most tests failing. Fill in the missing implementations using your favourite text editor or IDE, and make them pass.
 
 ## Problem Descriptions
-[My problem descriptions](https://gist.github.com/jayho/50bbf1945bed86be71c87fb10b6296a3) come in the form of a Gist (work in progress). They are tailored to the code and differ in some places from Phil's descriptions.
+[My problem descriptions](PROBLEMS.md) come in the form of a Gist (work in progress). They are tailored to the code and differ in some places from Phil's descriptions.
 
 ## Problem Solutions
 You'll learn most if you design and implement your own solutions. However, if you need inspiration or want to compare solutions, you're welcome to look at my attempts on the [`solutions`](https://github.com/jayho/ninety-nine-scala-problems/tree/solutions) branch, or at Phil's solutions on his S99 website.
